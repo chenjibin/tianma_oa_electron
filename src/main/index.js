@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+require('electron-debug')({ showDevTools: true })
 
 /**
  * Set `__static` path to static files in production
@@ -22,7 +23,11 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    webPreferences: {
+      webSecurity: false,
+      allowRunningInsecureContent: true
+    }
   })
 
   mainWindow.loadURL(winURL)

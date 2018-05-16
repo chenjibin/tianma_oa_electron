@@ -57,12 +57,28 @@
     "axios": "^0.16.1",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.5.3",
-    "vuex": "^2.3.1"
+    "vuex": "^2.3.1",
+    "countup": "^1.8.2",
+    "cropperjs": "^1.2.1",
+    "echarts": "^3.8.5",
+    "element-ui": "^2.3.3",
+    "es6-promise": "^4.2.4",
+    "iview": "^2.13.0",
+    "js-cookie": "^2.2.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.20.1",
+    "qs": "^6.5.1",
+    "rasterizehtml": "^1.2.4",
+    "vue-lazyload": "^1.2.1",
+    "wangeditor": "^3.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-component": "^1.0.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-vue-jsx": "^3.5.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
@@ -94,6 +110,8 @@
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
     "style-loader": "^0.18.2",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "url-loader": "^0.5.9",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^13.0.5",
@@ -101,6 +119,7 @@
     "vue-template-compiler": "^2.4.2",
     "webpack": "^3.5.2",
     "webpack-dev-server": "^2.7.1",
-    "webpack-hot-middleware": "^2.18.2"
+    "webpack-hot-middleware": "^2.18.2",
+    "vue-i18n": "^5.0.3"
   }
 }

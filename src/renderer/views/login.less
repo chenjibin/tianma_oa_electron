@@ -1,0 +1,109 @@
+.login{
+    width: 100%;
+    height: 100%;
+    background-image: url('http://tm.xyyzi.com:9099/oa/staticFile/oa_login_bg.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    .fs-login-block {
+        position: absolute;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        top: 50%;
+        transform: translate(-50%,-55%);
+        width: 400px;
+        left: 50%;
+        padding: 48px;
+        box-shadow: 0 0 0 8px rgba(0,0,0,0.5);
+        background: url("../images/login_bg_new.png");
+        background-size: cover;
+        //background: repeating-linear-gradient(-30deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 2px, transparent 0, transparent 4px);
+        .title {
+            margin-bottom: 28px;
+            font-size: 18px;
+            letter-spacing: 4px;
+            color: #fff;
+            font-weight: 500;
+        }
+        .fs-submit-btn {
+            margin-top: 18px;
+            width: 280px;
+            height: 45px;
+            text-align: center;
+            line-height: 45px;
+            background-color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(70deg, #2bc9b6, #37a0df);
+            color: #131c4a;
+        }
+        .fs-input-wrapper {
+            position: relative;
+            padding: 12px 0;
+            .fs-input {
+                padding: 8px 12px;
+                font-size: 18px;
+                width: 280px;
+                -webkit-appearance: none;
+                border: 1px solid rgba(255,255,255,0.3);
+                background-color: transparent;
+                color: #fff;
+                outline: none;
+                transition: border 0.3s ease, box-shadow 0.3s ease;
+                &::-webkit-input-placeholder {
+                    color: rgba(255,255,255,0.3);
+                }
+                &:focus {
+                    //box-shadow: 0 0 8px #fff;
+                    border: 1px solid rgba(255,255,255,1);
+                }
+            }
+        }
+    }
+    .copy-right {
+        position: absolute;
+        margin: 0;
+        bottom: 16px;
+        left: 50%;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-align: center;
+        font-family: Avenir,Monospaced Number,Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+        opacity: 1;
+        transform: translate(-50%, 0px);
+        color: #fff;
+    }
+    &-con{
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%,-55%);
+        width: 300px;
+        left: 50%;
+        &-header{
+            font-size: 16px;
+            font-weight: 300;
+            text-align: center;
+            padding: 30px 0;
+        }
+        .form-con{
+            padding: 10px 0 0;
+        }
+        .login-tip{
+            font-size: 10px;
+            text-align: center;
+            color: #c3c3c3;
+        }
+    }
+    #validate-code-img {
+        position: absolute;
+        z-index: 100;
+        right: 2px;
+        top: 14px;
+        height: 41px;
+    }
+}

@@ -1,18 +1,66 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import iView from 'iview';
+import Util from '../libs/util';
+import VueRouter from 'vue-router';
+import Cookies from 'js-cookie';
+import store from '../store';
+import {routers} from './router';
 
-Vue.use(Router)
+Vue.use(VueRouter);
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'landing-page',
-      component: require('@/components/LandingPage').default
-    },
-    {
-      path: '*',
-      redirect: '/'
+// 路由配置
+const RouterConfig = {
+    // mode: 'history',
+    routes: routers
+};
+
+export const router = new VueRouter(RouterConfig);
+router.beforeEach((to, from, next) => {
+  console.log(to)
+    iView.LoadingBar.start();
+    Util.title(to.meta.title);
+    console.log(Cookies.get('user'))
+    if (!Cookies.get('user')) {
+        if (to.meta.white) {
+            next();
+        } else if (to.name !== 'login') {
+            store.commit('clearAllTags');
+            next({
+                name: 'login'
+            });
+        }
+    } else {
+        if (Cookies.get('locking') === '1' && to.name !== 'locking') { // 判断当前是否是锁定状态
+            next({
+                replace: true,
+                name: 'locking'
+            });
+        } else if (Cookies.get('locking') === '0' && to.name === 'locking') {
+            next(false);
+        } else if (to.name === 'login') { // 判断是否已经登录且前往的是登录页
+            Util.title();
+            next({
+                name: 'home_index'
+            });
+        } else if (to.name !== 'login') {
+            if (!store.state.app.premissionMenu.length && store.state.app.refresh) {
+                Util.getPermissionData().then((data) => {
+                    store.commit('setRefresh', false);
+                    store.commit('updateUserInfo');
+                    Util.initMenu(router, store, data);
+                    Util.toDefaultPage([...routers, ...store.state.app.premissionMenu], to, router, next);
+                });
+            } else {
+                Util.toDefaultPage([...routers, ...store.state.app.premissionMenu], to, router, next);
+            }
+        }
     }
-  ]
-})
+});
+
+router.afterEach((to) => {
+  console.log(to)
+
+  Util.openNewPage(router.app, to.name, to.params, to.query);
+    iView.LoadingBar.finish();
+    window.scrollTo(0, 0);
+});
