@@ -1,9 +1,9 @@
 {
   "name": "tianma_oa_electron",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Francis <363840817@qq.com>",
   "description": "An electron-vue project",
-  "license": null,
+  "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
