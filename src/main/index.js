@@ -51,7 +51,6 @@ app.on('activate', () => {
   }
 })
 ipcMain.on('get-cookie', (event, arg) => {
-    console.log(arg)
     session.defaultSession.cookies.get({}, (error, cookies) => {
         event.returnValue = cookies.some(x => x.name === 'user')
     })
