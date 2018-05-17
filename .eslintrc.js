@@ -28,8 +28,14 @@ module.exports = {
     'no-new': 0,
     'no-undef': 0,
     'one-var': 0,
-    'eqeqeq ': 0,
+    'eqeqeq': 0,
     'no-mixed-operators': 0,
-    'no-throw-litera': 0
+    'no-throw-litera': 0,
+    'no-throw-literal': 0,
+    'handle-callback-err': 0,
+    'no-dupe-keys': 0,
+    'no-sequences': 0,
+    'no-unused-expressions': 0,
+    'no-use-before-define': 0
   }
 }
