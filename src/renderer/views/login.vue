@@ -37,6 +37,7 @@
 
 <script>
 import ParticlesBg from '@/baseComponents/particles-bg';
+
 export default {
     components: {ParticlesBg},
     data () {

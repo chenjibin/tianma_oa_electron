@@ -13,14 +13,13 @@ const RouterConfig = {
     // mode: 'history',
     routes: routers
 };
-
+const {ipcRenderer} = require('electron')
 export const router = new VueRouter(RouterConfig);
 router.beforeEach((to, from, next) => {
-  console.log(to)
     iView.LoadingBar.start();
     Util.title(to.meta.title);
-    console.log(Cookies.get('user'))
-    if (!Cookies.get('user')) {
+    let cookie = ipcRenderer.sendSync('get-cookie', window.location.origin);
+    if (!cookie) {
         if (to.meta.white) {
             next();
         } else if (to.name !== 'login') {
@@ -58,8 +57,6 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to) => {
-  console.log(to)
-
   Util.openNewPage(router.app, to.name, to.params, to.query);
     iView.LoadingBar.finish();
     window.scrollTo(0, 0);

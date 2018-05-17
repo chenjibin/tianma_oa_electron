@@ -24,8 +24,8 @@ Vue.use(Cascader);
 Vue.use(Checkbox);
 Vue.component('fsIcon', fsIcon);
 Vue.prototype.$http = request;
+Vue.prototype.$mainHost = 'http://tm.xyyzi.com:9099';
 Vue.config.productionTip = false
-
 new Vue({
     el: '#app',
     router,

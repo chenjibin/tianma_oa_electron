@@ -1,7 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
-require('electron-debug')({ showDevTools: true })
+import { app, BrowserWindow, ipcMain, session } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -10,26 +9,27 @@ require('electron-debug')({ showDevTools: true })
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
-
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
+// require('electron-debug')({ showDevTools: true })
 function createWindow () {
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 1000,
     useContentSize: true,
-    width: 1000,
+    width: 1600,
     webPreferences: {
-      webSecurity: false,
-      allowRunningInsecureContent: true
+        // devTools: true,
+        webSecurity: false
+        // allowRunningInsecureContent: true
     }
   })
-
+  // mainWindow.webContents.openDevTools();
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
@@ -49,6 +49,12 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
+})
+ipcMain.on('get-cookie', (event, arg) => {
+    console.log(arg)
+    session.defaultSession.cookies.get({}, (error, cookies) => {
+        event.returnValue = cookies.some(x => x.name === 'user')
+    })
 })
 
 /**
