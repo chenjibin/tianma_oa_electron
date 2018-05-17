@@ -36,6 +36,7 @@ module.exports = {
     'no-dupe-keys': 0,
     'no-sequences': 0,
     'no-unused-expressions': 0,
-    'no-use-before-define': 0
+    'no-use-before-define': 0,
+    'object-curly-even-spacing': 0
   }
 }
