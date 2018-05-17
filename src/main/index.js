@@ -1,7 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow, ipcMain, session } from 'electron'
-
+import pkg from '../../package.json'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -37,6 +37,9 @@ function createWindow () {
   })
 }
 
+if (process.platform === 'win32') {
+    app.setAppUserModelId(pkg.build.appId)
+}
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {

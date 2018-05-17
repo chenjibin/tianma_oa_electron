@@ -7,9 +7,6 @@ branches:
 image: Visual Studio 2017
 platform:
   - x64
-environment:
-  GH_TOKEN:
-    secure: IwxJFoU4Ghh0vpZ01KkZcyshnGooeBfL5hQhT9w5dJt9LDUX3qrhoPXYbwjhlB9G
 cache:
   - node_modules
   - '%APPDATA%\npm-cache'
@@ -27,6 +24,6 @@ install:
   - node --version
 
 build_script:
-  - yarn build
+  - npm run release
 
 test: off
