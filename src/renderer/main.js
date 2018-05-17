@@ -1,8 +1,8 @@
-require('es6-promise').polyfill();
+// require('es6-promise').polyfill();
 import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-import { Tree, Cascader, Checkbox} from 'element-ui';
+import {Tree, Cascader, Checkbox} from 'element-ui';
 import fsIcon from './baseComponents/fs-icon';
 import { router } from './router/index';
 import store from './store';
