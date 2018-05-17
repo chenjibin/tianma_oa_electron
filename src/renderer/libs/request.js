@@ -27,7 +27,6 @@ axios.interceptors.request.use(config => {
 
 // Add a response interceptor
 axios.interceptors.response.use(response => {
-  console.log(response);
     if (response.data.hasOwnProperty('success') && !response.data.success) {
         Vue.prototype.$Message.error({
             content: response.data.message,
