@@ -1,5 +1,5 @@
 import Main from '@/views/Main.vue';
-const _import = require('./_import_production');
+const _import = require('./_import_development');
 // 不作为Main组件的子页面展示的页面单独写，如下
 export const loginRouter = {
     path: '/login',
@@ -8,7 +8,7 @@ export const loginRouter = {
         title: 'Login - 登录',
         white: true
     },
-    component: resolve => { require(['@/views/login.vue'], resolve); }
+    component: require('@/views/login.vue').default
 };
 export const guestRouter = {
     path: '/guest',
@@ -17,13 +17,13 @@ export const guestRouter = {
         title: '社会招聘',
         white: true
     },
-    component: resolve => { require(['@/pages/hireManager/guest/index.vue'], resolve); }
+    component: require('@/pages/hireManager/guest/index.vue').default
 };
 export const knowledgeRouter = {
     path: '/knowledgePublic',
     title: '知识库',
     name: 'knowledgePublic',
-    component: resolve => { require(['@/pages/knowledgeManage/knowledgePublic/route.vue'], resolve); },
+    component: require('@/pages/knowledgeManage/knowledgePublic/route.vue').default,
     children: [
         {
             path: 'article/:id',
@@ -31,13 +31,13 @@ export const knowledgeRouter = {
             meta: {
                 whiteIn: true
             },
-            component: resolve => { require(['@/pages/knowledgeManage/knowledgePublic/article.vue'], resolve); }
+            component: require('@/pages/knowledgeManage/knowledgePublic/article.vue').default
         },
         {
             path: 'index',
             name: 'articleIndex',
             title: '知识库',
-            component: resolve => { require(['@/pages/knowledgeManage/knowledgePublic/index.vue'], resolve); },
+            component: _import('knowledgeManage/knowledgePublic'),
             children: [
                 {
                     path: 'home',
@@ -45,7 +45,7 @@ export const knowledgeRouter = {
                     meta: {
                         whiteIn: true
                     },
-                    component: resolve => { require(['@/pages/knowledgeManage/knowledgePublic/home.vue'], resolve); }
+                    component: require('@/pages/knowledgeManage/knowledgePublic/home.vue').default
                 },
                 {
                     path: 'list',
@@ -53,7 +53,7 @@ export const knowledgeRouter = {
                     meta: {
                         whiteIn: true
                     },
-                    component: resolve => { require(['@/pages/knowledgeManage/knowledgePublic/list.vue'], resolve); }
+                    component: require('@/pages/knowledgeManage/knowledgePublic/list.vue').default
                 }
             ]
         }
@@ -63,7 +63,7 @@ export const photoRouter = {
     path: '/photoPublic',
     title: '员工风采',
     name: 'photoPublic',
-    component: resolve => { require(['@/pages/photoManager/photoPublic/main.vue'], resolve); },
+    component: require('@/pages/photoManager/photoPublic/main.vue').default,
     children: [
         {
             path: 'list',
@@ -71,7 +71,7 @@ export const photoRouter = {
             meta: {
                 whiteIn: true
             },
-            component: resolve => { require(['@/pages/photoManager/photoPublic/list.vue'], resolve); }
+            component: require('@/pages/photoManager/photoPublic/list.vue').default
         },
         {
             path: 'detailList/:id',
@@ -79,7 +79,7 @@ export const photoRouter = {
             meta: {
                 whiteIn: true
             },
-            component: resolve => { require(['@/pages/photoManager/photoPublic/detailList.vue'], resolve); }
+            component: require('@/pages/photoManager/photoPublic/detailList.vue').default
         },
         {
             path: 'myPhoto',
@@ -87,7 +87,7 @@ export const photoRouter = {
             meta: {
                 whiteIn: true
             },
-            component: resolve => { require(['@/pages/photoManager/photoPublic/myPhoto.vue'], resolve); }
+            component: require('@/pages/photoManager/photoPublic/myPhoto.vue').default
         }
     ]
 };
@@ -98,7 +98,7 @@ export const page404 = {
         title: '404-页面不存在',
         whiteIn: true
     },
-    component: resolve => { require(['@/views/error-page/404.vue'], resolve); }
+    component: require('@/views/error-page/404.vue').default
 };
 
 export const page403 = {
@@ -108,7 +108,7 @@ export const page403 = {
         whiteIn: true
     },
     name: 'error-403',
-    component: resolve => { require(['@/views/error-page/403.vue'], resolve); }
+    component: require('@/views/error-page/403.vue').default
 };
 
 export const page500 = {
@@ -118,7 +118,7 @@ export const page500 = {
         white: true
     },
     name: 'error-500',
-    component: resolve => { require(['@/views/error-page/500.vue'], resolve); }
+    component: require('@/views/error-page/500.vue').default
 };
 
 export const locking = {
@@ -127,7 +127,7 @@ export const locking = {
     meta: {
         whiteIn: true
     },
-    component: resolve => { require(['@/views/main-components/lockscreen/components/locking-page.vue'], resolve); }
+    component: require('@/views/main-components/lockscreen/components/locking-page.vue').default
 };
 
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里
@@ -225,9 +225,14 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'ownspace_index',
-            component: resolve => { require(['@/views/own-space/own-space.vue'], resolve); }
+            component: require('@/views/own-space/own-space.vue').default
         },
-        { path: 'message', title: '消息中心', name: 'message_index', component: resolve => { require(['@/views/message/message.vue'], resolve); } }
+        {
+            path: 'message',
+            title: '消息中心',
+            name: 'message_index',
+            component: require('@/views/message/message.vue').default
+        }
     ]
 };
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
