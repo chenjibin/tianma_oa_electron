@@ -259,7 +259,7 @@
                                         upload: params.row.pic
                                     },
                                     on: {
-                                        'update' (val) {
+                                        'update'(val) {
                                             currentNow.pic = val;
                                         }
                                     }
@@ -409,7 +409,7 @@
             };
         },
         watch: {
-            'editorSettingData.fillNumber' (val) {
+            'editorSettingData.fillNumber'(val) {
                 let arr = [];
                 for (let i = 0, length = val; i < length; i++) {
                     let obj = {};
@@ -419,17 +419,17 @@
                 this.editorSettingData.fillType = arr;
             }
         },
-        created () {
+        created() {
             this._getSubjectList();
             this._setTableHeight();
         },
         filters: {
-            indexToBigCode (val) {
+            indexToBigCode(val) {
                 return String.fromCharCode(val + 65);
             }
         },
         methods: {
-            _retuenSendPicUrl (url) {
+            _retuenSendPicUrl(url) {
                 let reg = /^\/upload\/exam/;
                 if (reg.test(url)) {
                     return url;
@@ -437,7 +437,7 @@
                     return '/upload/exam/' + url;
                 }
             },
-            _addQuestionConfirm () {
+            _addQuestionConfirm() {
                 let editorSettingData = this.editorSettingData;
                 let data = {};
                 if (this.postFormType === 'update') {
@@ -490,19 +490,19 @@
                     }
                 });
             },
-            _addQuestionOpen () {
+            _addQuestionOpen() {
                 this.postFormType = 'add';
                 this._initEditorSettingData();
                 this.editorSettingFlag = true;
             },
-            _addNewAnswer () {
+            _addNewAnswer() {
                 let obj = {};
                 obj.answerContent = '';
                 obj.pic = [];
                 obj.editorNow = false;
                 this.editorSettingData.questionList.push(obj);
             },
-            _initEditorSettingData () {
+            _initEditorSettingData() {
                 let editorSettingData = this.editorSettingData;
                 editorSettingData.name = '';
                 editorSettingData.questionPic = [];
@@ -524,11 +524,11 @@
                 ];
                 editorSettingData.desc = '';
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _removeAnswerList (data) {
+            _removeAnswerList(data) {
                 let questionList = this.editorSettingData.questionList;
                 if (questionList.length === 1) {
                     this.$Message.error('答案选项至少一个!');
@@ -538,7 +538,7 @@
                 this.editorSettingData.multiType = [];
                 this.editorSettingData.questionList.splice(data._index, 1);
             },
-            _editorSetting (data) {
+            _editorSetting(data) {
                 console.log(data);
                 this.questionId = data.id;
                 this.postFormType = 'update';
@@ -581,7 +581,7 @@
                     case '4':
                         let fillArr = data.answer.split(',');
                         editorSettingData.fillNumber = fillArr.length;
-                        let cc = setInterval(function () {
+                        let cc = setInterval(function() {
                             if (editorSettingData.fillNumber === editorSettingData.fillType.length) {
                                 editorSettingData.fillType.forEach((item, index) => {
                                     item.content = fillArr[index];
@@ -595,7 +595,7 @@
                 }
                 this.editorSettingFlag = true;
             },
-            _getSubjectList () {
+            _getSubjectList() {
                 this.$http.get('/examquestion/getSubjectList').then((res) => {
                     if (res.success) {
                         this.subjectList = res.data;

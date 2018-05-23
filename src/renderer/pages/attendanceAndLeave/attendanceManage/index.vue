@@ -581,16 +581,16 @@
             };
         },
         watch: {
-            exportType (val) {
+            exportType(val) {
                 if (val === 'month') this.exportMonth = moment().format('YYYY-MM');
                 else this.exportMonth = moment().format('YYYY');
             }
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            _delAttendanceInfo () {
+            _delAttendanceInfo() {
                 this.$Modal.confirm({
                     content: '确认删除所选的记录么？',
                     okText: '确认删除',
@@ -608,7 +608,7 @@
                     }
                 });
             },
-            _confirmDelete () {
+            _confirmDelete() {
                 this.deleteLoading = true;
                 let data = {};
                 data.date = this.deleteMonth;
@@ -621,13 +621,13 @@
                     this.deleteLoading = false;
                 });
             },
-            _exportMonthChange (date) {
+            _exportMonthChange(date) {
                 this.exportMonth = date;
             },
-            _deleteMonthChange (date) {
+            _deleteMonthChange(date) {
                 this.deleteMonth = date;
             },
-            _confirmExport () {
+            _confirmExport() {
                 this.exportLoading = true;
                 let data = {};
                 data.date = this.exportMonth;
@@ -643,7 +643,7 @@
                     this.exportLoading = false;
                 });
             },
-            _completeThisMonth () {
+            _completeThisMonth() {
                 let data = {};
                 data.user_name = this.attendanceOpt.userName;
                 data.record_month = this.attendanceOpt.monthDate;
@@ -655,18 +655,18 @@
                     }
                 });
             },
-            _initAttendanceOpt () {
+            _initAttendanceOpt() {
                 this.attendanceOpt.userName = '';
                 this.attendanceOpt.monthDate = '';
                 this.attendanceOpt.data = [];
             },
-            _initStrangeSettingForm () {
+            _initStrangeSettingForm() {
                 this.strangeSettingForm.type = '';
                 this.strangeSettingForm.days = '';
                 this.strangeSettingForm.desc = '';
                 this.strangeSettingForm.id = '';
             },
-            _setConfirmPass (data) {
+            _setConfirmPass(data) {
                 let sendData = {};
                 sendData.id = data.id;
                 this.$http.post('/kq/completeSingle', sendData).then((res) => {
@@ -676,7 +676,7 @@
                     }
                 });
             },
-            _confirmStrangeSetting () {
+            _confirmStrangeSetting() {
                 let data = {};
                 data.id = this.strangeSettingForm.id;
                 data.type = this.strangeSettingForm.type;
@@ -691,7 +691,7 @@
                     }
                 });
             },
-            _setStrangeDay (data) {
+            _setStrangeDay(data) {
                 this._initStrangeSettingForm();
                 this.strangeSettingForm.id = data.id;
                 let sendData = {};
@@ -702,7 +702,7 @@
                 });
                 this.strangeModalFlag = true;
             },
-            _setEveryStrangeNumber (val, type, data) {
+            _setEveryStrangeNumber(val, type, data) {
                 let sendData = {};
                 sendData.username = data.user_name;
                 sendData.id = data.id;
@@ -716,10 +716,10 @@
                     }
                 });
             },
-            _uploadProgress (event) {
+            _uploadProgress(event) {
                 this.spinShow = true;
             },
-            _uploadSuccess (response, file, fileList) {
+            _uploadSuccess(response, file, fileList) {
                 if (response.success) {
                     this.$Message.success('数据导入成功!');
                     this.importModalFlag = false;
@@ -729,23 +729,23 @@
                 }
                 this.spinShow = false;
             },
-            _uploadFail (error, file, fileList) {
+            _uploadFail(error, file, fileList) {
             },
-            _uploadFormatErr () {
+            _uploadFormatErr() {
                 this.$Message.error('上传文件的后缀必须为.xls');
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _editorSetting (data) {
+            _editorSetting(data) {
                 this._initAttendanceOpt();
                 this.attendanceOpt.userName = data.user_name;
                 this.attendanceOpt.monthDate = moment(data.record_month).format('YYYY-MM');
                 this._getUserStatistic();
                 this.settingModalFlag = true;
             },
-            _getUserStatistic () {
+            _getUserStatistic() {
                 this.tableLoading2 = true;
                 let sendData = {};
                 sendData.userName = this.attendanceOpt.userName;
@@ -758,7 +758,7 @@
                     this.tableLoading2 = false;
                 });
             },
-            _getPostData () {
+            _getPostData() {
                 this.$refs.attendanceTable.getListData();
             }
         },

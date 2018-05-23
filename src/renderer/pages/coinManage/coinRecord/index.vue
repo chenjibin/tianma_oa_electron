@@ -118,15 +118,15 @@
             };
         },
         watch: {
-            'filterOpt.startDate' () {
+            'filterOpt.startDate'() {
                 this._filterResultHandler();
             },
-            'filterOpt.endDate' () {
+            'filterOpt.endDate'() {
                 this._filterResultHandler();
             }
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
         },
@@ -134,23 +134,23 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _getPostData () {
+            _getPostData() {
                 let data = {};
                 data.userName = this.filterOpt.name;
                 data.exampleFlag = this.filterOpt.plusType;

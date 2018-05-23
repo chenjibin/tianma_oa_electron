@@ -86,14 +86,21 @@
                   :model="classForm"
                   ref="classForm"
                   :label-width="100">
-                <Row :gutter="8">
+                <Row :gutter="9">
+
                     <Col :span="12">
-                    <FormItem label="姓名" required>
+                    <FormItem label="姓名" v-show="usernameisShow" required>
+                        <Input v-model="classForm.username"></Input>
+                    </FormItem>
+                    </Col>
+                    <Col :span="12" >
+                    <FormItem label="姓名"   v-show="isShow" required >
                         <fs-search-user v-model="classForm.user_id"
                                         :optionlist.sync="nameForm.nameOpt"
                                         :clearable="true"
-                                        :label="nameForm.nameLabel"></fs-search-user>
+                                        :label="nameForm.nameLabel" ></fs-search-user>
                     </FormItem>
+
                     </Col>
                     <Col :span="12">
                     <FormItem label="岗位" required>
@@ -156,15 +163,15 @@
             <div class="">
                 <Row :gutter="16">
                     <Col :span="8" style="max-height: 540px;overflow: auto;">
-                        <fs-dep-tree url="/organize/organizeTree?fatherId=-1"
-                                     @node-change="_nodeChangeHandler($event)"
-                                     :defaultProps="defaultProps"></fs-dep-tree>
+                    <fs-dep-tree url="/organize/organizeTree?fatherId=-1"
+                                 @node-change="_nodeChangeHandler($event)"
+                                 :defaultProps="defaultProps"></fs-dep-tree>
                     </Col>
                     <Col :span="16">
-                        <fs-table-page :columns="userColum"
-                                       :height="500"
-                                       :params="filterOpt"
-                                       url="/user/dataList"></fs-table-page>
+                    <fs-table-page :columns="userColum"
+                                   :height="500"
+                                   :params="filterOpt"
+                                   url="/user/dataList"></fs-table-page>
                     </Col>
                 </Row>
             </div>
@@ -187,7 +194,11 @@
         name: 'internalTrainerManage',
         data () {
             return {
-                modelFlag: false,
+            isShow: true,
+                usernameisShow: false,
+                isShow:true,
+                usernameisShow:false,
+               modelFlag: false,
                 mubanFlag: false,
                 banciBtnLoading: false,
                 checkOrgFlag: false,
@@ -199,23 +210,24 @@
                 classChooseDataArray: [],
                 allPostData: [],
                 nameForm: {
-                    nameOpt: [],
+                nameOpt: [],
                     nameLabel: ''
-                },
-                classId: 0,
+            },
+            classId: 0,
                 classRules: {
-                    level: [
-                        {required: true, message: '编制等级不能为空！'}
-                    ],
+                level: [
+                    {required: true, message: '编制等级不能为空！'}
+                ],
                     class_type: [
-                        {required: true, message: '授课类型不能为空！'}
-                    ],
+                    {required: true, message: '授课类型不能为空！'}
+                ],
                     class_name: [
-                        {required: true, message: '授课课题不能为空！'}
-                    ]
-                },
-                classForm: {
-                    user_id: '',
+                    {required: true, message: '授课课题不能为空！'}
+                ]
+            },
+            classForm: {
+                username: '',
+                user_id: '',
                     post_id: '',
                     level: '',
                     class_type: '',
@@ -224,168 +236,168 @@
                     class_times: 0,
                     comment: '',
                     isDefault: 0
-                },
-                banciRules: {
-                    postName: [
-                        { required: true, message: '岗位名称不能为空', trigger: 'blur' }
-                    ]
-                },
-                banciForm: {
-                    postName: '',
+            },
+            banciRules: {
+                postName: [
+                    { required: true, message: '岗位名称不能为空', trigger: 'blur' }
+                ]
+            },
+            banciForm: {
+                postName: '',
                     remark: ''
-                },
-                defaultProps: {
-                    children: 'children',
+            },
+            defaultProps: {
+                children: 'children',
                     label: 'name'
-                },
-                roleData: [],
+            },
+            roleData: [],
                 userColum: [
-                    {
-                        title: '姓名',
-                        key: 'realname',
-                        align: 'center',
-                        width: 100
-                    },
-                    {
-                        title: '部门',
-                        key: 'organizename',
-                        align: 'center'
-                    },
-                    {
-                        title: '岗位',
-                        key: 'postname',
-                        align: 'center'
-                    }
-                ],
+                {
+                    title: '姓名',
+                    key: 'realname',
+                    align: 'center',
+                    width: 100
+                },
+                {
+                    title: '部门',
+                    key: 'organizename',
+                    align: 'center'
+                },
+                {
+                    title: '岗位',
+                    key: 'postname',
+                    align: 'center'
+                }
+            ],
                 mubanColumns: [
-                    {
-                        type: 'selection',
-                        width: 60,
-                        align: 'center'
-                    },
-                    {
-                        title: '名称',
-                        align: 'center',
-                        key: 'name'
-                    },
-                    {
-                        title: '备注',
-                        key: 'remark'
-                    }
-                ],
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    title: '名称',
+                    align: 'center',
+                    key: 'name'
+                },
+                {
+                    title: '备注',
+                    key: 'remark'
+                }
+            ],
                 postColumns: [
-                    {
-                        type: 'selection',
-                        width: 60,
-                        align: 'center'
-                    },
-                    {
-                        title: '姓名',
-                        key: 'user_name',
-                        align: 'center',
-                        width: 160
-                    },
-                    {
-                        title: '部门',
-                        align: 'center',
-                        key: 'organize_name'
-                    },
-                    {
-                        title: '岗位',
-                        align: 'center',
-                        key: 'post_name',
-                        width: 100
-                    },
-                    {
-                        title: '编制等级',
-                        align: 'center',
-                        key: 'level',
-                        width: 100
-                    },
-                    {
-                        title: '授课类型',
-                        align: 'center',
-                        key: 'class_type',
-                        width: 200
-                    },
-                    {
-                        title: '授课课题',
-                        key: 'class_name'
-                    },
-                    {
-                        title: '授课年限',
-                        align: 'center',
-                        key: 'class_years',
-                        width: 100
-                    },
-                    {
-                        title: '已授课时',
-                        align: 'center',
-                        key: 'class_times',
-                        width: 100
-                    },
-                    {
-                        title: '授课评价',
-                        key: 'comment',
-                        width: 200
-                    },
-                    {
-                        title: '是否默认',
-                        align: 'center',
-                        width: 100,
-                        render: (h, params) => {
-                            return h('Tag', {
-                                props: {
-                                    type: 'border',
-                                    color: +params.row.isdefault === 0 ? 'red' : 'green'
-                                }
-                            }, +params.row.isdefault === 0 ? '不选中' : '选中');
-                        }
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        width: 80,
-                        render: (h, params) => {
-                            let vm = this;
-                            return h('div', [
-                                h('Tooltip', {
-                                    props: {
-                                        content: '修改',
-                                        placement: 'top',
-                                        transfer: true
-                                    }
-                                }, [
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            icon: 'edit',
-                                            shape: 'circle'
-                                        },
-                                        on: {
-                                            click: function () {
-                                                vm._checkTest(params.row);
-                                            }
-                                        }
-                                    })
-                                ])
-                            ]);
-                        }
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    title: '姓名',
+                    key: 'user_name',
+                    align: 'center',
+                    width: 160
+                },
+                {
+                    title: '部门',
+                    align: 'center',
+                    key: 'organize_name'
+                },
+                {
+                    title: '岗位',
+                    align: 'center',
+                    key: 'post_name',
+                    width: 100
+                },
+                {
+                    title: '编制等级',
+                    align: 'center',
+                    key: 'level',
+                    width: 100
+                },
+                {
+                    title: '授课类型',
+                    align: 'center',
+                    key: 'class_type',
+                    width: 200
+                },
+                {
+                    title: '授课课题',
+                    key: 'class_name'
+                },
+                {
+                    title: '授课年限',
+                    align: 'center',
+                    key: 'class_years',
+                    width: 100
+                },
+                {
+                    title: '已授课时',
+                    align: 'center',
+                    key: 'class_times',
+                    width: 100
+                },
+                {
+                    title: '授课评价',
+                    key: 'comment',
+                    width: 200
+                },
+                {
+                    title: '是否默认',
+                    align: 'center',
+                    width: 100,
+                    render: (h, params) => {
+                        return h('Tag', {
+                            props: {
+                                type: 'border',
+                                color: +params.row.isdefault === 0 ? 'red' : 'green'
+                            }
+                        }, +params.row.isdefault === 0 ? '不选中' : '选中');
                     }
-                ],
-                filterOpt: {
-                    nodeId: {
-                        type: 'date',
-                        value: ''
-                    },
-                    states: {
-                        type: 'select',
-                        value: 1
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    width: 80,
+                    render: (h, params) => {
+                        let vm = this;
+                        return h('div', [
+                            h('Tooltip', {
+                                props: {
+                                    content: '修改',
+                                    placement: 'top',
+                                    transfer: true
+                                }
+                            }, [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        icon: 'edit',
+                                        shape: 'circle'
+                                    },
+                                    on: {
+                                        click: function() {
+                                            vm._checkTest(params.row);
+                                        }
+                                    }
+                                })
+                            ])
+                        ]);
                     }
                 }
-            };
+            ],
+                filterOpt: {
+                nodeId: {
+                    type: 'date',
+                        value: ''
+                },
+                states: {
+                    type: 'select',
+                        value: 1
+                }
+            }
+        };
         },
-        created () {
+        created() {
             this._setTableHeight();
             this._getAllpost();
         },
@@ -393,12 +405,13 @@
             formReset (name) {
                 this.$refs[name].resetFields();
             },
-            _nodeChangeHandler (node) {
+            _nodeChangeHandler(node) {
                 this.filterOpt.nodeId.value = node.id;
             },
-            _initClassForm () {
+            _initClassForm() {
                 this.classForm = {
-                    user_id: '',
+                username: '',
+                user_id: '',
                     post_id: '',
                     level: '',
                     class_type: '',
@@ -407,12 +420,17 @@
                     class_times: 0,
                     comment: '',
                     isDefault: 0
-                };
+            };
                 this.nameForm.nameLabel = '';
                 this.nameForm.nameOpt = [];
                 this.formReset('classForm');
             },
-            _updateMubanHandler () {
+
+            change (status) {
+                this.isShow = !this.isShow;
+                this.usernameisShow = !this.usernameisShow;
+            },
+            _updateMubanHandler() {
                 this.mubanAddType = 'update';
                 this.formReset('banciForm');
                 let fillForm = this.chooseDataArray[0];
@@ -420,11 +438,11 @@
                 this.banciForm.remark = fillForm.remark;
                 this.mubanId = fillForm.id;
             },
-            _addMubanHandler () {
+            _addMubanHandler() {
                 this.mubanAddType = 'add';
                 this.formReset('banciForm');
             },
-            _deletePost () {
+            _deletePost() {
                 let data = {};
                 data.ids = this.chooseDataArray.map(x => x.id).join(',');
                 this.$http.post('/train/deletePost', data).then((res) => {
@@ -435,7 +453,7 @@
                     }
                 });
             },
-            _addPost () {
+            _addPost() {
                 this.$refs.banciForm.validate((valid) => {
                     if (valid) {
                         this.banciBtnLoading = true;
@@ -456,7 +474,7 @@
                     }
                 });
             },
-            _addClassHandler () {
+            _addClassHandler() {
                 if (!this.classForm.user_id) {
                     this.$Message.error('姓名不能为空!');
                     return;
@@ -468,6 +486,7 @@
                 this.$refs.classForm.validate((valid) => {
                     if (valid) {
                         let data = JSON.parse(JSON.stringify(this.classForm));
+                        data.out_teacher = 0;
                         if (this.classFormType === 'update') data.id = this.classId;
                         this.$http.post('/train/teacher_add', data).then((res) => {
                             if (res.success) {
@@ -479,7 +498,7 @@
                     }
                 });
             },
-            _delClass () {
+            _delClass() {
                 this.$Modal.confirm({
                     content: '确认删除所选讲师么？',
                     okText: '确认删除',
@@ -496,12 +515,12 @@
                     }
                 });
             },
-            _createClassOpen () {
+            _createClassOpen() {
                 this.classFormType = 'add';
                 this._initClassForm();
                 this.modelFlag = true;
             },
-            _checkTest (data) {
+            _checkTest(data) {
                 this.classFormType = 'update';
                 this._initClassForm();
                 this.classId = data.id;
@@ -525,18 +544,18 @@
                 ];
                 this.modelFlag = true;
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             },
-            _getAllpost () {
+            _getAllpost() {
                 this.$http.get('/train/postComboxData').then((res) => {
                     if (res.success) {
                         this.allPostData = res.data;
                     }
                 });
             },
-            _updateClassTable () {
+            _updateClassTable() {
                 this.$refs.classTable.getListData();
             }
         },

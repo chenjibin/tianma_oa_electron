@@ -353,7 +353,7 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
             this._getOrgTree().then((res) => {
@@ -361,7 +361,7 @@
             });
         },
         methods: {
-            _noticeHandler (id, desc) {
+            _noticeHandler(id, desc) {
                 this.$refs.noticeFormDom.validate((valid) => {
                     if (valid) {
                         this.btnLoading = true;
@@ -385,19 +385,19 @@
                     }
                 });
             },
-            _updateNotice () {
+            _updateNotice() {
                 this._noticeHandler(this.strangeSettingForm.id, '修改公告成功!');
             },
-            _operateNotice () {
+            _operateNotice() {
                 this._noticeHandler(0, '发布公告成功!');
             },
-            _getAllDepIds (data) {
+            _getAllDepIds(data) {
                 data.forEach((item) => {
                     this.allTreeId.push(item.id);
                     if (item.children) this._getAllDepIds(item.children);
                 });
             },
-            _initNoticeForm () {
+            _initNoticeForm() {
                 this.$refs.noticeFormDom.resetFields();
                 this.strangeSettingForm.title = '';
                 this.strangeSettingForm.type = '2';
@@ -407,44 +407,44 @@
                 this.editorContent = '';
                 this.$refs.treeDom.setCheckedKeys(this.allTreeId.slice(0));
             },
-            _openNewNotice () {
+            _openNewNotice() {
                 this._initNoticeForm();
                 this.isNoticeType = 'create';
                 this.settingModalFlag = true;
             },
-            _setContent (content) {
+            _setContent(content) {
                 this.strangeSettingForm.editorContent = content;
             },
-            _monthStartDateChange (date) {
+            _monthStartDateChange(date) {
                 this.filterOpt.startDate = date;
             },
-            _monthEndDateChange (date) {
+            _monthEndDateChange(date) {
                 this.filterOpt.endDate = date;
             },
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _monthDateChange (val) {
+            _monthDateChange(val) {
                 this.filterOpt.monthDate = val;
                 this._filterResultHandler();
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _editorSetting (data) {
+            _editorSetting(data) {
                 this.isNoticeType = 'update';
                 this._initNoticeForm();
                 this.strangeSettingForm.title = data.title;
@@ -457,12 +457,12 @@
                 this.$refs.treeDom.setCheckedKeys(data.organzeid ? data.organzeid.split(',').filter(x => !!x) : []);
                 this.settingModalFlag = true;
             },
-            _lookNotice (data) {
+            _lookNotice(data) {
                 this.lookModelFlag = true;
                 this.noticeData.title = data.title;
                 this.noticeData.content = data.content;
             },
-            _getOrgTree () {
+            _getOrgTree() {
                 return new Promise((resolve) => {
                     this.$http.get('/organize/organizeTreeCertainVmC?fatherId=-1').then((res) => {
                         if (res.success) {
@@ -472,7 +472,7 @@
                     });
                 });
             },
-            _getPostData () {
+            _getPostData() {
                 let data = {};
                 data.title = this.filterOpt.title;
                 data.noticeType = this.filterOpt.type;

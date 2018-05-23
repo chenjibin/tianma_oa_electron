@@ -438,21 +438,21 @@
             };
         },
         watch: {
-            'filterTextName' (val) {
+            'filterTextName'(val) {
                 if (!this.treeData.length) return;
                 this.$refs.tree1.filter(val);
             }
         },
         computed: {
-            treeData () {
+            treeData() {
                 return this.$store.state.knowledge.treeData;
             }
         },
-        created () {
+        created() {
             this.$store.commit('getTreeData');
         },
         methods: {
-            _confirmSortUpdate (data) {
+            _confirmSortUpdate(data) {
                 let sendData = {};
                 sendData.sort = data.sort;
                 sendData.shareId = data.id;
@@ -464,10 +464,10 @@
                     }
                 });
             },
-            _getNoimportantData () {
+            _getNoimportantData() {
                 this.$refs.importTable.getListData();
             },
-            _getHasImportantData () {
+            _getHasImportantData() {
                 let data = {};
                 data.knowledgeId = this.storeNodeId;
                 this.$http.get('/share/hasImportantShare', {params: data}).then((res) => {
@@ -476,10 +476,10 @@
                     }
                 });
             },
-            nodeClickHandler (data) {
+            nodeClickHandler(data) {
                 this.$emit('node-click', data.id);
             },
-            _addToImportant (data) {
+            _addToImportant(data) {
                 let sendData = {};
                 sendData.knowledgeId = this.storeNodeId;
                 sendData.shareId = data.id;
@@ -490,7 +490,7 @@
                     }
                 });
             },
-            _delFromImportant (data) {
+            _delFromImportant(data) {
                 let sendData = {};
                 sendData.knowledgeId = this.storeNodeId;
                 sendData.shareId = data.id;
@@ -501,25 +501,25 @@
                     }
                 });
             },
-            _initFormData () {
+            _initFormData() {
                 this.chooseCateId = 0;
                 this.depSettingForm.name = '';
                 this.depSettingForm.important = 0;
                 this.depSettingForm.fatherId = [];
             },
-            _storeFilter (root, path, id) {
+            _storeFilter(root, path, id) {
                 root.forEach((item) => {
                     if (item.id === id) this.storePath = [...path, id];
                     if (item.children) this._storeFilter(item.children, [...path, item.id], id);
                 });
             },
-            _returnOrgIds (id) {
+            _returnOrgIds(id) {
                 let depsStore = this.treeData;
                 let path = [];
                 this._storeFilter(depsStore, path, id);
                 return this.storePath;
             },
-            append (store, data, e) {
+            append(store, data, e) {
                 e.stopPropagation();
                 this._initFormData();
                 this.formType = 'create';
@@ -527,7 +527,7 @@
                 this.chooseCateId = data.id;
                 this.depSettingFlag = true;
             },
-            appendItem (store, data, e) {
+            appendItem(store, data, e) {
                 e.stopPropagation();
                 this.filterOpt.knowledgeId.value = data.id;
                 this.storeNodeId = data.id;
@@ -535,7 +535,7 @@
                 this._getHasImportantData();
                 this.importantSettingFlag = true;
             },
-            _createCate () {
+            _createCate() {
                 this.$refs.cateForm.validate((valid) => {
                     if (valid) {
                         let data = {};
@@ -552,7 +552,7 @@
                     }
                 });
             },
-            editInfo (store, data, e) {
+            editInfo(store, data, e) {
                 e.stopPropagation();
                 this.formType = 'update';
                 this.depSettingForm.name = data.name;
@@ -561,7 +561,7 @@
                 this.chooseCateId = data.id;
                 this.depSettingFlag = true;
             },
-            _updateCare () {
+            _updateCare() {
                 this.$refs.cateForm.validate((valid) => {
                     if (valid) {
                         let data = {};
@@ -579,7 +579,7 @@
                     }
                 });
             },
-            removeCate (store, data, e) {
+            removeCate(store, data, e) {
                 e.stopPropagation();
                 this.chooseCateId = data.id;
                 this.$Modal.confirm({
@@ -598,7 +598,7 @@
                     }
                 });
             },
-            _addRootCate () {
+            _addRootCate() {
                 this.$refs.rootForm.validate((valid) => {
                     if (valid) {
                         this.mubanBtnLoading = true;
@@ -616,11 +616,11 @@
                     }
                 });
             },
-            filterNode (value, data) {
+            filterNode(value, data) {
                 if (!value) return true;
                 return data.name.indexOf(value) !== -1;
             },
-            renderContent (h, { node, data, store }) {
+            renderContent(h, { node, data, store }) {
                 return (
                     <div class="fs-node-wrapper">
                         <div class="title">
@@ -628,10 +628,10 @@
                             {data.important === 1 ? <i class="ivu-icon ivu-icon-star" style="margin-left: 6px;color:#ff0036;"></i> : ''}
                         </div>
                         <div class="tag-group">
-                            {data.important === 1 ? <i-button on-click={ (e) => this.appendItem(store, data, e) } size="small" style="margin-left:6px;" type="text" icon="android-apps"></i-button> : ''}
-                            {data.important === 1 ? '' : <i-button on-click={ (e) => this.append(store, data, e) } size="small" style="margin-left:6px;" type="text" icon="plus-round"></i-button>}
-                            <i-button on-click={ (e) => this.editInfo(store, data, e) } size="small" style="margin-left: 6px;" type="text" icon="edit"></i-button>
-                            <i-button on-click={ (e) => this.removeCate(store, data, e) } size="small" style="margin-left: 6px;" type="text" icon="ios-trash"></i-button>
+                            {data.important === 1 ? <i-button  on-click={ (e) => this.appendItem(store, data, e) }  size="small" style="margin-left:6px;" type="text" icon="android-apps"></i-button> : ''}
+                            {data.important === 1 ? '' : <i-button  on-click={ (e) => this.append(store, data, e) }  size="small" style="margin-left:6px;" type="text" icon="plus-round"></i-button>}
+                            <i-button  on-click={ (e) => this.editInfo(store, data, e) } size="small" style="margin-left: 6px;" type="text" icon="edit"></i-button>
+                            <i-button  on-click={ (e) => this.removeCate(store, data, e) } size="small" style="margin-left: 6px;" type="text" icon="ios-trash"></i-button>
                         </div>
                     </div>);
             }

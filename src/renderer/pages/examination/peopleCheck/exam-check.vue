@@ -39,7 +39,7 @@
                                     <img :src="option.optionpic | _returnPicUrl"  v-if="option.optionpic"/>
                                 </li>
                             </ul>
-                            <div class="answer-block">
+                            <div class="answer-block" style="color: #2d8cf0">
                                 <span>正确答案:</span>
                                 <span>{{question.answer}}</span>
                             </div>
@@ -119,12 +119,12 @@
             };
         },
         watch: {
-            id () {
+            id() {
                 this._getPaperDetail();
             }
         },
         filters: {
-            _returnTypeName (val) {
+            _returnTypeName(val) {
                 let name = '';
                 switch (val) {
                     case 1: name = '单选题';
@@ -140,12 +140,12 @@
                 }
                 return name;
             },
-            _returnPicUrl (val) {
+            _returnPicUrl(val) {
                 return '/oa' + val;
             }
         },
         methods: {
-            _changeMark (data) {
+            _changeMark(data) {
                 let sendData = {};
                 sendData.newScore = data.scorenew;
                 sendData.id = this.id;
@@ -158,7 +158,7 @@
                     }
                 });
             },
-            returnNeedList (data) {
+            returnNeedList(data) {
                 let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => { return x - y > 0; });
                 let storeArray = [];
                 allType.forEach((item) => {
@@ -177,7 +177,7 @@
                 });
                 return storeArray;
             },
-            _getPaperDetail () {
+            _getPaperDetail() {
                 if (!this.id) return;
                 let sendData = {};
                 sendData.id = this.id;
@@ -190,7 +190,7 @@
                     }
                 });
             },
-            _returnAnswer (answer, type) {
+            _returnAnswer(answer, type) {
                 if (type === 3) answer = +answer === 1 ? '正确' : '错误';
                 return answer;
             }

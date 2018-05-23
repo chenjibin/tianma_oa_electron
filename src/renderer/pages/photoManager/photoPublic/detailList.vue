@@ -2,7 +2,7 @@
     <div id="photo-detail-list" @scroll="_scrollerHandler">
         <div class="banner">
             <div class="bg-header-large">
-                <img :src="themeDetail.file_path">
+                <img :src="$mainHost + themeDetail.file_path">
             </div>
             <div class="info">
                 <div class="detail">
@@ -33,7 +33,7 @@
                     :photos="photo"
                     v-if="photo.length"
                     @item-click="_waterItemClickHandler"></fs-water-rows>
-                <div class="end" v-if="pageData.page >= pageData.totalPage">END</div>
+                <div class="end" v-if="pageData.page >= pageData.totalPage && pageData.totalPage !== 0">END</div>
             </div>
         </div>
         <fs-photo-theater
@@ -128,7 +128,7 @@
             position: relative;
             margin: 0 40px;
             .post-wrap {
-                min-width: 800px;
+                min-width: 1200px;
                 max-width: 1880px;
                 padding: 16px 0 25px;
                 margin: 0 auto;
@@ -150,7 +150,7 @@
     import createPhoto from '../components/create-photo';
     export default {
         name: 'photoDetailList',
-        data () {
+        data() {
             return {
                 showTheater: false,
                 showCreate: false,
@@ -168,7 +168,7 @@
             };
         },
         methods: {
-            _waterItemClickHandler (data) {
+            _waterItemClickHandler(data) {
                 this.imgList = data.files;
                 this.productInfo = {
                     headimagepath: data.headimagepath,
@@ -181,14 +181,14 @@
                 };
                 this.showTheater = true;
             },
-            _createPhoto () {
+            _createPhoto() {
                 this.showCreate = true;
             },
-            _photoAddSuccess () {
+            _photoAddSuccess() {
                 this._getPhotoList(this.id);
                 this.showCreate = false;
             },
-            _getThemeDetail (id) {
+            _getThemeDetail(id) {
                 let sendData = {};
                 sendData.id = id;
                 this.$http.get('/staffPresence/getStaffPresenceDetail', {params: sendData}).then((res) => {
@@ -197,7 +197,7 @@
                     }
                 });
             },
-            _loadMoreList () {
+            _loadMoreList() {
                 this.pageData.page += 1;
                 if (this.pageData.page > this.pageData.totalPage) return;
                 let sendData = {};
@@ -214,14 +214,14 @@
                     this.canLoad = true;
                 });
             },
-            _scrollerHandler (e) {
+            _scrollerHandler(e) {
                 let canLoadFlag = e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 50;
                 if (canLoadFlag && this.canLoad) {
                     this.canLoad = false;
                     this._loadMoreList();
                 }
             },
-            _getPhotoList (id) {
+            _getPhotoList(id) {
                 this.pageData.page = 1;
                 this.canLoad = true;
                 let sendData = {};
@@ -237,7 +237,7 @@
                 });
             }
         },
-        activated () {
+        activated() {
             let staffPresenceId = this.$route.params.id;
             this.id = staffPresenceId;
             this._getThemeDetail(staffPresenceId);

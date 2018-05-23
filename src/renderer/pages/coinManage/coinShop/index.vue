@@ -64,7 +64,7 @@
                         <FormItem label="商品预览:">
                             <div style="width: 160px">
                                 <div class="fs-square-img">
-                                    <img v-lazy="goodDesc.pic"/>
+                                    <img v-lazy="$mainHost + goodDesc.pic"/>
                                 </div>
                             </div>
                         </FormItem>
@@ -160,23 +160,23 @@
             };
         },
         computed: {
-            totalCost () {
+            totalCost() {
                 return this.buyForm.quality * this.goodDesc.coin;
             }
         },
-        created () {
+        created() {
             this._getGoodList();
             this._setListHeight();
         },
         methods: {
-            _initData () {
+            _initData() {
                 this.buyForm.id = '';
                 this.buyForm.quality = 1;
                 this.goodDesc.coin = 0;
                 this.goodDesc.name = '';
                 this.goodDesc.pic = '';
             },
-            _openBuy (data) {
+            _openBuy(data) {
                 this._initData();
                 this.buyForm.id = data.id;
                 this.goodDesc.name = data.name;
@@ -184,7 +184,7 @@
                 this.goodDesc.coin = data.price;
                 this.buyFlag = true;
             },
-            _submitBuy () {
+            _submitBuy() {
                 this.subLoading = true;
                 let data = {};
                 data.id = this.buyForm.id;
@@ -200,14 +200,14 @@
                     this.subLoading = false;
                 });
             },
-            _getGoodList () {
+            _getGoodList() {
                 this.$http.get('/order/goldMall').then((res) => {
                     if (res.success) {
                         this.goodList = res.data;
                     }
                 });
             },
-            _setListHeight () {
+            _setListHeight() {
                 let dm = document.body.clientHeight;
                 this.listHeight = dm - 190 + 'px';
             }

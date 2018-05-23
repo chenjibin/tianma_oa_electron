@@ -8,7 +8,7 @@
     import THREE from '@/libs/three';
     export default {
         name: 'particleBg',
-        data () {
+        data() {
             return {};
         },
         methods: {
@@ -30,7 +30,7 @@
                 let windowHalfY = window.innerHeight / 2;
                 init();
                 this.interval = setInterval(loop, 1000 / 60);
-                function init () {
+                function init() {
                     container = document.createElement('div');
                     container.style.position = 'relative';
                     container.style.top = '200px';
@@ -56,18 +56,18 @@
                     document.addEventListener('mousemove', onDocumentMouseMove, false);
                     document.addEventListener('touchmove', onDocumentTouchMove, false);
                 }
-                function onDocumentMouseMove (event) {
+                function onDocumentMouseMove(event) {
                     mouseX = event.clientX - windowHalfX;
                     mouseY = event.clientY - windowHalfY;
                 }
-                function onDocumentTouchMove (event) {
+                function onDocumentTouchMove(event) {
                     if (event.touches.length === 1) {
                         event.preventDefault();
                         mouseX = event.touches[ 0 ].pageX - windowHalfX;
                         mouseY = event.touches[ 0 ].pageY - windowHalfY;
                     }
                 }
-                function loop () {
+                function loop() {
                     camera.position.x += (mouseX - camera.position.x) * 0.05;
 //                    camera.position.y += ( - mouseY - camera.position.y ) * .05;
                     camera.position.y = 364;

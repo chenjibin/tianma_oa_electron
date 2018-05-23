@@ -41,8 +41,6 @@
     import './cropper.min.css';
     export default {
         name: 'fsCropperImg',
-        props: {
-        },
         data () {
             return {
                 btnLoading: false,
@@ -59,11 +57,11 @@
             };
         },
         methods: {
-            _checkFormat () {
+            _checkFormat() {
                 const fileFormat = this.fileData.fileName.split('.').pop().toLocaleLowerCase();
                 return this.format.some(item => item.toLocaleLowerCase() === fileFormat);
             },
-            _submitImgChange () {
+            _submitImgChange() {
                 const check = this._checkFormat();
                 if (!check) {
                     this.$Message.error('图片只支持png, jpeg, gif, jpg');
@@ -75,7 +73,7 @@
                     let xhr = new XMLHttpRequest();
                     let formData = new FormData();
                     formData.append('imgFile', blob);
-                    xhr.onreadystatechange = function () {
+                    xhr.onreadystatechange = function() {
                         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                             // xhr.responseText就是返回的数据
                             let respondData = JSON.parse(xhr.responseText);
@@ -88,7 +86,7 @@
                         vm.btnLoading = false;
                     };
                     // 开始上传
-                    xhr.open('POST', vm.$mainHost + '/oa/user/uploadfile', true);
+                    xhr.open('POST', vm.$mainHost + '/oa/share/uploadFile', true);
                     xhr.send(formData);
                 }, vm.fileData.fileType || 'image/png');
             },
@@ -104,7 +102,7 @@
                 reader.readAsDataURL(file);
             }
         },
-        mounted () {
+        mounted() {
             let img1 = document.getElementById('crop-img');
             this.cropper = new Cropper(img1, {
                 dragMode: 'move',

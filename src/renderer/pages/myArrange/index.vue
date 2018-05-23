@@ -97,11 +97,11 @@
                 ]
             };
         },
-        created () {
+        created() {
             this._getArrangeList();
         },
         methods: {
-            _rowRender (i) {
+            _rowRender(i) {
                 return (h, params) => {
                     if (params.row['day' + i].day) {
                         let typeDom;
@@ -140,13 +140,13 @@
                     }
                 };
             },
-            _cardClick (date) {
+            _cardClick(date) {
                 if (date.type === '未设置') return;
                 this.arrangeDate = date.date;
                 this.modelFlag = true;
                 this._getArrangeDetail(date.date);
             },
-            _getArrangeDetail (time) {
+            _getArrangeDetail(time) {
                 this.loading = true;
                 this.$http.get('/arrange/getOneMonthArrange', {params: {month: time}}).then((res) => {
                     if (res.success) {
@@ -158,7 +158,7 @@
                     this.loading = false;
                 });
             },
-            _getArrangeList () {
+            _getArrangeList() {
                 this.$http.get('/arrange/getArrangeStatistic').then((res) => {
                     if (res.success) {
                         this.dateList = res.dateList;

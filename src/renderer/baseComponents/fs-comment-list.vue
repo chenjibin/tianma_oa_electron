@@ -88,7 +88,7 @@
         props: {
             commentData: {
                 type: Object,
-                default () {
+                default() {
                     return {};
                 }
             }
@@ -108,7 +108,7 @@
             };
         },
         methods: {
-            _thumbsupHandler () {
+            _thumbsupHandler() {
                 if (!this.isZan) {
                     let data = {};
                     data.shareId = this.commentData.share_id;
@@ -133,7 +133,7 @@
                     });
                 }
             },
-            _delComment () {
+            _delComment() {
                 this.$Modal.confirm({
                     content: '确认删除此条评价么？',
                     okText: '确认删除',
@@ -150,11 +150,11 @@
                     }
                 });
             },
-            openReplay () {
+            openReplay() {
                 this.editorContent = '';
                 this.isInComment = true;
             },
-            replyHandler () {
+            replyHandler() {
                 let data = {};
                 data.shareId = this.commentData.share_id;
                 data.content = this.editorContent;

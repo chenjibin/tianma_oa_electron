@@ -1,7 +1,7 @@
 <template>
     <Card class="sys-notice">
         <p class="sys-notice-title">天马大小事</p>
-        <Table height="300"
+        <Table height="222"
                :columns="columns"
                :data="pageData.list"
                :loading="tableLoading"
@@ -44,7 +44,7 @@
         cursor: pointer;
     }
     .sys-notice {
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         &-title {
             margin-bottom: 10px;
             font-size: 18px;
@@ -92,31 +92,31 @@
             };
         },
         computed: {
-            mustRead () {
+            mustRead() {
                 return this.$store.state.user.mustRead;
             }
         },
-        created () {
+        created() {
             this.getNoticeInfo();
             this.$store.commit('getNoticeMustRead');
         },
         methods: {
-            pageChangeHandler (page) {
+            pageChangeHandler(page) {
                 this.pageData.page = page;
                 this.getNoticeInfo();
             },
-            getNoticeInfo () {
+            getNoticeInfo() {
                 this.loading = true;
                 let data = {};
                 data.type = 1;
                 this.getList('/notice/diaodongInfo', data);
             },
-            _checkDetails (rowData) {
+            _checkDetails(rowData) {
                 this.noticeData.content = rowData.content;
                 this.noticeData.title = rowData.title;
                 this.modelFlag = true;
             },
-            _rowClassName () {
+            _rowClassName() {
                 return 'row-cursor';
             }
         }

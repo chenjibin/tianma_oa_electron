@@ -165,51 +165,51 @@
                 newArticle: []
             };
         },
-        created () {
+        created() {
             this._getMainBolckData();
             this._getCarouseData();
             this._getShowPicData();
             this._getNewBlockData();
         },
-        mounted () {
+        mounted() {
             this.$nextTick(() => {
                 this.$refs.carousel.handleResize();
             });
         },
         methods: {
-            checkMore (data) {
+            checkMore(data) {
                 this.$store.commit('setCateId', data.khmId);
                 this.$store.commit('setCateName', data.name);
                 this.$store.commit('toListPage', this);
             },
-            toDetailPage (id) {
+            toDetailPage(id) {
                 let params = {};
                 params.name = 'articleDetail';
                 params.params = { id: id };
                 this.$router.push(params);
             },
-            _getShowPicData () {
+            _getShowPicData() {
                 this.$http.get('/share/getShowPic').then((res) => {
                     if (res.success) {
                         this.mainShowPicData = res.data;
                     }
                 });
             },
-            _getCarouseData () {
+            _getCarouseData() {
                 this.$http.get('/share/getShowBanner').then((res) => {
                     if (res.success) {
                         this.mainBannerData = res.data;
                     }
                 });
             },
-            _getNewBlockData () {
+            _getNewBlockData() {
                 this.$http.get('share/getNewShareList').then((res) => {
                     if (res.success) {
                         this.newArticle = res.data;
                     }
                 });
             },
-            _getMainBolckData () {
+            _getMainBolckData() {
                 this.$http.get('/share/getImportantShareNew').then((res) => {
                     if (res.success) {
                         this.mainBlockData = res.data;

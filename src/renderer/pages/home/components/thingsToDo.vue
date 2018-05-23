@@ -70,7 +70,7 @@
             this._toDoData();
         },
         methods: {
-            toPage (page) {
+            toPage(page) {
                 this.$router.push({
                     name: page
                 });

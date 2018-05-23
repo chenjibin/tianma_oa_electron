@@ -76,7 +76,7 @@
     import debounce from 'lodash/debounce';
     export default {
         name: 'position',
-        data () {
+        data() {
             return {
                 tableHeight: 500,
                 filterOpt: {
@@ -150,18 +150,18 @@
             this.getCompanyList();
         },
         computed: {
-            isManger () {
+            isManger() {
                 return this.$store.state.user.userInfo.ismanger;
             }
         },
         methods: {
-            changeInfo (data) {
+            changeInfo(data) {
                 this.baseInfo.name = data.name;
                 this.baseInfo.remarks = data.remarks;
                 this.baseInfo.id = data.id;
                 this.baseInfo.companyId = data.companyid;
             },
-            getPositionCombo () {
+            getPositionCombo() {
                 var vm = this;
                 vm.$http.post('/talentPosition/dataComboList').then((res) => {
                     if (res.success) {
@@ -169,7 +169,7 @@
                     }
                 });
             },
-            saveInfo () {
+            saveInfo() {
                 var vm = this;
                 vm.$http.post('/talentPosition/add', vm.baseInfo).then((res) => {
                     if (res.success) {
@@ -180,13 +180,13 @@
                     }
                 });
             },
-            addInfo () {
+            addInfo() {
                 this.baseInfo.name = '';
                 this.baseInfo.remarks = '';
                 this.baseInfo.companyId = 1;
                 this.changeInfoModal = true;
             },
-            delInfo (data) {
+            delInfo(data) {
                 var vm = this;
                 this.baseInfo = data;
                 this.$Modal.confirm({
@@ -206,7 +206,7 @@
                     }
                 });
             },
-            getCompanyList () {
+            getCompanyList() {
                 this.$http.post('/company/lists').then((res) => {
                     this.companyList = res.data;
                 });

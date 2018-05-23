@@ -49,7 +49,7 @@
         props: {
             upload: {
                 type: Array,
-                default () {
+                default() {
                     return [];
                 }
             }
@@ -61,7 +61,7 @@
             };
         },
         methods: {
-            updateUploadList () {
+            updateUploadList() {
                 let fileList = this.$refs.uploadDom.fileList;
                 this.$emit('update:upload', fileList);
             },
@@ -69,7 +69,7 @@
                 this.imgName = name;
                 this.visible = true;
             },
-            handleError () {
+            handleError() {
                 this.$Message.error('系统错误，请重新上传!');
             },
             handleRemove (file) {

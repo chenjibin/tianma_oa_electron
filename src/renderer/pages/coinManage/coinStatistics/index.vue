@@ -108,17 +108,17 @@
             };
         },
         watch: {
-            'filterOpt.year' () {
+            'filterOpt.year'() {
                 this._filterResultHandler();
             }
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
         },
         methods: {
-            _sortChange (sort) {
+            _sortChange(sort) {
                 this.filterOpt.sort.key = sort.key;
                 this.filterOpt.sort.order = sort.order === 'normal' ? '' : sort.order;
                 this._filterResultHandler();
@@ -126,23 +126,23 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _getPostData () {
+            _getPostData() {
                 let data = {};
                 data.name = this.filterOpt.name;
                 data.dpname = this.filterOpt.dep;

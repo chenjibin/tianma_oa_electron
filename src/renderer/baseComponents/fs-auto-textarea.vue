@@ -42,19 +42,19 @@
             };
         },
         methods: {
-            calcHeight () {
+            calcHeight() {
                 let el = this.$refs.autoTextarea;
                 el.style.height = 'auto';
                 el.style.height = el.scrollTop + el.scrollHeight + 'px';
             },
-            handleInput (event) {
+            handleInput(event) {
                 let value = event.target.value;
                 this.$emit('input', value);
             },
-            handlerCompositionstart () {
+            handlerCompositionstart() {
                 this.isComposition = true;
             },
-            handlerCompositionend (event) {
+            handlerCompositionend(event) {
                 this.calcHeight();
                 this.isComposition = false;
             }

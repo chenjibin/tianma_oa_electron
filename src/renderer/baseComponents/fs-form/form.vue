@@ -31,29 +31,29 @@
             }
         },
         watch: {
-            itemList (value) {
+            itemList(value) {
                 this.setDefaultValue();
             }
         },
-        data () {
+        data() {
             return {};
         },
         methods: {
-            validForm (foo) {
+            validForm(foo) {
                 this.$refs.formInstance.validate((valid) => {
                     if (valid) {
                         foo();
                     }
                 });
             },
-            resetForm () {
+            resetForm() {
                 this.$refs.formInstance.resetFields();
             },
-            handleInput (val, key) {
+            handleInput(val, key) {
                 let obj = Object.assign(JSON.parse(JSON.stringify(this.value)), {[key]: val});
                 this.$emit('input', obj);
             },
-            setDefaultValue () {
+            setDefaultValue() {
                 const formData = JSON.parse(JSON.stringify(this.value));
                 // 设置默认值
                 this.itemList.forEach(item => {

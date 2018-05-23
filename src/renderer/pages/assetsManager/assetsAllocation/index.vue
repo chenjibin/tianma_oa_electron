@@ -151,7 +151,7 @@
             }
         },
         components: {fsTablePage},
-        data () {
+        data() {
             return {
                 filterOpt: {
                     categoryName: {
@@ -235,7 +235,7 @@
                                         disabled: disable
                                     },
                                     on: {
-                                        click: function () {
+                                        click: function() {
                                             vm.newApply.id = row.id;
                                             vm.newApply.categoryName = row.categoryname;
                                             vm.newApply.num = row.num;
@@ -257,7 +257,7 @@
                                         marginLeft: '10px'
                                     },
                                     on: {
-                                        click: function () {
+                                        click: function() {
                                             vm.delInfo(row);
                                         }
                                     }
@@ -299,7 +299,7 @@
                                         title: '点击查看审批流程'
                                     },
                                     nativeOn: {
-                                        click: function () {
+                                        click: function() {
                                             vm.$http.get('assetsAllocation/reviewProcess?id=' + row.id).then((res) => {
                                                 if (res.success) {
                                                     let data = res.data;
@@ -336,7 +336,7 @@
                                         title: '点击开始审批'
                                     },
                                     nativeOn: {
-                                        click: function () {
+                                        click: function() {
                                             vm.$refs.approveForm.resetFields();
                                             if (appBtnStatus) {
                                                 vm.$http.get('assetsAllocation/find?id=' + params.row.id).then((res) => {
@@ -407,7 +407,7 @@
                 tableHeight: 500
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
             this.getPositionList();
             this.loadData();
@@ -417,14 +417,14 @@
             }
         },
         methods: {
-            getPositionList () {
+            getPositionList() {
                 this.$http.post('assetsApplication/getPostionlist').then((res) => {
                     if (res.success) {
                         this.positionList = res.data;
                     }
                 });
             },
-            changeCataName (type, arg) {
+            changeCataName(type, arg) {
                 var [value, selectedData] = arg;
                 if (selectedData.length === 0) {
                     this.filterOpt.categoryName.value = undefined;
@@ -437,7 +437,7 @@
                     this.newApply.categoryName = selectedData[2].label;
                 }
             },
-            loadData (item, callback) {
+            loadData(item, callback) {
                 let type;
                 if (item) {
                     type = item.value;
@@ -472,7 +472,7 @@
                     }
                 });
             },
-            saveInfo () {
+            saveInfo() {
                 var vm = this;
                 var refT = this.$refs.fsTable;
                 var newApplyForm = this.$refs.newApplyForm;
@@ -489,7 +489,7 @@
                     }
                 });
             },
-            approval (type) {
+            approval(type) {
                 if (!type) {
                     return;
                 }
@@ -504,7 +504,7 @@
                     }
                 });
             },
-            addInfo () {
+            addInfo() {
                 this.newApply.id = '';
                 this.newApply.categoryName = '';
                 this.newApply.num = 0;
@@ -514,7 +514,7 @@
                 this.selectArr = [];
                 this.addInfoModal = true;
             },
-            delInfo (row) {
+            delInfo(row) {
                 var vm = this;
                 var refT = this.$refs.fsTable;
                 var d = {};

@@ -75,16 +75,16 @@
                 }
             };
         },
-        created () {
+        created() {
             this.$store.commit('getNoImportantTreeData');
         },
         computed: {
-            treeData () {
+            treeData() {
                 return this.$store.state.knowledge.noImportantTreeData;
             }
         },
         methods: {
-            nodeClickHandler (data) {
+            nodeClickHandler(data) {
                 this.$store.commit('setCateId', data.id);
                 this.$store.commit('setCateName', data.name);
                 this.$store.commit('toListPage', this);

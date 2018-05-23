@@ -103,7 +103,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._changeCate(params.row);
                                             }
                                         }
@@ -116,28 +116,28 @@
                 tableHeight: 500
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            _initEditorSetting () {
+            _initEditorSetting() {
                 this.editorSettingData.name = '';
                 this.editorSettingData.id = 0;
                 this.$refs.editorForm.resetFields();
             },
-            _changeCate (data) {
+            _changeCate(data) {
                 this._initEditorSetting();
                 this.postFormType = 'update';
                 this.editorSettingData.id = data.id;
                 this.editorSettingData.name = data.name;
                 this.editorSettingFlag = true;
             },
-            _addNewCate () {
+            _addNewCate() {
                 this._initEditorSetting();
                 this.postFormType = 'add';
                 this.editorSettingFlag = true;
             },
-            _confirmAdd () {
+            _confirmAdd() {
                 this.$refs.editorForm.validate((valid) => {
                     if (valid) {
                         let data = {};
@@ -154,7 +154,7 @@
                     }
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             }

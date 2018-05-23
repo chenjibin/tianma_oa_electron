@@ -122,12 +122,12 @@
             };
         },
         filters: {
-            deleteTag (val) {
+            deleteTag(val) {
                 return utils.delHtmlTag(val);
             }
         },
         watch: {
-            '$route' (to) {
+            '$route'(to) {
                 if (to.name === 'articleList') {
                     let query = this.$route.query;
                     this.cateName = query.cateName;
@@ -135,20 +135,20 @@
                 }
             }
         },
-        created () {
+        created() {
             this.$store.commit('setToHeight', '1000px');
             let query = this.$route.query;
             this.cateName = query.cateName;
             this.getArticleList(query);
         },
         methods: {
-            toArticlePage (id) {
+            toArticlePage(id) {
                 let params = {};
                 params.name = 'articleDetail';
                 params.params = { id: id };
                 this.$router.push(params);
             },
-            getArticleList (query) {
+            getArticleList(query) {
                 let params = {};
                 params.shareItem = query.keyword;
                 params.knowledgeId = query.cateId;

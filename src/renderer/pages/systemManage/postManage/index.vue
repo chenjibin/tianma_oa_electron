@@ -233,13 +233,13 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
             this._getOrgTree();
         },
         methods: {
-            _initPostForm () {
+            _initPostForm() {
                 this.postSettingForm.states = true;
                 this.postSettingForm.name = '';
                 this.postSettingForm.organizeId = [];
@@ -250,11 +250,11 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _delPost () {
+            _delPost() {
                 let data = {};
                 data.id = this.postId;
                 this.$http.post('/post/delete', data).then((res) => {
@@ -265,24 +265,24 @@
                     }
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _addPostOpen () {
+            _addPostOpen() {
                 this.postFormType = 'add';
                 this._initPostForm();
                 this.settingModalFlag = true;
             },
-            _editorSetting (data) {
+            _editorSetting(data) {
                 this.postFormType = 'update';
                 this._initPostForm();
                 this.postSettingForm.states = !!data.states;
@@ -293,7 +293,7 @@
 
                 this.settingModalFlag = true;
             },
-            _addPost () {
+            _addPost() {
                 this.$refs.postForm.validate((valid) => {
                     if (valid) {
                         this.btnDisabled = true;
@@ -315,7 +315,7 @@
                     }
                 });
             },
-            _updatePost () {
+            _updatePost() {
                 this.$refs.postForm.validate((valid) => {
                     if (valid) {
                         this.btnDisabled = true;
@@ -338,7 +338,7 @@
                     }
                 });
             },
-            _getPostData () {
+            _getPostData() {
                 let data = {};
                 data.name = this.filterOpt.name;
                 data.level = this.filterOpt.level;
@@ -346,20 +346,20 @@
                 data.organizeName = this.filterOpt.organizeName;
                 this.getList('/post/datalist', data);
             },
-            _storeFilter (root, path, id) {
+            _storeFilter(root, path, id) {
                 root.forEach((item) => {
                     if (item.id === id) this.storePath = [...path, id];
                     if (item.children) this._storeFilter(item.children, [...path, item.id], id);
                 });
             },
-            _returnOrgIds (id) {
+            _returnOrgIds(id) {
                 if (!this.orgTreeData[0]) return [];
                 let depsStore = this.orgTreeData;
                 let path = [];
                 this._storeFilter(depsStore, path, id);
                 return this.storePath;
             },
-            _getOrgTree () {
+            _getOrgTree() {
                 this.$http.get('/organize/organizeTreeCertainVmC?fatherId=-1').then((res) => {
                     if (res.success) {
                         this.orgTreeData = res.data;

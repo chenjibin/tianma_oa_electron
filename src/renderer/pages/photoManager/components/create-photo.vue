@@ -15,7 +15,7 @@
                 <p class="title">作品简介</p>
                 <textarea v-model="photoDesc"></textarea>
             </div>
-            <div class="submit-btn" @click.stop="createPhotoHandler" v-show="canSubmit">创建作品</div>
+            <div class="submit-btn" @click.stop="createPhotoHandler" v-show="canSubmit">{{editable ? '保存编辑' : '创建作品'}}</div>
             <div class="submit-btn" v-show="!canSubmit">提交作品中...</div>
         </div>
     </div>
@@ -94,7 +94,17 @@
     import {on, off} from '@/libs/dom';
     export default {
         name: 'createPhoto',
-        data () {
+        props: {
+            editable: {
+                type: Boolean,
+                default: false
+            },
+            productInfo: {
+                type: Object,
+                default: () => {}
+            }
+        },
+        data() {
             return {
                 canSubmit: true,
                 theaterHeight: '0px',
@@ -104,46 +114,57 @@
                 photoTitle: ''
             };
         },
-        created () {
+        created() {
+            if (this.editable) this._initData();
             this._initStyleObject();
         },
-        mounted () {
+        mounted() {
             on(window, 'resize', () => {
                 this._initStyleObject();
             });
         },
-        watch: {
-            photoList (val) {
-                console.log(val);
-            }
-        },
         methods: {
-            _initStyleObject () {
+            _initData() {
+                this.photoList = this.productInfo.files.map(x => {
+                    let obj = {};
+                    obj.url = x.file_path;
+                    obj.status = 'finished';
+                    return obj;
+                });
+                this.photoTitle = this.productInfo.item;
+                this.photoDesc = this.productInfo.detail;
+            },
+            _initStyleObject() {
                 let w = document.body.clientWidth;
                 let h = document.body.clientHeight;
                 this.theaterWidth = w + 'px';
                 this.theaterHeight = h + 'px';
             },
-            createPhotoHandler () {
+            createPhotoHandler() {
                 if (!this.photoList.length) {
                     this.$Message.error('至少上传一张照片!');
                     return;
                 }
-                if (!this.photoTitle) {
-                    this.$Message.error('作品主题不能为空!');
-                    return;
-                }
-                if (!this.photoDesc) {
-                    this.$Message.error('作品简介不能为空');
-                    return;
-                }
+                // if (!this.photoTitle) {
+                //     this.$Message.error('作品主题不能为空!');
+                //     return;
+                // }
+                // if (!this.photoDesc) {
+                //     this.$Message.error('作品简介不能为空');
+                //     return;
+                // }
                 this.canSubmit = false;
                 let sendData = {};
-                sendData.staffPresenceId = this.$route.params.id;
+                if (this.editable) {
+                    sendData.articleId = this.productInfo.id;
+                } else {
+                    sendData.staffPresenceId = this.$route.params.id;
+                }
                 sendData.item = this.photoTitle;
                 sendData.detail = this.photoDesc;
                 sendData.fileNames = this.photoList.map(x => x.url).join(',');
-                this.$http.post('/staffPresence/addArticle', sendData).then((res) => {
+                let sendUrl = this.editable ? '/staffPresence/updateArticle' : '/staffPresence/addArticle';
+                this.$http.post(sendUrl, sendData).then((res) => {
                     if (res.success) {
                         this.$emit('add-success');
                     }
@@ -151,11 +172,11 @@
                     this.canSubmit = true;
                 });
             },
-            closeHandler () {
+            closeHandler() {
                 this.$emit('close');
             }
         },
-        destroyed () {
+        destroyed() {
             off(window, 'resize');
         },
         components: {

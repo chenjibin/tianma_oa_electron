@@ -39,7 +39,7 @@
                     </FormItem>
                     <FormItem label="公司名称" v-show="(isManger == 0 || isManger == 1)">
                         <Select v-model="postSettingForm.companyId">
-                            <Option v-for="(item,index) in companyList"
+                            <Option v-for="item in companyList"
                                     :label="item.name"
                                     :key="'com-' + item.id"
                                     :value="item.id">{{item.name}}</Option>
@@ -132,13 +132,13 @@
                         title: '角色名',
                         key: 'name',
                         align: 'center',
-                        width: 100
+                        width: 200
                     },
                     {
                         title: '公司名称',
                         key: 'companyname',
                         align: 'center',
-                        width: 100
+                        width: 200
                     },
                     {
                         title: '添加时间',
@@ -171,7 +171,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._postAccessOpen(params.row);
                                             }
                                         },
@@ -188,19 +188,19 @@
             };
         },
         computed: {
-            isManger () {
+            isManger() {
                 return this.$store.state.user.userInfo.ismanger;
             }
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getAccessMenu();
             this._getPostData();
             this._setTableHeight();
             this.getCompanyList();
         },
         methods: {
-            _addRole () {
+            _addRole() {
                 this.$refs.nameForm.validate((valid) => {
                     if (valid) {
                         let data = {};
@@ -216,11 +216,11 @@
                     }
                 });
             },
-            _initPostForm () {
+            _initPostForm() {
                 this.postSettingForm.name = '';
                 this.postSettingForm.companyId = '1';
             },
-            _renturnAccessNeedArr (data) {
+            _renturnAccessNeedArr(data) {
                 let arr = [];
                 data.forEach((cateItem) => {
                     let cate = {};
@@ -242,33 +242,33 @@
                 });
                 return arr;
             },
-            _getAccessMenu () {
+            _getAccessMenu() {
                 this.$http.get('/jurisdiction/getAllMenu').then((res) => {
                     if (res.success) {
                         this.accseeList = res.data;
                     }
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _addPostOpen () {
+            _addPostOpen() {
                 this._initPostForm();
                 this.settingModalFlag = true;
             },
-            _getPostData () {
+            _getPostData() {
                 this.getList('/role/getAllRole');
             },
-            _confirmAccess () {
+            _confirmAccess() {
                 let pageArr = [];
                 let btnArr = [];
                 this.social.forEach((item) => {
@@ -292,14 +292,14 @@
                     }
                 });
             },
-            _postAccessOpen (data) {
+            _postAccessOpen(data) {
                 let pageArr = data.relate ? data.relate.split(',').map(x => 'page' + x) : [];
                 let btnArr = data.btnid ? data.btnid.split(',').map(x => 'btn' + x) : [];
                 this.social = pageArr.concat(btnArr);
                 this.roleId = data.id;
                 this.roleAccessModalFlag = true;
             },
-            getCompanyList () {
+            getCompanyList() {
                 this.$http.post('/company/lists').then((res) => {
                     this.companyList = res.data;
                 });

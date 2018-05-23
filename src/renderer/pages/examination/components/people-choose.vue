@@ -51,7 +51,7 @@
             }
         },
         watch: {
-            id (val) {
+            id(val) {
                 this.filterOpt.id.value = val;
             }
         },
@@ -140,7 +140,7 @@
             };
         },
         methods: {
-            _allHandler () {
+            _allHandler() {
                 this.btnLoading = true;
                 let data = {};
                 data.id = this.id;
@@ -154,10 +154,10 @@
                     this.btnLoading = false;
                 });
             },
-            _updateList () {
+            _updateList() {
                 this.$refs.tablePage.getListData();
             },
-            _addToPaper (row) {
+            _addToPaper(row) {
                 this.btnLoading = true;
                 let data = {};
                 data.id = this.id;

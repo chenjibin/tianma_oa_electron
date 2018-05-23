@@ -33,14 +33,14 @@
             },
             pageSizeOpt: {
                 type: Array,
-                default () {
+                default() {
                     return [10, 20, 30, 40];
                 }
             },
             url: String,
             params: {
                 type: Object,
-                default () {
+                default() {
                     return {};
                 }
             },
@@ -54,7 +54,7 @@
             },
             choosearray: {
                 type: Array,
-                default () {
+                default() {
                     return [];
                 }
             },
@@ -70,14 +70,14 @@
                 isSelection: false
             };
         },
-        created () {
+        created() {
             this.getListData();
             this.initWatch();
             this.isExpend = this.columns.some(x => x.type === 'expand');
             this.isSelection = this.columns.some(x => x.type === 'selection');
         },
         methods: {
-            initWatch () {
+            initWatch() {
                 for (let key in this.params) {
                     this.$watch(`params.${key}.value`, function (val) {
                         if (this.params[key].type === 'input') {
@@ -88,7 +88,7 @@
                     });
                 }
             },
-            rowClickHandler (data, index) {
+            rowClickHandler(data, index) {
                 if (this.isExpend) {
                     this.pageData.list[index]._expanded = !this.pageData.list[index]._expanded;
                 }
@@ -98,7 +98,7 @@
                     this.$emit('update:choosearray', chooseData);
                 }
             },
-            returnNeedParams () {
+            returnNeedParams() {
                 let params = {};
                 for (let key in this.params) {
                     if (this.params.hasOwnProperty(key)) {
@@ -107,7 +107,7 @@
                 }
                 return params;
             },
-            selectionChange (data) {
+            selectionChange(data) {
                 data.forEach(item => {
                     item._checked = true;
                 });
@@ -120,19 +120,19 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this.getListData();
             },
-            pageChangeHandler () {
+            pageChangeHandler() {
                 this.getListData();
             },
-            pageSizeChangeHandler (size) {
+            pageSizeChangeHandler(size) {
                 this.initPage();
                 this.pageData.pageSize = size;
                 this.getListData();
             },
-            getListData () {
+            getListData() {
                 this.$emit('update:choosearray', []);
                 let params = this.returnNeedParams();
                 this.getList(this.url, params);

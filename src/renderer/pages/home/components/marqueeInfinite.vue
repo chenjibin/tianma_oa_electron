@@ -32,7 +32,7 @@
         props: {
             itemData: {
                 type: Array,
-                default () {
+                default() {
                     return [];
                 }
             },
@@ -47,7 +47,7 @@
             };
         },
         watch: {
-            itemData () {
+            itemData() {
                 this.$nextTick(() => {
                     this.innerHeight = this.$refs.innerDom.clientHeight;
                     this.animationY = +this.height;
@@ -55,24 +55,24 @@
                 });
             }
         },
-        activated () {
+        activated() {
             if (!this.firstLoad) this.testLeave();
             else this.firstLoad = false;
         },
-        deactivated () {
+        deactivated() {
             this.testEnter();
         },
-        destroyed () {
+        destroyed() {
             cancelAnimationFrame(this.animationFram);
         },
         methods: {
-            testEnter () {
+            testEnter() {
                 cancelAnimationFrame(this.animationFram);
             },
-            testLeave () {
+            testLeave() {
                 this.animationFram = requestAnimationFrame(this._run);
             },
-            _run () {
+            _run() {
                 let innerDom = this.$refs.innerDom;
                 this.animationY -= 0.5;
                 innerDom.style.transform = `translate3d(0, ${this.animationY}px, 0px)`;

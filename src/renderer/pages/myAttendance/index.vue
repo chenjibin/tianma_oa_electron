@@ -171,26 +171,26 @@
                 attendanceDetail: []
             };
         },
-        created () {
+        created() {
             this._getAttendanceList(1);
             this._setTableHeight();
         },
         methods: {
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 200;
             },
-            _returnInnerRowClass (row) {
+            _returnInnerRowClass(row) {
                 let className = 'my-attendance-inner';
                 if (row.absent_off_day) {
                     className += ' error';
                 }
                 return className;
             },
-            _pageChangeHandler (page) {
+            _pageChangeHandler(page) {
                 this._getAttendanceList(page);
             },
-            _checkDetail (obj) {
+            _checkDetail(obj) {
                 this.loading2 = true;
                 let month = moment(obj.record_month).format('YYYY-MM');
                 this.monthData = month;
@@ -206,7 +206,7 @@
                 });
                 this.modelFlag = true;
             },
-            _getAttendanceList (page) {
+            _getAttendanceList(page) {
                 this.loading = true;
                 let data = {
                     page: page,
@@ -221,7 +221,7 @@
                     this.loading = false;
                 });
             },
-            _returnRowClass () {
+            _returnRowClass() {
                 return 'fs-row';
             }
         },

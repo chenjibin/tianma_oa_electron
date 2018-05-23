@@ -29,7 +29,7 @@
                            url="/od/getManageOdLog"></fs-table-page>
             <Modal title="查看图片证明" v-model="visible" width="800">
                 <div style="max-height: 500px;overflow-y: auto;overflow-x: hidden;">
-                    <img :src="'/oa/upload/' + item.pic"
+                    <img :src="$mainHost + '/oa/upload/' + item.pic"
                          v-for="(item, index) in imgArr"
                          :key="'prewimg-' + index"
                          title="点击图片可以旋转"
@@ -183,19 +183,19 @@
                 tableHeight: 500
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         computed: {
-            userName () {
+            userName() {
                 return this.$store.state.user.userInfo.realname;
             }
         },
         methods: {
-            _rotateImg (index) {
+            _rotateImg(index) {
                 this.imgArr[index].deg += 90;
             },
-            _prewImg (data) {
+            _prewImg(data) {
                 this.visible = true;
                 let storeArr = [];
                 if (data.imageproof) {
@@ -230,11 +230,11 @@
                 }
                 this.imgArr = storeArr;
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _getPostData () {
+            _getPostData() {
                 this.$refs.leaveTableDom.getListData();
             }
         },

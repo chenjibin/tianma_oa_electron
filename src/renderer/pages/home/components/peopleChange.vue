@@ -29,13 +29,13 @@
                 itemData: []
             };
         },
-        created () {
+        created() {
             this.getChangeInfo();
         },
         methods: {
-            pageChangeHandler (current) {
+            pageChangeHandler(current) {
             },
-            getChangeInfo () {
+            getChangeInfo() {
                 let data = {
                     page: 1,
                     pageSize: 30,

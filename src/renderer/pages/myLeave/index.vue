@@ -174,17 +174,17 @@
                 tableHeight: 500
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            onRowClickHandler (data, index) {
+            onRowClickHandler(data, index) {
                 this.pageData.list[index]._expanded = !this.pageData.list[index]._expanded;
             },
-            _rotateImg (index) {
+            _rotateImg(index) {
                 this.imgArr[index].deg += 90;
             },
-            _prewImg (data) {
+            _prewImg(data) {
                 this.visible = true;
                 let storeArr = [];
                 if (data.imageproof) {
@@ -219,10 +219,10 @@
                 }
                 this.imgArr = storeArr;
             },
-            _tableSelectChange (data) {
+            _tableSelectChange(data) {
                 this.chooseDataArr = data;
             },
-            _delOd (data) {
+            _delOd(data) {
                 let vm = this;
                 this.$Modal.confirm({
                     title: '',
@@ -241,11 +241,11 @@
                     }
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _getPostData () {
+            _getPostData() {
                 this.$refs.leaveTableDom.getListData();
             }
         },

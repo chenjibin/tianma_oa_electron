@@ -57,16 +57,16 @@
                 myClassList: []
             };
         },
-        created () {
+        created() {
             this._getMyClass();
         },
         filters: {
-            returnDate (val) {
+            returnDate(val) {
                 return moment(val).format('YYYY-MM-DD');
             }
         },
         methods: {
-            _downloadGrade (data) {
+            _downloadGrade(data) {
                 let sendData = {};
                 sendData.id = data.id;
                 sendData.title = data.title;
@@ -79,7 +79,7 @@
                     data.loading = false;
                 });
             },
-            _getMyClass () {
+            _getMyClass() {
                 let data = {};
                 data.page = 1;
                 data.pageSize = 100;

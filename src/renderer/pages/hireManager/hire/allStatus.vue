@@ -31,7 +31,7 @@
                 default: 0
             }
         },
-        data () {
+        data() {
             return {
                 status: [],
                 n: [],
@@ -75,7 +75,7 @@
                     this.$emit('status', this.status);
                 }
             },
-            changeValue (v) {
+            changeValue(v) {
                 var max = 11;
                 if (this.type === 1) {
                     max = 4;

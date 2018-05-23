@@ -72,6 +72,7 @@
                         <Col :span="24">
                             <FormItem label="主题图片" required>
                                 <fs-img-upload action="/oa/staffPresence/uploadFile"
+                                               :maxSize="20480"
                                                :params="{'type': 1}"
                                                ref="imgUploadFo"
                                                :upload.sync="imgFile"></fs-img-upload>
@@ -108,7 +109,7 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     export default {
         name: 'photoSetting',
-        data () {
+        data() {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
                 return h('Tooltip', {
                     props: {
@@ -147,9 +148,9 @@
                     detail: [
                         {required: true, message: '介绍不能为空！'}
                     ],
-                    award: [
-                        {required: true, message: '奖品不能为空！'}
-                    ],
+                    // award: [
+                    //     {required: true, message: '奖品不能为空！'}
+                    // ],
                     hostUnit: [
                         {required: true, message: '主办方不能为空！'}
                     ],
@@ -211,8 +212,8 @@
                         }
                     },
                     {
-                        title: '活动介绍',
-                        key: 'detail'
+                        title: '活动奖励',
+                        key: 'award'
                     },
                     {
                         title: '主办方',
@@ -248,20 +249,20 @@
                 ]
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _addSettingOpen () {
+            _addSettingOpen() {
                 this.formType = 'create';
                 this._initEditorSettingData();
                 this.depSettingFlag = true;
             },
-            _settingEditor (data) {
+            _settingEditor(data) {
                 this.formType = 'update';
                 this._initEditorSettingData();
                 let depSettingForm = this.depSettingForm;
@@ -275,7 +276,7 @@
                 this.settingId = data.id;
                 this.depSettingFlag = true;
             },
-            _createTheme () {
+            _createTheme() {
                 if (!this.imgFile.length) {
                     this.$Message.error('主题图片不能为空!');
                 }
@@ -299,7 +300,7 @@
                     }
                 });
             },
-            _updateTheme () {
+            _updateTheme() {
                 if (!this.imgFile.length) {
                     this.$Message.error('主题图片不能为空!');
                 }
@@ -324,7 +325,7 @@
                     }
                 });
             },
-            _initEditorSettingData () {
+            _initEditorSettingData() {
                 let settingData = this.depSettingForm;
                 settingData.isShowpic = 0;
                 settingData.item = '';

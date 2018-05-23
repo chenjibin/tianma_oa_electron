@@ -4,7 +4,7 @@
             <li class="demo-upload-list" v-for="item in upload">
                 <div class="inner">
                     <template v-if="item.status === 'finished'">
-                        <img :src="item.url">
+                        <img :src="$mainHost + item.url">
                         <div class="demo-upload-list-cover">
                             <Icon type="ios-trash-outline" size="24" @click.native="handleRemove(item)"></Icon>
                         </div>
@@ -29,7 +29,7 @@
             :data="{'type': 2}"
             multiple
             type="drag"
-            :action="action" style="display: flex;justify-content: center;align-items: center;margin-left: 40px">
+            :action="$mainHost + action" style="display: flex;justify-content: center;align-items: center;margin-left: 40px">
             <div style="padding: 20px 8px;width: 300px">
                 <Icon type="ios-cloud-upload" size="48" style="color: #3399ff"></Icon>
                 <p>点击或者拖拽图片上传</p>
@@ -45,7 +45,7 @@
             action: String,
             upload: {
                 type: Array,
-                default () {
+                default() {
                     return [];
                 }
             }
@@ -54,12 +54,12 @@
             return {};
         },
         methods: {
-            updateUploadList () {
+            updateUploadList() {
                 let fileList = this.$refs.uploadDom.fileList;
                 this.$emit('update:upload', fileList);
                 this.$emit('update', fileList);
             },
-            handleError () {
+            handleError() {
                 this.$Message.error('系统错误，请重新上传!');
             },
             handleRemove (file) {
@@ -67,7 +67,7 @@
                 this.$refs.uploadDom.fileList.splice(fileList.indexOf(file), 1);
                 this.updateUploadList();
             },
-            removeAllPicFlie () {
+            removeAllPicFlie() {
                 this.$refs.uploadDom.fileList = [];
             },
             handleSuccess (res, file) {

@@ -95,36 +95,36 @@
             };
         },
         filters: {
-            _returnColor (val) {
+            _returnColor(val) {
                 let color = 'default';
                 if (val === 0) color = 'red';
                 else if (val === 1) color = 'green';
                 return color;
             },
-            _returnStatus (val) {
+            _returnStatus(val) {
                 let status = '已取消';
                 if (val === 0) status = '待领取';
                 else if (val === 1) status = '已领取';
                 return status;
             }
         },
-        created () {
+        created() {
             this._getMyOrderList();
             this._setHeight();
         },
         methods: {
-            upDateOrderList () {
+            upDateOrderList() {
                 this.pageData.page = 1;
                 this.pageData.status = '3';
                 this._getMyOrderList();
             },
-            _orderStatusChange (name) {
+            _orderStatusChange(name) {
                 this.pageData.page = 1;
                 this.pageData.status = name;
                 this.loadingText = '加载中';
                 this._getMyOrderList();
             },
-            handleReachTop () {
+            handleReachTop() {
                 return new Promise((resolve) => {
                     let data = {};
                     data.page = ++this.pageData.page;
@@ -145,7 +145,7 @@
                     });
                 });
             },
-            _getMyOrderList () {
+            _getMyOrderList() {
                 let data = {};
                 data.page = this.pageData.page;
                 data.pageSize = this.pageData.pageSize;
@@ -157,7 +157,7 @@
                     }
                 });
             },
-            _setHeight () {
+            _setHeight() {
                 let dm = document.body.clientHeight;
                 this.scrollHeight = dm - 240;
             }

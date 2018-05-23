@@ -64,7 +64,7 @@
             },
             menus: {
                 type: Array,
-                default () {
+                default() {
                     return [
                         'head', // 标题
                         'bold', // 粗体
@@ -97,7 +97,7 @@
                 editor: null
             };
         },
-        mounted () {
+        mounted() {
             let vm = this;
             this.editor = new E(this.$refs.tool, this.$refs.content);
             this.editor.customConfig.onfocus = function () {
@@ -115,7 +115,7 @@
                 const xhr = new XMLHttpRequest();
                 const formData = new FormData();
                 formData.append(files[0].name, files[0]);
-                xhr.onreadystatechange = function () {
+                xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         let respondData = JSON.parse(xhr.responseText);
                         if (respondData.success) {
@@ -147,7 +147,7 @@
             if (this.editorcontent) this.editor.txt.html(this.editorcontent);
         },
         methods: {
-            clearContent () {
+            clearContent() {
                 if (this.editor) {
                     this.editor.txt.html('');
                     this.$emit('update:editorcontent', '');

@@ -22,7 +22,7 @@
                              v-for="(item, index) in imgList"
                              :class="{'prev-scene': index < currentIndex, 'next-scene': index > currentIndex}"
                              :key="'pic-' + index">
-                            <img :src="item.file_path"/>
+                            <img v-lazy="$mainHost + item.file_path"/>
                         </div>
                     </div>
                     <a class="switch prev" @click="_prevPic" title="上一张">
@@ -37,7 +37,7 @@
                         <a class="thumb-item"
                            @click.stop="currentIndex = index"
                            :class="{'current': index === currentIndex}"
-                           :style="{'backgroundImage': `url('${item.file_path}')`}"
+                           v-lazy:background-image="$mainHost + item.file_path"
                            v-for="(item, index) in imgList"
                            :key="'thumb-' + index"></a>
                     </div>
@@ -66,7 +66,7 @@
                 </Dropdown>
             </div>
             <div class="head">
-                <img class="user-pic" :src="productInfo.headimagepath">
+                <img class="user-pic" :src="$mainHost + productInfo.headimagepath">
                 <p class="user-name">{{productInfo.insert_username}}</p>
                 <p class="desc"><time>{{productInfo.createTime}}</time></p>
             </div>
@@ -298,11 +298,11 @@
             }
         },
         watch: {
-            currentIndex (val) {
+            currentIndex(val) {
                 this.transformX = -66 - (val * 116) + 'px';
             }
         },
-        data () {
+        data() {
             return {
                 theaterHeight: '0px',
                 theaterWidth: '0px',
@@ -313,23 +313,44 @@
             };
         },
         methods: {
-            _dropHandler (name) {
+            _dropHandler(name) {
+                let vm = this;
+                if (name === 'editor') {
+                    this.$emit('editor-open');
+                } else if (name === 'delete') {
+                    this.$Modal.confirm({
+                        content: '确认删除此作品集么？',
+                        okText: '确认删除',
+                        cancelText: '取消',
+                        onOk: () => {
+                            let sendData = {};
+                            sendData.articleId = vm.productInfo.id;
+                            this.$http.post('/staffPresence/delSelfArticle', sendData).then((res) => {
+                                if (res.success) {
+                                    this.$Message.success('删除成功!');
+                                    this.$emit('close-theater');
+                                    this.$emit('update-list');
+                                }
+                            });
+                        }
+                    });
+                }
             },
-            _initStyleObject () {
+            _initStyleObject() {
                 let w = document.body.clientWidth;
                 let h = document.body.clientHeight;
                 this.theaterWidth = w + 'px';
                 this.theaterHeight = h + 'px';
             },
-            _prevPic () {
+            _prevPic() {
                 if (this.currentIndex === 0) return;
                 this.currentIndex -= 1;
             },
-            _nextPic () {
+            _nextPic() {
                 if (this.currentIndex === (this.imgList.length - 1)) return;
                 this.currentIndex += 1;
             },
-            _mousewheelHandler (e) {
+            _mousewheelHandler(e) {
                 if (!this.canWheel) return;
                 this.canWheel = false;
                 this.timmer = setTimeout(() => {
@@ -341,16 +362,15 @@
                     this._nextPic();
                 }
             },
-            _closeTheater () {
+            _closeTheater() {
                 this.$emit('close-theater');
             },
-            _thumbHandler () {
+            _thumbHandler() {
                 if (!this.productInfo.thumbupId) {
                     let sendData = {};
                     sendData.articleId = this.productInfo.id;
                     sendData.type = 0;
                     this.$http.post('/staffPresence/addThumbup', sendData).then((res) => {
-                        console.log(res);
                         if (res.success) {
                             this.productInfo.thumbupId = res.data.id;
                             this.productInfo.thumb_up_times = res.data.thumb_up_times;
@@ -369,8 +389,7 @@
                 }
             }
         },
-        created () {
-            console.log(this.productInfo);
+        created() {
             on(window, 'resize', () => {
                 this._initStyleObject();
             });
@@ -383,7 +402,7 @@
             });
             this._initStyleObject();
         },
-        destroyed () {
+        destroyed() {
             this.timmer = null;
             this.currentIndex = 0;
             off(window, 'resize');

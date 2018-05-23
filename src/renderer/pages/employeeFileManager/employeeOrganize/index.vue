@@ -495,7 +495,7 @@
         },
         mixins: [pageMixin],
         watch: {
-            filterText (val) {
+            filterText(val) {
                 this.$refs.treeDom.filter(val);
             }
         },
@@ -508,17 +508,17 @@
         },
         methods: {
             // 过滤节点
-            filterNode (value, data) {
+            filterNode(value, data) {
                 if (!value) return true;
                 return data.text.indexOf(value) !== -1;
             },
             // 树点击事件
-            _treeNodeClickHandler (data) {
+            _treeNodeClickHandler(data) {
                 this.filterOpt.organizeId = data.id;
                 this._filterResultHandler();
             },
             // 获取部门树形结构
-            _getOrgTree () {
+            _getOrgTree() {
                 return new Promise((resolve) => {
                     this.$http.get('/organize/organizeTreeByUserForEmployee').then((res) => {
                         if (res.success) {
@@ -529,7 +529,7 @@
                     });
                 });
             },
-            download (path) {
+            download(path) {
                 var p = 'http://' + window.location.host + path;
                 let downloadDom = document.createElement('a');
                 downloadDom.id = 'ddom';
@@ -540,7 +540,7 @@
                 downloadDom.remove();
             },
             // 删除关系
-            delForm (index, formName) {
+            delForm(index, formName) {
                 var row = this[formName][index];
                 var vm = this;
                 if (row.id) {
@@ -550,7 +550,7 @@
                         okText: '删除',
                         cancelText: '取消',
                         loading: true,
-                        onOk () {
+                        onOk() {
                             this.$http.post('/employees/delRelation', {id: row.id}).then((res) => {
                                 if (res.success) {
                                     vm.$Modal.remove();
@@ -567,7 +567,7 @@
                 }
             },
             // 视图渲染
-            handleView (filePath) {
+            handleView(filePath) {
                 this.imgsrc = filePath;
                 this.visible = true;
             },
@@ -616,7 +616,7 @@
             //     }
             //     // this.educationForm = d;
             // },
-            getUsersInfo (id) {
+            getUsersInfo(id) {
                 var that = this;
                 if (id === 0) {
                     return false;
@@ -666,38 +666,38 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1500),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _monthEndDateChange (val) {
+            _monthEndDateChange(val) {
                 this.filterOpt.endmonthDate = val;
                 this._filterResultHandler();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _monthDateChange (val) {
+            _monthDateChange(val) {
                 this.filterOpt.monthDate = val;
                 this._filterResultHandler();
             },
-            _birthdayChange (val) {
+            _birthdayChange(val) {
                 this.filterOpt.birthday = val;
                 this._filterResultHandler();
             },
-            initPage () {
+            initPage() {
                 this.pageData.page = 1;
             },
-            _getPostData () {
+            _getPostData() {
                 this.getList('/employees/getEmployeeList', this.filterOpt);
             }
         }

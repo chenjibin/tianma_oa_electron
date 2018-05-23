@@ -142,12 +142,12 @@
             };
         },
         watch: {
-            id () {
+            id() {
                 this._getPaperDetail();
             }
         },
         filters: {
-            _returnTypeName (val) {
+            _returnTypeName(val) {
                 let name = '';
                 switch (val) {
                     case 1: name = '单选题';
@@ -163,12 +163,12 @@
                 }
                 return name;
             },
-            _returnPicUrl (val) {
+            _returnPicUrl(val) {
                 return '/oa' + val;
             }
         },
         methods: {
-            _submitExam () {
+            _submitExam() {
                 this.examBtnLoading = true;
                 let data = {};
                 data.pid = this.paperId;
@@ -193,7 +193,7 @@
                     this.examBtnLoading = false;
                 });
             },
-            returnNeedList (data) {
+            returnNeedList(data) {
                 let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => { return x - y > 0; });
                 let storeArray = [];
                 allType.forEach((item) => {
@@ -213,7 +213,7 @@
                 console.log(storeArray);
                 return storeArray;
             },
-            _getPaperDetail () {
+            _getPaperDetail() {
                 if (!this.id) return;
                 let sendData = {};
                 sendData.id = this.id;
@@ -225,7 +225,7 @@
                     }
                 });
             },
-            _returnAnswer (answer, type) {
+            _returnAnswer(answer, type) {
                 if (type === 3) answer = +answer === 1 ? '正确' : '错误';
                 return answer;
             }

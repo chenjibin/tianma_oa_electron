@@ -11,9 +11,11 @@
                                         placeholder="预约时间"></DatePicker>
                         </FormItem>
                         <FormItem style="margin-bottom: 0px;float: right;">
-                            <Button type="primary" @click="exportData">
-                                <Icon type="ios-download-outline" style="font-size: 18px"></Icon>
-                                <span>岗位</span>
+                            <Button :disabled="filterOpt.startTimes.value ? false : true" type="primary" @click="exportData">
+                                <span style="display: flex;"><Icon type="ios-download-outline" style="font-size: 18px"></Icon><span style="margin-left: 5px;font-size: 14px">岗位分布</span></span>
+                            </Button>
+                            <Button :disabled="filterOpt.startTimes.value ? false : true" type="primary" @click="exportALLData">
+                                <span style="display: flex;"><Icon type="ios-download-outline" style="font-size: 18px"></Icon><span style="margin-left: 5px;font-size: 14px">人员详情</span></span>
                             </Button>
                         </FormItem>
                     </Form>
@@ -53,7 +55,7 @@
     export default {
         name: 'statistics',
         components: {fsTablePage},
-        data () {
+        data() {
             return {
                 tableHeight: 500,
                 startdate: [],
@@ -205,11 +207,11 @@
                 }
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            getData () {
+            getData() {
                 var vm = this;
                 vm.dataSourcePieData.legendData = [];
                 vm.dataSourcePie2Data.legendData = [];
@@ -263,11 +265,24 @@
                 this.filterOpt.endTimes.value = value[1];
                 this.getData();
             },
-            exportData () {
+            exportData() {
                 var d = {};
                 d.startTimes = this.filterOpt.startTimes.value;
                 d.endTimes = this.filterOpt.endTimes.value;
                 this.$http.post('/talentLibrary/exportTalent', d).then((res) => {
+                    if (res.success) {
+                        let downloadDom = document.createElement('a');
+                        downloadDom.href = '/oa' + res.path;
+                        downloadDom.download = res.filename;
+                        downloadDom.click();
+                    }
+                });
+            },
+            exportALLData() {
+                var d = {};
+                d.startTimes = this.filterOpt.startTimes.value;
+                d.endTimes = this.filterOpt.endTimes.value;
+                this.$http.post('/talentLibrary/exportDetail', d).then((res) => {
                     if (res.success) {
                         let downloadDom = document.createElement('a');
                         downloadDom.href = '/oa' + res.path;

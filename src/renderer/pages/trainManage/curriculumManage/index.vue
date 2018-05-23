@@ -103,67 +103,81 @@
                   :model="classForm"
                   ref="classForm"
                   :label-width="100">
-                <Row :gutter="8">
+                <Row :gutter="9">
                     <Col :span="24">
-                        <FormItem label="培训名称" prop="title">
-                            <Input v-model="classForm.title"></Input>
-                        </FormItem>
+                    <FormItem label="培训名称" prop="title">
+                        <Input v-model="classForm.title"></Input>
+                    </FormItem>
                     </Col>
                     <Col :span="12">
-                        <FormItem label="讲师" prop="teacher_id">
-                            <Select v-model="classForm.teacher_id">
-                                <Option :value="item.user_id"
-                                        v-for="(item,index) in teacherOpt"
-                                        :key="'teacherOpt' + index">{{item.user_name}}</Option>
-                            </Select>
-                        </FormItem>
+
+                    <FormItem label="外部讲师"  prop="out_teacher" required>
+                        <i-switch v-model="classForm.out_teacher" size="large" :true-value="1" :false-value="0" @on-change="change">
+                            <span slot="open">选中</span>
+                            <span slot="close">不选</span>
+                        </i-switch>
+                    </FormItem>
                     </Col>
                     <Col :span="12">
-                        <FormItem label="培训类型" prop="type">
-                            <Select v-model="classForm.type"
-                                    clearable>
-                                <Option :value="item.id"
-                                        v-for="(item,index) in trainTypeOpt"
-                                        :key="'trainTypeOpt' + index">{{item.name}}</Option>
-                            </Select>
-                        </FormItem>
+                    <FormItem label="讲师" v-show="usernameisShow" required>
+                        <Input v-model="classForm.username"></Input>
+                    </FormItem>
+                    </Col>
+                    <Col :span="12">
+                    <FormItem label="讲师"  v-show="isShow"  prop="teacher_id" required>
+                        <Select v-model="classForm.teacher_id">
+                            <Option :value="item.user_id"
+                                    v-for="(item,index) in teacherOpt"
+                                    :key="'teacherOpt' + index">{{item.user_name}}</Option>
+                        </Select>
+                    </FormItem>
+                    </Col>
+                    <Col :span="12">
+                    <FormItem label="培训类型" prop="type">
+                        <Select v-model="classForm.type"
+                                clearable>
+                            <Option :value="item.id"
+                                    v-for="(item,index) in trainTypeOpt"
+                                    :key="'trainTypeOpt' + index">{{item.name}}</Option>
+                        </Select>
+                    </FormItem>
+                    </Col>
+                    <Col :span="12">
+                    <FormItem label="培训日期">
+                        <DatePicker @on-change="classForm.class_date = $event"
+                                    :clearable="false"
+                                    :value="classForm.class_date"></DatePicker>
+                    </FormItem>
                     </Col>
                     <Col :span="24">
-                        <FormItem label="培训日期">
-                            <DatePicker @on-change="classForm.class_date = $event"
-                                        :clearable="false"
-                                        :value="classForm.class_date"></DatePicker>
-                        </FormItem>
+                    <FormItem label="上课时间" prop="period">
+                        <Input v-model="classForm.period"></Input>
+                    </FormItem>
                     </Col>
                     <Col :span="24">
-                        <FormItem label="上课时间" prop="period">
-                            <Input v-model="classForm.period"></Input>
-                        </FormItem>
-                    </Col>
-                    <Col :span="24">
-                        <FormItem label="培训地点" prop="position">
-                            <Input v-model="classForm.position"></Input>
-                        </FormItem>
+                    <FormItem label="培训地点" prop="position">
+                        <Input v-model="classForm.position"></Input>
+                    </FormItem>
                     </Col>
                     <Col :span="8">
-                        <FormItem label="学分">
-                            <InputNumber :min="0" v-model="classForm.credit"></InputNumber>
-                        </FormItem>
+                    <FormItem label="学分">
+                        <InputNumber :min="0" v-model="classForm.credit"></InputNumber>
+                    </FormItem>
                     </Col>
                     <Col :span="8">
-                        <FormItem label="讲师金币">
-                            <InputNumber :min="0" v-model="classForm.teacher_coin"></InputNumber>
-                        </FormItem>
+                    <FormItem label="讲师金币">
+                        <InputNumber :min="0" v-model="classForm.teacher_coin"></InputNumber>
+                    </FormItem>
                     </Col>
                     <Col :span="8">
-                        <FormItem label="人数限制">
-                            <InputNumber :min="0" v-model="classForm.trainee_max_num"></InputNumber>
-                        </FormItem>
+                    <FormItem label="人数限制">
+                        <InputNumber :min="0" v-model="classForm.trainee_max_num"></InputNumber>
+                    </FormItem>
                     </Col>
                     <Col :span="24">
-                        <FormItem label="内容简介">
-                            <Input v-model="classForm.about" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
-                        </FormItem>
+                    <FormItem label="内容简介">
+                        <Input v-model="classForm.about" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
+                    </FormItem>
                     </Col>
                 </Row>
             </Form>
@@ -201,6 +215,66 @@
             </Upload>
             <div slot="footer"></div>
         </Modal>
+        <Modal title="签到/评论二维码" v-model="visible" width="800">
+            <div style="max-height: 500px;overflow-y: auto;:overflow-x hidden;">
+            <Row type="flex" justify="center" class="code-row-bg">
+                <Col span="12">
+                <img :src="'/oa/upload/' + item.signinpicname"
+                     v-for="(item, index) in imgArr"
+                     :key="'prewimg-' + index"
+                     :style="{transform: `rotateZ(${item.deg}deg)`}"
+                     style="display: block;margin:auto; text-align: center;"/>
+                </Col>
+                <Col span="12">
+                <img :src="'/oa/upload/' + item.evaluatepicname"
+                     v-for="(item, index) in imgArr"
+                     :key="'prewimg-' + index"
+                     :style="{transform: `rotateZ(${item.deg}deg)`}"
+                     style="display: block;margin:auto; text-align: center;"/>
+                </Col>
+            </Row>
+            <Row type="flex" justify="center" class="code-row-bg">
+                <Col span="12"><span style="text-align: center;display:block;">签到二维码</span></Col>
+                <Col span="12"><span style="text-align: center;display:block; ">反馈二维码</span></Col>
+            </Row>
+    </div>
+
+    <div slot="footer">
+        <Button type="ghost" @click="visible = false">关闭</Button>
+    </div>
+    </Modal>
+
+    <Modal v-model="evaScroll"  title="反馈内容" width="1000" :mask-closable="false">
+        <Scroll :on-reach-bottom="handleReachTop"
+                :distance-to-edge="0"
+                :loading-text="loadingText"
+                :height="scrollHeight">
+            <Card v-for="(item, index) in orderList"
+                  :key="index" style="margin: 16px 0;width: 98%;">
+                <div class="list-item">
+                    <div class="list-item-top">
+                        <div class="list-item-top-content">
+                            <div class="">
+                                <span>反馈:</span><span>{{item.evaluate_context}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item-divide"></div>
+                    <div class="list-item-bottom">
+                        <div class="">
+                            <span>日期:</span>
+                            <span>{{item.evaluate_time}}</span>
+                            <span style="margin-left: 16px;">反馈人:</span>
+                            <span>{{item.user_name}}</span>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </Scroll>
+        <div slot="footer">
+            <Button type="ghost" @click="evaScroll = false">关闭</Button>
+        </div>
+    </Modal>
     </div>
 </template>
 <style>
@@ -215,6 +289,21 @@
         name: 'curriculumManage',
         data () {
             return {
+                imgArr: [],
+                isShow: true,
+                usernameisShow: false,
+                visible: false,
+                orderList: [],
+                scrollHeight: 200,
+                loadingText: '加载中',
+                pageData: {
+                page: 1,
+                    pageSize: 20,
+                    totalCount: 0,
+                    status: '3'
+                },
+                imgArr: [],
+                evaScroll: false,
                 modelFlag: false,
                 mubanFlag: false,
                 banciBtnLoading: false,
@@ -224,17 +313,19 @@
                 mubanDownloadLoading: false,
                 mubanAddType: 'add',
                 classFormType: 'add',
+                planid: '',
                 uploadFormat: ['xls'],
                 uploadForm: {
-                    id: '',
-                    title: ''
+                id: '',
+                    title: '',
+                    teacher_id: ''
                 },
                 mubanId: 0,
                 tableHeight: 300,
                 chooseDataArray: [],
                 classChooseDataArray: [],
                 banciRules: {
-                    name: [
+                name: [
                         { required: true, message: '名称不能为空', trigger: 'blur' }
                     ]
                 },
@@ -260,6 +351,8 @@
                     ]
                 },
                 classForm: {
+                    out_teacher: 0,
+                    username: '',
                     type: '',
                     title: '',
                     class_date: NOW_DAY,
@@ -273,7 +366,7 @@
                 },
                 defaultProps: {
                     children: 'children',
-                    label: 'name'
+                        label: 'name'
                 },
                 roleData: [],
                 mubanColumns: [
@@ -357,35 +450,98 @@
                         }
                     },
                     {
-                        title: '操作',
+                        title: '反馈',
                         align: 'center',
-                        width: 80,
                         render: (h, params) => {
                             let vm = this;
-                            return h('div', [
-                                h('Tooltip', {
+                            let lookBtn = '';
+                            lookBtn = h('Tooltip', {
+                                props: {
+                                    content: '反馈',
+                                    placement: 'top',
+                                    transfer: true
+                                }
+                            }, [
+                                h('Button', {
                                     props: {
-                                        content: '修改',
-                                        placement: 'top',
-                                        transfer: true
-                                    }
-                                }, [
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            icon: 'edit',
-                                            shape: 'circle'
-                                        },
-                                        on: {
-                                            click: function (e) {
-                                                e.stopPropagation();
-                                                vm._checkTest(params.row);
-                                            }
+                                        type: 'ghost',
+                                        icon: 'ios-eye',
+                                        shape: 'circle',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: function (e) {
+                                            e.stopPropagation();
+                                            vm._showEvaluate(params.row);
                                         }
-                                    })
-                                ])
+                                    }
+                                })
                             ]);
+                            return h('div', [lookBtn]);
                         }
+                    },
+                    {
+                        title: '签到/评论二维码',
+                            align: 'center',
+                            render: (h, params) => {
+                            let vm = this;
+                            let lookBtn = '';
+                            lookBtn = h('Tooltip', {
+                                props: {
+                                    content: '查看二维码',
+                                    placement: 'top',
+                                    transfer: true
+                                }
+                            }, [
+                                h('Button', {
+                                    props: {
+                                        type: 'ghost',
+                                        icon: 'ios-eye',
+                                        shape: 'circle',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: function (e) {
+                                            e.stopPropagation();
+                                            vm._prewImg(params.row);
+                                        }
+                                    }
+                                })
+                            ]);
+
+                            return h('div', [lookBtn]);
+                        }
+                    },
+                    {
+                        title: '操作',
+                            align: 'center',
+                        width: 80,
+                        render: (h, params) => {
+                        let vm = this;
+                        return h('div', [
+                            h('Tooltip', {
+                                props: {
+                                    content: '修改',
+                                    placement: 'top',
+                                    transfer: true
+                                }
+                            }, [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        icon: 'edit',
+                                        shape: 'circle'
+                                    },
+                                    on: {
+                                        click: function(e) {
+                                            e.stopPropagation();
+                                            vm._checkTest(params.row);
+                                        }
+                                    }
+                                })
+                            ])
+                        ]);
+                    }
                     }
                 ],
                 filterOpt: {
@@ -397,9 +553,9 @@
                 trainTypeOpt: [],
                 teacherOpt: [],
                 compangsList: []
-            };
-        },
-        created () {
+                };
+            },
+        created() {
             this._setTableHeight();
             this._getTrainTypeOpt();
             this._getTeacherOpt();
@@ -409,36 +565,18 @@
             formReset (name) {
                 this.$refs[name].resetFields();
             },
-            downloadFile (url, name) {
-                let downloadDom = document.createElement('a');
-                downloadDom.href = url;
-                downloadDom.download = name;
-                downloadDom.click();
+            upDateOrderList() {
+                this.pageData.page = 1;
+                this.pageData.status = '3';
+                this._getMyOrderList();
             },
-            _openUploadModel () {
-                this.importModalFlag = true;
-                this.uploadForm.id = this.classChooseDataArray[0].id;
-                this.uploadForm.title = this.classChooseDataArray[0].title;
+            _orderStatusChange(name) {
+                this.pageData.page = 1;
+                this.pageData.status = name;
+                this.loadingText = '加载中';
+                this._getMyOrderList();
             },
-            _uploadFormatErr () {
-                this.$Message.error('上传文件的后缀必须为.xls');
-            },
-            _uploadProgress (event) {
-                this.spinShow = true;
-            },
-            _uploadSuccess (response, file, fileList) {
-                if (response.success) {
-                    this.$Message.success('成绩上传成功!');
-                    this.importModalFlag = false;
-                } else {
-                    this.$Message.error(response.message);
-                }
-                this.spinShow = false;
-            },
-            _downloadGradeMuban () {
-                this.downloadFile('/oa/down/成绩单模板.xls', '成绩单模板.xls');
-            },
-            _downloadGrade () {
+            _downloadGrade() {
                 this.downloadLoading = true;
                 let sendData = {};
                 sendData.id = this.classChooseDataArray[0].id;
@@ -451,20 +589,123 @@
                     this.downloadLoading = false;
                 });
             },
-            _updateMubanHandler () {
+            _getMyOrderList() {
+                let data = {};
+                data.id = this.planid;
+                console.log(this.planid);
+                data.page = this.pageData.page;
+                data.pageSize = this.pageData.pageSize;
+                data.status = this.pageData.status === '3' ? '' : this.pageData.status;
+                this.$http.get('/train/show_signin_evaluate', {params: data}).then((res) => {
+                    if (res.success) {
+                        this.orderList = res.data;
+                        this.pageData.totalCount = res.totalCount;
+                    }
+                });
+            },
+            _setHeight() {
+                // let dm = document.body.clientHeight;
+
+                //   this.scrollHeight = dm - 240;
+                this.scrollHeight = 540;
+            },
+            downloadFile(url, name) {
+                let downloadDom = document.createElement('a');
+                downloadDom.href = url;
+                downloadDom.download = name;
+                downloadDom.click();
+            },
+            _rotateImg(index) {
+                this.imgArr[index].deg += 90;
+            },
+            change (status) {
+                this.isShow = !this.isShow;
+                this.usernameisShow = !this.usernameisShow;
+                if (status === 1) {
+                    this.classForm.teacher_id = 1019;
+                }
+            },
+            handleReachTop() {
+                return new Promise((resolve) => {
+                    let data = {};
+                    data.id = this.planid;
+                    data.page = ++this.pageData.page;
+                    data.pageSize = this.pageData.pageSize;
+                    data.status = this.pageData.status === '3' ? '' : this.pageData.status;
+                    let totalPage = Math.ceil(this.pageData.totalCount / this.pageData.pageSize);
+                    if (data.page > totalPage) {
+                        resolve();
+                        this.loadingText = '已经加载完全部反馈!';
+                        return;
+                    }
+                    this.$http.get('/train/show_signin_evaluate', {params: data}).then((res) => {
+                        if (res.success) {
+                            this.orderList = [...this.orderList, ...res.data];
+                            this.pageData.totalCount = res.totalCount;
+                            resolve();
+                        }
+                    });
+                });
+            },
+            _prewImg(data) {
+                this.visible = true;
+                let storeArr = [];
+                if (data.signinpicname) {
+                    let obj = {};
+                    obj.signinpicname = data.signinpicname;
+                    obj.evaluatepicname = data.evaluatepicname;
+                    obj.deg = 0;
+                    storeArr.push(obj);
+                }
+                this.imgArr = storeArr;
+            },
+            _showEvaluate(data) {
+                this.evaScroll = true;
+                console.log(data);
+                this.planid = data.id;
+                this._getMyOrderList();
+                this._setHeight();
+            },
+            _openUploadModel() {
+                this.importModalFlag = true;
+                this.uploadForm.id = this.classChooseDataArray[0].id;
+                this.uploadForm.title = this.classChooseDataArray[0].title;
+                this.uploadForm.teacher_id = this.classChooseDataArray[0].teacher_id;
+            },
+            _uploadFormatErr() {
+                this.$Message.error('上传文件的后缀必须为.xls');
+            },
+            _uploadProgress(event) {
+                this.spinShow = true;
+            },
+            _uploadSuccess(response, file, fileList) {
+                if (response.success) {
+                    this.$Message.success('成绩上传成功!');
+                    this.importModalFlag = false;
+                } else {
+                    this.$Message.error(response.message);
+                }
+                this.spinShow = false;
+            },
+            _downloadGradeMuban() {
+                this.downloadFile('/oa/down/成绩单模板.xls', '成绩单模板.xls');
+            },
+            _updateMubanHandler() {
                 this.mubanAddType = 'update';
                 this.formReset('banciForm');
                 let fillForm = this.chooseDataArray[0];
                 this.banciForm.name = fillForm.name;
                 this.mubanId = fillForm.id;
             },
-            _addMubanHandler () {
+            _addMubanHandler() {
                 this.mubanAddType = 'add';
                 this.formReset('banciForm');
             },
-            _initClassForm () {
+            _initClassForm() {
                 this.formReset('classForm');
                 this.classForm = {
+                    out_teacher: 0,
+                    username: '',
                     type: '',
                     title: '',
                     class_date: NOW_DAY,
@@ -475,9 +716,9 @@
                     teacher_coin: 0,
                     trainee_max_num: 0,
                     about: ''
-                };
+            };
             },
-            _delClass () {
+            _delClass() {
                 this.$Modal.confirm({
                     content: '确认删除所选课程么？',
                     okText: '确认删除',
@@ -494,7 +735,7 @@
                     }
                 });
             },
-            _addClassHandler () {
+            _addClassHandler() {
                 this.$refs.classForm.validate((valid) => {
                     if (valid) {
                         let data = JSON.parse(JSON.stringify(this.classForm));
@@ -509,21 +750,21 @@
                     }
                 });
             },
-            _getTeacherOpt () {
+            _getTeacherOpt() {
                 this.$http.get('/train/teacher_comboxData').then((res) => {
                     if (res.success) {
                         this.teacherOpt = res.data;
                     }
                 });
             },
-            _getTrainTypeOpt () {
+            _getTrainTypeOpt() {
                 this.$http.get('/train/class_type_comboxData').then((res) => {
                     if (res.success) {
                         this.trainTypeOpt = res.data;
                     }
                 });
             },
-            _deletePost () {
+            _deletePost() {
                 let data = {};
                 data.ids = this.chooseDataArray.map(x => x.id).join(',');
                 this.$http.post('/train/class_type_delete', data).then((res) => {
@@ -535,7 +776,7 @@
                     }
                 });
             },
-            _addPost () {
+            _addPost() {
                 this.$refs.banciForm.validate((valid) => {
                     if (valid) {
                         this.banciBtnLoading = true;
@@ -555,19 +796,29 @@
                     }
                 });
             },
-            _nodeChangeHandler (data) {
+            _nodeChangeHandler(data) {
                 this.filterOpt.organizeId.value = data.id;
             },
-            _createClassOpen () {
+            _createClassOpen() {
                 this.classFormType = 'add';
                 this._initClassForm();
                 this.modelFlag = true;
             },
-            _checkTest (data) {
+            _checkTest(data) {
                 this.classFormType = 'update';
                 this._initClassForm();
                 this.classId = data.id;
                 let classForm = this.classForm;
+                if (data.teacher_id === null) {
+                    classForm.out_teacher = 1;
+                    this.isShow = false;
+                    this.usernameisShow = true;
+                } else {
+                    classForm.out_teacher = 0;
+                    this.isShow = true;
+                    this.usernameisShow = false;
+                }
+                classForm.username = data.teacher_name;
                 classForm.type = data.type;
                 classForm.title = data.title;
                 classForm.class_date = data.class_date;
@@ -580,14 +831,14 @@
                 classForm.about = data.about;
                 this.modelFlag = true;
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             },
-            _updateClassTable () {
+            _updateClassTable() {
                 this.$refs.classTable.getListData();
             },
-            _getAllCompangsList () {
+            _getAllCompangsList() {
                 this.$http.get('/user/getCompanys').then((res) => {
                     if (res.success) {
                         this.compangsList = res.data;

@@ -30,6 +30,13 @@
                         </Button>
                     </ButtonGroup>
                 </FormItem>
+                <FormItem :label-width="0.1">
+                    <ButtonGroup>
+                        <Button type="primary" @click="_downloadGrade">
+                            导出
+                        </Button>
+                    </ButtonGroup>
+                </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
                            :size="null"
@@ -49,31 +56,31 @@
                   :label-width="100">
                 <Row :gutter="8">
                     <Col :span="12">
-                        <FormItem label="周期类型">
-                            <Select v-model="classForm.review_type"
-                                    placeholder="筛选类型">
-                                <Option value="2">月度复盘</Option>
-                                <Option value="3">季度复盘</Option>
-                                <Option value="4">年度复盘</Option>
-                            </Select>
-                        </FormItem>
+                    <FormItem label="周期类型">
+                        <Select v-model="classForm.review_type"
+                                placeholder="筛选类型">
+                            <Option value="2">月度复盘</Option>
+                            <Option value="3">季度复盘</Option>
+                            <Option value="4">年度复盘</Option>
+                        </Select>
+                    </FormItem>
                     </Col>
                     <Col :span="12">
-                        <FormItem label="培训类型">
-                            <Select v-model="classForm.class_type_id"
-                                    placeholder="筛选类型">
-                                <Option :value="item.id"
-                                        v-for="item,index in trainTypeOpt"
-                                        :key="'trainTypeOpt' + index">{{item.name}}</Option>
-                            </Select>
-                        </FormItem>
+                    <FormItem label="培训类型">
+                        <Select v-model="classForm.class_type_id"
+                                placeholder="筛选类型">
+                            <Option :value="item.id"
+                                    v-for="item,index in trainTypeOpt"
+                                    :key="'trainTypeOpt' + index">{{item.name}}</Option>
+                        </Select>
+                    </FormItem>
                     </Col>
                     <Col :span="24">
-                        <FormItem label="时间">
-                            <DatePicker @on-change="classForm.review_time = $event"
-                                        :clearable="false"
-                                        :value="classForm.review_time"></DatePicker>
-                        </FormItem>
+                    <FormItem label="时间">
+                        <DatePicker @on-change="classForm.review_time = $event"
+                                    :clearable="false"
+                                    :value="classForm.review_time"></DatePicker>
+                    </FormItem>
                     </Col>
                     <Col :span="24">
                     <FormItem label="部门">
@@ -162,6 +169,11 @@
                     organize_name: ''
                 },
                 postColumns: [
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
                     {
                         title: '类型',
                         key: 'review_type',
@@ -253,7 +265,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._checkTest(params.row);
                                             }
                                         }
@@ -285,7 +297,7 @@
                 teacherOpt: []
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
             this._getTrainTypeOpt();
         },
@@ -293,13 +305,32 @@
             formReset (name) {
                 this.$refs[name].resetFields();
             },
-            downloadFile (url, name) {
+            downloadFile(url, name) {
                 let downloadDom = document.createElement('a');
                 downloadDom.href = url;
                 downloadDom.download = name;
                 downloadDom.click();
             },
-            _initClassForm () {
+            _downloadGrade() {
+                this.downloadLoading = true;
+                let sendData = {};
+                sendData.type = 2;//周期复盘
+                sendData.ids = this.classChooseDataArray.map(x => x.id).join(',');
+                // sendData.review_type = this.classChooseDataArray[0].review_type;
+                // sendData.review_time = this.classChooseDataArray[0].review_time;
+                // sendData.organize_name = this.classChooseDataArray[0].organize_name;
+                // sendData.post_name = this.classChooseDataArray[0].post_name;
+                console.log(111)
+                this.$http.post('/train/review_time_export', sendData).then((res) => {
+                    if (res.success) {
+                        this.downloadFile('/oa/download/' + res.data, res.data);
+                    }
+                }).finally(() => {
+                    this.downloadLoading = false;
+                });
+            },
+
+            _initClassForm() {
                 this.classForm = {
                     target: '',
                     complete_extent: '',
@@ -315,7 +346,7 @@
                     organize_name: ''
                 };
             },
-            _addClassHandler () {
+            _addClassHandler() {
                 let data = JSON.parse(JSON.stringify(this.classForm));
                 if (this.classFormType === 'update') data.id = this.classId;
                 this.$http.post('/train/review_time_add', data).then((res) => {
@@ -326,19 +357,19 @@
                     }
                 });
             },
-            _getTrainTypeOpt () {
+            _getTrainTypeOpt() {
                 this.$http.get('/train/class_type_comboxData').then((res) => {
                     if (res.success) {
                         this.trainTypeOpt = res.data;
                     }
                 });
             },
-            _createClassOpen () {
+            _createClassOpen() {
                 this.classFormType = 'add';
                 this._initClassForm();
                 this.modelFlag = true;
             },
-            _checkTest (data) {
+            _checkTest(data) {
                 this.classFormType = 'update';
                 this._initClassForm();
                 this.classId = data.id;
@@ -357,11 +388,11 @@
                 classForm.organize_name = data.organize_name;
                 this.modelFlag = true;
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             },
-            _updateClassTable () {
+            _updateClassTable() {
                 this.$refs.classTable.getListData();
             }
         },

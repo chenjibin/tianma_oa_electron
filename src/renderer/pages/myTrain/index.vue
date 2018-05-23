@@ -39,7 +39,7 @@
             return {};
         },
         methods: {
-            traineeSuccessHandler () {
+            traineeSuccessHandler() {
                 this.$refs.myClass._getMyClass();
             }
         },

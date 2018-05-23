@@ -37,10 +37,10 @@
             }
         },
         watch: {
-            valueData (val) {
+            valueData(val) {
                 this.$emit('change', val);
             },
-            value (val) {
+            value(val) {
                 this.valueData = val;
             }
         },
@@ -51,7 +51,7 @@
             };
         },
         methods: {
-            _filterPeopleRemote (val) {
+            _filterPeopleRemote(val) {
                 let data = {};
                 data.postName = val;
                 this.filterPeopleLoading = true;

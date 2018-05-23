@@ -177,7 +177,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._checkTest(params.row);
                                             }
                                         }
@@ -203,17 +203,17 @@
                 }
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            downloadFile (url, name) {
+            downloadFile(url, name) {
                 let downloadDom = document.createElement('a');
                 downloadDom.href = url;
                 downloadDom.download = name;
                 downloadDom.click();
             },
-            _exportGrade () {
+            _exportGrade() {
                 this.exportLoading = true;
                 let data = {};
                 data.id = this.testCheckId;
@@ -226,14 +226,14 @@
                     this.exportLoading = false;
                 });
             },
-            _nodeChangeHandler (data) {
+            _nodeChangeHandler(data) {
                 this.filterOpt.organizeId.value = data.id;
             },
-            _checkTest (data) {
+            _checkTest(data) {
                 this.testCheckId = data.id;
                 this.modelFlag = true;
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             }

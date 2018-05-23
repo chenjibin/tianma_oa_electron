@@ -64,7 +64,7 @@
     export default {
         name: 'assetsCategory',
         components: {assetsTree},
-        data () {
+        data() {
             return {
                 tableHeight: 500,
                 filterOpt: {
@@ -92,14 +92,14 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            changeInfo (data) {
+            changeInfo(data) {
                 this.changeInfoModal = true;
             },
-            saveInfo () {
+            saveInfo() {
                 var vm = this;
                 vm.$http.post('/assetsCategory/add', vm.customerForm.addForm).then((res) => {
                     if (res.success) {
@@ -109,7 +109,7 @@
                     }
                 });
             },
-            updateInfo () {
+            updateInfo() {
                 var vm = this;
                 vm.$http.post('/assetsCategory/add', vm.customerForm.modifyInfo).then((res) => {
                     if (res.success) {
@@ -119,17 +119,17 @@
                     }
                 });
             },
-            addInfo () {
+            addInfo() {
                 if (!this.customerForm.addForm.pid) {
                     this.$Message.info('未选中节点');
                     return false;
                 }
                 this.addInfoModal = true;
             },
-            getCustomerForm (customerForm) {
+            getCustomerForm(customerForm) {
                 this.customerForm = customerForm;
             },
-            delInfo () {
+            delInfo() {
                 var vm = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
@@ -148,7 +148,7 @@
                     }
                 });
             },
-            filterNode (value, data) {
+            filterNode(value, data) {
                 if (!value) return true;
                 return data.name.indexOf(value) !== -1;
             },

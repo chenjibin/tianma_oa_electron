@@ -173,7 +173,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._changeCredit(params.row);
                                             }
                                         }
@@ -209,11 +209,11 @@
                 ]
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            initFormData () {
+            initFormData() {
                 this.editorSettingData = {
                     name: '',
                     organizeName: '',
@@ -221,13 +221,13 @@
                     id: ''
                 };
             },
-            downloadFile (url, name) {
+            downloadFile(url, name) {
                 let downloadDom = document.createElement('a');
                 downloadDom.href = url;
                 downloadDom.download = name;
                 downloadDom.click();
             },
-            _exportGrade () {
+            _exportGrade() {
                 let data = {};
                 data.insert_time = this.filterOpt2.insert_time.value;
                 if (!data.insert_time) {
@@ -244,7 +244,7 @@
                     this.exportLoading = false;
                 });
             },
-            _changeCredit (data) {
+            _changeCredit(data) {
                 this.initFormData();
                 this.editorSettingFlag = true;
                 let formData = this.editorSettingData;
@@ -253,7 +253,7 @@
                 formData.organizeName = data.organizename;
                 formData.post_credit = data.post_credit;
             },
-            _confirmChange () {
+            _confirmChange() {
                 this.btnLoading = true;
                 let formData = this.editorSettingData;
                 let data = {};
@@ -276,7 +276,7 @@
                     this.btnLoading = false;
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 300;
                 this.tableHeight2 = dm - 300;

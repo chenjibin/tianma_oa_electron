@@ -198,15 +198,15 @@
                 tableHeight: 500
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            _checkPaper (data) {
+            _checkPaper(data) {
                 this.paperFilter.pid.value = data.id;
                 this.isTestList = false;
             },
-            _completePaper (data) {
+            _completePaper(data) {
                 this.$Modal.confirm({
                     content: `确认完成【${data.name}】考试的手工阅卷么？`,
                     okText: '确认完成',
@@ -223,22 +223,22 @@
                     }
                 });
             },
-            _completeCheck () {
+            _completeCheck() {
                 this.inExamFlag = false;
                 this._updateTestPaperList();
             },
-            _checkPeoplePaper (data) {
+            _checkPeoplePaper(data) {
                 this.testId = data.id;
                 this.inExamFlag = true;
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _updatePelpleCheck () {
+            _updatePelpleCheck() {
                 this.$refs.peopleCheck.getListData();
             },
-            _updateTestPaperList () {
+            _updateTestPaperList() {
                 this.$refs.testPaperTable.getListData();
             }
         },

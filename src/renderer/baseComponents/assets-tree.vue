@@ -37,7 +37,7 @@
             },
             defaultProps: {
                 type: Object,
-                default () {
+                default() {
                     return {
                         children: 'children',
                         label: 'name',
@@ -68,7 +68,7 @@
             };
         },
         methods: {
-            renderContent (h, { node, data, store }) {
+            renderContent(h, { node, data, store }) {
                 return (
                     <span class="custom-tree-node">
                         <span class="title">{data.name}</span>
@@ -80,7 +80,7 @@
                     this.dataList = res.data;
                 });
             },
-            checkmea (data, node) {
+            checkmea(data, node) {
                 console.log(data);
                 this.customerForm.addForm.fname = data.name;
                 this.customerForm.addForm.pid = data.id;

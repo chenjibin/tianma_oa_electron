@@ -110,12 +110,12 @@
             };
         },
         watch: {
-            id () {
+            id() {
                 this._getPaperDetail();
             }
         },
         filters: {
-            _returnTypeName (val) {
+            _returnTypeName(val) {
                 let name = '';
                 switch (val) {
                     case 1: name = '单选题';
@@ -131,12 +131,12 @@
                 }
                 return name;
             },
-            _returnPicUrl (val) {
+            _returnPicUrl(val) {
                 return '/oa' + val;
             }
         },
         methods: {
-            returnNeedList (data) {
+            returnNeedList(data) {
                 let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => { return x - y > 0; });
                 let storeArray = [];
                 allType.forEach((item) => {
@@ -148,7 +148,7 @@
                 });
                 return storeArray;
             },
-            _delQuestion (data) {
+            _delQuestion(data) {
                 let sendData = {};
                 sendData.paperId = this.id;
                 sendData.id = data.id;
@@ -159,7 +159,7 @@
                     }
                 });
             },
-            _getPaperDetail () {
+            _getPaperDetail() {
                 if (!this.id) return;
                 let sendData = {};
                 sendData.id = this.id;

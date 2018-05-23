@@ -21,7 +21,7 @@
             },
             defaultProps: {
                 type: Object,
-                default () {
+                default() {
                     return {
                         children: 'children',
                         label: 'name'
@@ -37,21 +37,21 @@
             };
         },
         watch: {
-            filterText (val) {
+            filterText(val) {
                 this.$refs.treeFo.filter(val);
             },
-            chooseNode (val) {
+            chooseNode(val) {
                 this.$emit('node-change', val);
             }
         },
-        created () {
+        created() {
             this._getOrgTree();
         },
         methods: {
-            _treeNodeClickHandler (data) {
+            _treeNodeClickHandler(data) {
                 this.chooseNode = data;
             },
-            filterNode (value, data) {
+            filterNode(value, data) {
                 if (!value) return true;
                 if (data.hasOwnProperty('name')) {
                     return data.name.indexOf(value) !== -1;
@@ -59,7 +59,7 @@
                     return data.text.indexOf(value) !== -1;
                 }
             },
-            _getOrgTree () {
+            _getOrgTree() {
                 this.$http.get(this.url).then((res) => {
                     if (res.success) {
                         this.orgTreeData = res.data;

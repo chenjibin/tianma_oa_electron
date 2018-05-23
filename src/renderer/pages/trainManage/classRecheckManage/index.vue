@@ -25,6 +25,13 @@
                                 :key="'teacherOpt' + index">{{item.user_name}}</Option>
                     </Select>
                 </FormItem>
+                <FormItem :label-width="0.1">
+                    <ButtonGroup>
+                        <Button type="primary" @click="_downloadGrade">
+                            导出
+                        </Button>
+                    </ButtonGroup>
+                </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
                            :size="null"
@@ -115,6 +122,11 @@
                 },
                 postColumns: [
                     {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
                         title: '日期',
                         key: 'user_name',
                         align: 'center',
@@ -184,7 +196,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._checkTest(params.row);
                                             }
                                         }
@@ -212,7 +224,7 @@
                 teacherOpt: []
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
             this._getTrainTypeOpt();
             this._getTeacherOpt();
@@ -221,13 +233,13 @@
             formReset (name) {
                 this.$refs[name].resetFields();
             },
-            downloadFile (url, name) {
+            downloadFile(url, name) {
                 let downloadDom = document.createElement('a');
                 downloadDom.href = url;
                 downloadDom.download = name;
                 downloadDom.click();
             },
-            _initClassForm () {
+            _initClassForm() {
                 this.classForm = {
                     target: '',
                     complete_extent: '',
@@ -238,7 +250,20 @@
                     action_plan: ''
                 };
             },
-            _addClassHandler () {
+            _downloadGrade() {
+                this.downloadLoading = true;
+                let sendData = {};
+                sendData.ids = this.classChooseDataArray.map(x => x.id).join(',');
+                sendData.type = 1;
+                this.$http.post('/train/fp_review_time_export', sendData).then((res) => {
+                    if (res.success) {
+                        this.downloadFile('/oa/download/' + res.data, res.data);
+                    }
+                }).finally(() => {
+                    this.downloadLoading = false;
+                });
+            },
+            _addClassHandler() {
                 let data = JSON.parse(JSON.stringify(this.classForm));
                 if (this.classFormType === 'update') {
                     data.review_id = this.classId;
@@ -252,26 +277,26 @@
                     }
                 });
             },
-            _getTeacherOpt () {
+            _getTeacherOpt() {
                 this.$http.get('/train/teacher_comboxData').then((res) => {
                     if (res.success) {
                         this.teacherOpt = res.data;
                     }
                 });
             },
-            _getTrainTypeOpt () {
+            _getTrainTypeOpt() {
                 this.$http.get('/train/class_type_comboxData').then((res) => {
                     if (res.success) {
                         this.trainTypeOpt = res.data;
                     }
                 });
             },
-            _createClassOpen () {
+            _createClassOpen() {
                 this.classFormType = 'add';
                 this._initClassForm();
                 this.modelFlag = true;
             },
-            _checkTest (data) {
+            _checkTest(data) {
                 this.classFormType = 'update';
                 this._initClassForm();
                 this.classId = data.id;
@@ -285,11 +310,11 @@
                 classForm.action_plan = data.action_plan;
                 this.modelFlag = true;
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             },
-            _updateClassTable () {
+            _updateClassTable() {
                 this.$refs.classTable.getListData();
             }
         },

@@ -26,7 +26,7 @@
             }
         },
         computed: {
-            itemRule () {
+            itemRule() {
                 let returnObj = {};
                 if (this.item.required) {
                     returnObj.required = true;

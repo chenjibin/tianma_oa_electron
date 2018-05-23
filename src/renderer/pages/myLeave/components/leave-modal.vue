@@ -189,7 +189,7 @@
         watch: {
             'leaveSendForm.tiaoxiuTime': {
                 deep: true,
-                handler (val) {
+                handler(val) {
                     this.leaveSendForm.tiaoxiuNumberDay = this._getTiaoxiuAllDays(val);
                 }
             }
@@ -322,11 +322,11 @@
                 }
             };
         },
-        created () {
+        created() {
             this._getChangePeopleOpt();
         },
         methods: {
-            _getChangePeopleOpt () {
+            _getChangePeopleOpt() {
                 this.$http.get('/od/changeArrangPerson').then((res) => {
                     if (res.success) {
                         this.changePeopleOpt = res.data.map(x => x.realname);
@@ -334,7 +334,7 @@
                     }
                 });
             },
-            _getTiaoxiuAllDays (val) {
+            _getTiaoxiuAllDays(val) {
                 let days = 0;
                 val.forEach((item) => {
                     let day = this._getDayNumber(item.restStartDate, item.restEndDate, item.restStartTime, item.restEndTime);
@@ -342,16 +342,16 @@
                 });
                 return days;
             },
-            _setDate (key, value) {
+            _setDate(key, value) {
                 this.leaveSendForm[key] = value;
                 this._setDayNumber();
             },
-            _setDayNumber () {
+            _setDayNumber() {
                 let leaveForm = this.leaveSendForm;
                 leaveForm.numberDay = this._getDayNumber(leaveForm.startDate, leaveForm.endDate, leaveForm.startTime, leaveForm.endTime);
             },
             // 计算请假时间
-            _getDayNumber (sd, ed, stime, etime) {
+            _getDayNumber(sd, ed, stime, etime) {
                 if (moment(sd).isAfter(ed)) return 0;
                 if (sd && ed && stime && etime) {
                     let dayDur = (moment(ed).unix() - moment(sd).unix()) / (60 * 60 * 24);
@@ -374,7 +374,7 @@
                 }
             },
             //  判断时间是否有误
-            _isRightTime (arr) {
+            _isRightTime(arr) {
                 let flag = true;
                 arr.forEach((item) => {
                     if (moment(item.restStartDate).isAfter(item.restEndDate) || moment(item.workStartDate).isAfter(item.workEndDate)) {
@@ -383,7 +383,7 @@
                 });
                 return flag;
             },
-            _submitTiaoxiu () {
+            _submitTiaoxiu() {
                 let sendForm = this.leaveSendForm;
                 let data = {};
                 let flag = this._isRightTime(sendForm.tiaoxiuTime);
@@ -404,7 +404,7 @@
                     }
                 });
             },
-            _submitOdCommon () {
+            _submitOdCommon() {
                 let sendForm = this.leaveSendForm;
                 let data = {};
                 data.type = sendForm.type;
@@ -446,7 +446,7 @@
                     this.loadingBtn = false;
                 });
             },
-            submitOd () {
+            submitOd() {
                 this.$refs.leaveForm.validate((valid) => {
                     if (valid) {
                         if (this.leaveSendForm.type === '6') {
@@ -457,10 +457,10 @@
                     }
                 });
             },
-            visibleChange (val) {
+            visibleChange(val) {
                 if (!val) this.$emit('update:visible', false);
             },
-            hideModel () {
+            hideModel() {
                 this.$emit('update:visible', false);
             }
         }

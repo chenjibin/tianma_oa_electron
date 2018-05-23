@@ -54,11 +54,11 @@
                 ]
             };
         },
-        created () {
+        created() {
             this.getRowData();
         },
         methods: {
-            getRowData () {
+            getRowData() {
                 this.loading = true;
                 this.$http.get(this.url).then((res) => {
                     if (res.success) {

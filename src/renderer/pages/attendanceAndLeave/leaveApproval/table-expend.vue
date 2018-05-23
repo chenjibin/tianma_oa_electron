@@ -121,7 +121,7 @@
         props: {
             row: Object
         },
-        data () {
+        data() {
             return {
                 progressData: this.row.operatelog.split(','),
                 visible: false,
@@ -146,29 +146,29 @@
                 }
             };
         },
-        created () {
+        created() {
         },
         computed: {
-            userName () {
+            userName() {
                 return this.$store.state.user.userInfo.realname;
             }
         },
         methods: {
-            validaContent (rule, value, callback) {
+            validaContent(rule, value, callback) {
                 if (value === '') {
                     callback(new Error('备注留言不能为空!'));
                 } else {
                     callback();
                 }
             },
-            validaWorkDesc (rule, value, callback) {
+            validaWorkDesc(rule, value, callback) {
                 if (value === '' && this.row.numberday >= 3 && this.odForm.agree === '同意') {
                     callback(new Error('排班说明不能为空!'));
                 } else {
                     callback();
                 }
             },
-            _submitOdChange () {
+            _submitOdChange() {
                 this.$refs.odFormFoC.validate((valid) => {
                     if (valid) {
                         let data = {};
@@ -187,7 +187,7 @@
                     }
                 });
             },
-            _submitOdResult () {
+            _submitOdResult() {
                 this.$refs.odFormFo.validate((valid) => {
                     if (valid) {
                         let data = {};

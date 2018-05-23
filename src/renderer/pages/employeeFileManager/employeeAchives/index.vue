@@ -39,7 +39,7 @@
                     <Select type="text" style="width: 120px" clearable
                             @on-change="_inputDebounce"
                             v-model="filterOpt.xueli"
-                            placeholder="筛选学历" clearable>
+                            placeholder="筛选学历">
                         <Option value="本科">本科</Option>
                         <Option value="大专">大专</Option>
                         <Option value="高中">高中</Option>
@@ -564,13 +564,13 @@
             this.getCompanyList();
         },
         computed: {
-            isManger () {
+            isManger() {
                 return this.$store.state.user.userInfo.ismanger;
             }
         },
         methods: {
             // 下载图片
-            download (path) {
+            download(path) {
                 var p = 'http://' + window.location.host + path;
                 let downloadDom = document.createElement('a');
                 downloadDom.id = 'ddom';
@@ -580,14 +580,14 @@
                 downloadDom.click();
                 downloadDom.remove();
             },
-            handleSuccess (res, file) {
+            handleSuccess(res, file) {
                 if (res.success) {
                     this.getTicketList(res.message);
                     this.$Message.success('上传成功');
                 }
             },
             // 删除附件
-            handleRemove (item) {
+            handleRemove(item) {
                 var vm = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
@@ -607,7 +607,7 @@
                 });
             },
             // 删除关系
-            delForm (index, formName) {
+            delForm(index, formName) {
                 var row = this[formName][index];
                 var vm = this;
                 if (row.id) {
@@ -617,7 +617,7 @@
                         okText: '删除',
                         cancelText: '取消',
                         loading: true,
-                        onOk () {
+                        onOk() {
                             this.$http.post('/employees/delRelation', {id: row.id}).then((res) => {
                                 if (res.success) {
                                     vm.$Modal.remove();
@@ -634,12 +634,12 @@
                 }
             },
             // 视图渲染
-            handleView (filePath) {
+            handleView(filePath) {
                 this.imgsrc = filePath;
                 this.visible = true;
             },
             // 基本信息保存
-            saveBase () {
+            saveBase() {
                 this.btnLoading = true;
                 this.$http.post('/user/addInfo', this.baseForm).then((res) => {
                     if (res.success) {
@@ -648,13 +648,13 @@
                     }
                 });
             },
-            getCompanyList () {
+            getCompanyList() {
                 this.$http.post('/company/lists').then((res) => {
                     this.companyList = res.data;
                 });
             },
             // 社会关系 教育程度 工作资历保存
-            saveRelation (typerelationship, data) {
+            saveRelation(typerelationship, data) {
                 var d = {};
                 this.btnLoading = true;
                 d.typerelationship = typerelationship;
@@ -676,7 +676,7 @@
                     this.$Message.success('保存附加数据成功！');
                 });
             },
-            cancel () {
+            cancel() {
                 this.settingModalFlag = false;
                 var d = this.educationForm;
                 var d2 = this.workingForm;
@@ -693,7 +693,7 @@
                 }
                 // this.educationForm = d;
             },
-            getUsersInfo (id) {
+            getUsersInfo(id) {
                 var that = this;
                 if (id === 0) {
                     return false;
@@ -729,7 +729,7 @@
                 // 附件列表
                 this.getTicketList(id);
             },
-            getTicketList (id) {
+            getTicketList(id) {
                 var that = this;
                 this.$http.post('/ticket/ticketFileslist', {'ticketno': id}).then((res) => {
                     if (res.success) {
@@ -747,38 +747,38 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1500),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _monthEndDateChange (val) {
+            _monthEndDateChange(val) {
                 this.filterOpt.endmonthDate = val;
                 this._filterResultHandler();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 100 - 20 - 34 - 114 - 49;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _monthDateChange (val) {
+            _monthDateChange(val) {
                 this.filterOpt.monthDate = val;
                 this._filterResultHandler();
             },
-            _birthdayChange (val) {
+            _birthdayChange(val) {
                 this.filterOpt.birthday = val;
                 this._filterResultHandler();
             },
-            initPage () {
+            initPage() {
                 this.pageData.page = 1;
             },
-            _getPostData () {
+            _getPostData() {
                 this.getList('/employees/getEmployeeList', this.filterOpt);
             }
         }

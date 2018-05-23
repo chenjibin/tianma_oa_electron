@@ -167,7 +167,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._checkTest(params.row);
                                             }
                                         }
@@ -180,17 +180,17 @@
                 myTestList: []
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
             this._getMyTestList();
         },
         methods: {
-            _submitSuccessHandler () {
+            _submitSuccessHandler() {
                 this.$refs.myGradeList.getListData();
                 this._getMyTestList();
                 this.inExamFlag = false;
             },
-            _startTest (data) {
+            _startTest(data) {
                 let sendData = {};
                 sendData.id = data.id;
                 console.log(data);
@@ -202,15 +202,15 @@
                     }
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 250;
             },
-            _checkTest (data) {
+            _checkTest(data) {
                 this.testCheckId = data.id;
                 this.modelFlag = true;
             },
-            _exportGrade () {
+            _exportGrade() {
                 this.exportLoading = true;
                 let data = {};
                 data.id = this.testCheckId;
@@ -223,7 +223,7 @@
                     this.exportLoading = false;
                 });
             },
-            _getMyTestList () {
+            _getMyTestList() {
                 let data = {};
                 data.page = 1;
                 data.pageSize = 1000;

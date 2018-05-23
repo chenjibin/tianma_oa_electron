@@ -81,7 +81,7 @@
     export default {
         name: 'assetsBuyApprove',
         components: {assetsTree, fsTablePage},
-        data () {
+        data() {
             return {
                 filterOpt: {
                     categoryName: {
@@ -219,7 +219,7 @@
                                         title: '点击查看审批流程'
                                     },
                                     nativeOn: {
-                                        click: function () {
+                                        click: function() {
                                             vm.$http.get('assetsManage/reviewProcess?id=' + params.row.id).then((res) => {
                                                 if (res.success) {
                                                     let data = res.data;
@@ -263,7 +263,7 @@
                                         title: '点击开始审批'
                                     },
                                     nativeOn: {
-                                        click: function () {
+                                        click: function() {
                                             vm.$refs.approveForm.resetFields();
                                             if (appBtnStatus) {
                                                 vm.$http.get('assetsApplication/find?id=' + params.row.id).then((res) => {
@@ -317,7 +317,7 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._setTableHeight();
             this.getPositionList();
             this.loadData(null, null, 1);
@@ -327,21 +327,21 @@
             }
         },
         methods: {
-            getPositionList () {
+            getPositionList() {
                 this.$http.post('assetsApplication/getPostionlist').then((res) => {
                     if (res.success) {
                         this.positionList = res.data;
                     }
                 });
             },
-            changeCataName (value, selectedData) {
+            changeCataName(value, selectedData) {
                 if (selectedData.length === 0) {
                     this.filterOpt.categoryName.value = undefined;
                     return;
                 }
                 this.filterOpt.categoryName.value = selectedData[2].label;
             },
-            approval (type) {
+            approval(type) {
                 if (!type) {
                     return;
                 }
@@ -356,7 +356,7 @@
                     }
                 });
             },
-            loadData (item, callback, type) {
+            loadData(item, callback, type) {
                 if (item) {
                     item.loading = true;
                 }

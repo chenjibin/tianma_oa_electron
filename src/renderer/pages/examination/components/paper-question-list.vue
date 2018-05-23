@@ -44,7 +44,7 @@
             }
         },
         watch: {
-            id (val) {
+            id(val) {
                 this.filterOpt.id.value = val;
             }
         },
@@ -160,14 +160,14 @@
                 ]
             };
         },
-        created () {
+        created() {
             this._getSubjectList();
         },
         methods: {
-            _updateList () {
+            _updateList() {
                 this.$refs.tablePage.getListData();
             },
-            _addToPaper (row) {
+            _addToPaper(row) {
                 let data = {};
                 data.id = this.id;
                 data.questionIds = row.id;
@@ -178,7 +178,7 @@
                     }
                 });
             },
-            _getSubjectList () {
+            _getSubjectList() {
                 this.$http.get('/examquestion/getSubjectList').then((res) => {
                     if (res.success) {
                         this.subjectList = res.data;

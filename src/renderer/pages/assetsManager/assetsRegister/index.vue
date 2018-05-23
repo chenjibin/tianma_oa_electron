@@ -111,7 +111,7 @@
     import debounce from 'lodash/debounce';
     export default {
         name: 'assetsRegister',
-        data () {
+        data() {
             return {
                 tableHeight: 500,
                 addAssetsModal: false,
@@ -215,7 +215,7 @@
                                     shape: 'circle'
                                 },
                                 on: {
-                                    click: function () {
+                                    click: function() {
                                         vm.addAssetsInfo.appStatus = row.appstatus;
                                         vm.addAssetsInfo.id = row.id;
                                         vm.addAssetsInfo.name = row.name;
@@ -298,10 +298,10 @@
             }
         },
         methods: {
-            changeInfo (data) {
+            changeInfo(data) {
                 this.baseInfo = data;
             },
-            exportExcel () {
+            exportExcel() {
                 var vm = this;
                 this.$Modal.confirm({
                     title: '导出资产',
@@ -354,7 +354,7 @@
                     }
                 });
             },
-            uploadInfo (response, file, fileList) {
+            uploadInfo(response, file, fileList) {
                 if (response.success) {
                     this._filterResultHandler();
                     this.$Message.success('导入成功');
@@ -363,14 +363,14 @@
                     this.$Message.error('导入失败' + response.message);
                 }
             },
-            getPositionList () {
+            getPositionList() {
                 this.$http.post('assetsApplication/getPostionlist').then((res) => {
                     if (res.success) {
                         this.positionList = res.data;
                     }
                 });
             },
-            loadData (item, callback, type) {
+            loadData(item, callback, type) {
                 if (item) {
                     item.loading = true;
                 }
@@ -404,7 +404,7 @@
                     }
                 });
             },
-            saveInfo () {
+            saveInfo() {
                 var vm = this;
                 this.$refs.addAssetsInfo.validate((isPass) => {
                     if (isPass) {
@@ -419,7 +419,7 @@
                     }
                 });
             },
-            addInfo (row) {
+            addInfo(row) {
                 this.addAssetsInfo.appStatus = '';
                 this.addAssetsInfo.id = '';
                 this.addAssetsInfo.name = '';

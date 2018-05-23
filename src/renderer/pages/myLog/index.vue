@@ -39,7 +39,28 @@
                             <span>{{logDetail.date}} 日志</span>
                         </p>
                         <div class="" v-if="modelFlag">
-                            <div class="" style="min-height: 100px;font-size: 16px;" v-html="editorContent" v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date"></div>
+                            <div class="" style="min-height: 100px;font-size: 16px;"
+                                 v-html="editorContent"
+                                 v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date"></div>
+                            <div class="" style="font-size: 14px;"
+                                 v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date">
+                                <div class="guider-block" v-if="upguiders && upguiders.length">
+                                    <h4>上级指导:</h4>
+                                    <ul class="guider-list">
+                                        <li  class="guider-item" v-for="item in upguiders" :key="'guide-' + item.id">
+                                            <span class="guider-name">{{item.guider}}:</span><span v-html="item.content"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="guider-block" v-if="upchecks && upchecks.length">
+                                    <h4>备注:</h4>
+                                    <ul class="guider-list">
+                                        <li  class="guider-item" v-for="item in upchecks" :key="'checks-' + item.id" style="position: relative;left: -6px;">
+                                            <span class="guider-name" style="width: auto">【{{item.content}}】</span><span>{{item.addtime}} 查看了你的日志</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <div v-if="[0,1,2,3].indexOf(logDetail.type) > -1 || nowDate === logDetail.date">
                                 <span style="display: inline-block;margin-right: 10px;height: 30px;line-height: 30px;vertical-align: top;">日志类型</span>
                                 <Select v-model="logDetail.logType"
@@ -90,6 +111,14 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="guider-block" v-if="item.sysmsg && item.sysmsg.length">
+                                <h4>备注:</h4>
+                                <ul class="guider-list">
+                                    <li  class="guider-item" style="position: relative; left: -6px;" v-for="sysmsgItem in item.sysmsg" :key="'sysmsg' + sysmsgItem.id">
+                                        <span class="guider-name" style="width: auto">【{{sysmsgItem.content}}】</span><span>{{sysmsgItem.addtime}} 查看了你的日志</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </Card>
@@ -117,9 +146,6 @@
                 .guider-item {
                     display: flex;
                     margin-bottom: 4px;
-                    .guider-name {
-                        flex: 0 0 60px;
-                    }
                 }
             }
             &:not(:last-child) {
@@ -205,16 +231,6 @@
                     'undo',
                     'redo'
                 ],
-                editorOpt: {
-                    menubar: '',
-                    plugins: [
-                        'advlist autolink lists charmap print preview hr anchor pagebreak imagetools',
-                        'searchreplace visualblocks visualchars code fullpage',
-                        'insertdatetime media nonbreaking save table contextmenu directionality',
-                        'emoticons paste textcolor colorpicker textpattern imagetools codesample'
-                    ],
-                    toolbar1: 'preview | undo redo | styleselect | forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
-                },
                 logLookList: [],
                 logDetail: {
                     logType: '0',
@@ -270,20 +286,22 @@
                         align: 'center'
                     }
                 ],
-                tableData: []
+                tableData: [],
+                upguiders: [],
+                upchecks: []
             };
         },
         watch: {
-            dateData (val) {
+            dateData(val) {
                 this._getLogInfo(val);
             }
         },
-        created () {
+        created() {
             this.dateData = moment().format('YYYY-MM');
             this._setHeight();
         },
         filters: {
-            _returnCommentResult (val) {
+            _returnCommentResult(val) {
                 let text = '';
                 switch (+val) {
                     case 0:
@@ -301,7 +319,7 @@
                 }
                 return text;
             },
-            _returnLogType (val) {
+            _returnLogType(val) {
                 let text = '';
                 switch (+val) {
                     case 0:
@@ -315,14 +333,14 @@
             }
         },
         methods: {
-            _returnRealContent (str) {
+            _returnRealContent(str) {
                 return str.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, '').replace(/\s+/g, '');
             },
-            _setHeight () {
+            _setHeight() {
                 let dm = document.body.clientHeight;
                 this.logMaxHeight = dm - 190 + 'px';
             },
-            _getLogInfo (ym) {
+            _getLogInfo(ym) {
                 this.loading = true;
                 this.btnDisabled = true;
                 this.$http.get('/journal/typeList', {params: {time: ym}}).then((res) => {
@@ -338,20 +356,20 @@
                     this.btnDisabled = false;
                 });
             },
-            _dateChange (date) {
+            _dateChange(date) {
                 this.dateData = date;
                 this.datePickerFlag = false;
             },
-            _preMonth () {
+            _preMonth() {
                 this.dateData = moment(this.dateData).subtract(1, 'M').format('YYYY-MM');
             },
-            _nextMonth () {
+            _nextMonth() {
                 this.dateData = moment(this.dateData).add(1, 'M').format('YYYY-MM');
             },
-            _rowClassName () {
+            _rowClassName() {
                 return 'mylog-table-row';
             },
-            _setSelectOpt (type, date, logType) {
+            _setSelectOpt(type, date, logType) {
                 if (type === 0 && date !== NOW_DATE) {
                     this.logTypeList = [
                         {
@@ -375,16 +393,18 @@
                     this.logDetail.logType = logType ? logType + '' : '0';
                 }
             },
-            _setLogList (arr) {
+            _setLogList(arr) {
                 this.logLookList = arr.filter((item) => {
                     return !!item.content;
                 }).reverse();
             },
-            _logRowClick (obj) {
+            _logRowClick(obj) {
                 if (obj.type === 4) {
                     this.$Message.error('超过48小时不可再补写日志！');
                     return;
                 }
+                this.upguiders = obj.guide || [];
+                this.upchecks = obj.sysmsg || [];
                 this.logDetail.date = obj.date;
                 this.logDetail.type = obj.type;
                 this.logDetail.commentResult = obj.commentResult;
@@ -394,7 +414,7 @@
                 this._setSelectOpt(obj.type, obj.date, obj.logType);
                 this.modelFlag = true;
             },
-            _submitLog () {
+            _submitLog() {
                 if (this.logDetail.logType === '0') {
                     let realContent = this._returnRealContent(this.editorContent);
                     if (realContent.length < 10) {
@@ -418,7 +438,7 @@
                     this.submitLoading = false;
                 });
             },
-            _rowRender (i) {
+            _rowRender(i) {
                 return (h, params) => {
                     let typeDom;
                     let type = params.row['day' + i].type;

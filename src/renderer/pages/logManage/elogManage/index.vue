@@ -1,10 +1,16 @@
 <template>
     <div>
-        <Row :gutter="10">
+        <Row :gutter="6">
             <Col :span="4">
                 <fs-dep-tree url="/organize/organizeTreeByUserForRiZhi"
                              @node-change="_nodeChangeHandler($event)"
                              :defaultProps="defaultProps"></fs-dep-tree>
+                <Card class="no-write" style="margin-top: 6px" v-if="userName === 'sun'">
+                    <h3>昨日没写日志人员</h3>
+                    <ul style="margin-top: 8px;">
+                        <li v-for="item in noWritePeople">{{item}}</li>
+                    </ul>
+                </Card>
             </Col>
             <Col :span="20">
                 <Card>
@@ -144,14 +150,19 @@
     export default {
         name: 'elogManage',
         watch: {
-            'searchData.depId' () {
+            'searchData.depId'() {
                 this._filterResultHandler();
             },
-            'searchData.startDate' () {
+            'searchData.startDate'() {
                 this._filterResultHandler();
             },
-            'searchData.endDate' () {
+            'searchData.endDate'() {
                 this._filterResultHandler();
+            },
+            userName(val) {
+                if (val === 'sun') {
+                    this.this._getNoWritePeoloe();
+                }
             }
         },
         mixins: [pageMixin],
@@ -283,51 +294,63 @@
                     children: 'children',
                     label: 'text'
                 },
-                tableHeight: 300
+                tableHeight: 300,
+                noWritePeople: [],
+                userName: this.$store.state.user.userInfo.username
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
+            if (this.userName === 'sun') {
+                this._getNoWritePeoloe();
+            }
         },
         filters: {
-            dateFormatter (val) {
+            dateFormatter(val) {
                 return moment(val).format('YYYY-MM-DD');
             }
         },
         methods: {
-            _nodeChangeHandler (node) {
+            _getNoWritePeoloe() {
+                this.$http.get('/journal/getNoWrite').then((res) => {
+                    if (res.success) {
+                        this.noWritePeople = res.data;
+                    }
+                });
+            },
+            _nodeChangeHandler(node) {
                 this.searchData.depId = node.id;
             },
-            _initCommentData () {
+            _initCommentData() {
                 this.commentData.advice = 'ok';
                 this.commentData.result = '2';
             },
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getLogData();
             },
-            _setStartDate (date) {
+            _setStartDate(date) {
                 this.searchData.startDate = date;
             },
-            _setEndDate (date) {
+            _setEndDate(date) {
                 this.searchData.endDate = date;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getLogData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getLogData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             },
-            _checkLogOpen (data) {
+            _checkLogOpen(data) {
                 this.upGuider = [];
                 this.logModalData.date = data.writedate;
                 this.logModalData.name = data.username;
@@ -338,7 +361,7 @@
                 this._initCommentData();
                 this.checkLogFlag = true;
             },
-            _getUpGuiderData () {
+            _getUpGuiderData() {
                 let data = {
                     id: this.logModalData.id
                 };
@@ -349,7 +372,7 @@
                     }
                 });
             },
-            _getLogData () {
+            _getLogData() {
                 let data = {};
                 data.userName = this.searchData.name;
                 data.startDate = this.searchData.startDate;
@@ -360,7 +383,7 @@
 
                 this.getList('/journal/maglist', data);
             },
-            _submitComment () {
+            _submitComment() {
                 this.$refs.commentForm.validate((val) => {
                     if (val) {
                         let data = {};

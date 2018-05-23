@@ -148,15 +148,15 @@
             };
         },
         computed: {
-            topHeight () {
+            topHeight() {
                 return this.$store.state.knowledge.topHeight;
             }
         },
-        created () {
+        created() {
             this.$store.commit('setToHeight', '1200px');
         },
         watch: {
-            '$route' (to) {
+            '$route'(to) {
                 let topHeight = '';
                 if (to.name === 'articleDetail') {
                     topHeight = '880px';
@@ -167,15 +167,15 @@
                 }
                 this.$store.commit('setToHeight', topHeight);
             },
-            searchValue (val) {
+            searchValue(val) {
                 this.$store.commit('setKeyWord', val);
             }
         },
         methods: {
-            clickoutsideHandler () {
+            clickoutsideHandler() {
                 this.isFocus = false;
             },
-            _searchKnowledge () {
+            _searchKnowledge() {
                 this.$store.commit('setKeyWord', this.searchValue);
                 this.$store.commit('toListPage', this);
             }

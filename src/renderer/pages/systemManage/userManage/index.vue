@@ -467,10 +467,10 @@
     export default {
         name: 'userManage',
         watch: {
-            filterText (val) {
+            filterText(val) {
                 this.$refs.treeDom.filter(val);
             },
-            'userSettingForm.post' (val) {
+            'userSettingForm.post'(val) {
                 if (val) {
                     this.$http.get('/organize/getLevel', {params: {id: val}}).then((res) => {
                         if (res.success) {
@@ -756,7 +756,7 @@
                                         title: '特殊权限设置'
                                     },
                                     on: {
-                                        click: function (e) {
+                                        click: function(e) {
                                             e.stopPropagation();
                                             vm._specAccessOpen(params.row);
                                         }
@@ -775,7 +775,7 @@
                                         title: '用户授权'
                                     },
                                     on: {
-                                        click: function (e) {
+                                        click: function(e) {
                                             e.stopPropagation();
                                             vm._userAccessOpen(params.row);
                                         }
@@ -878,11 +878,11 @@
             };
         },
         computed: {
-            isManger () {
+            isManger() {
                 return this.$store.state.user.userInfo.ismanger;
             }
         },
-        created () {
+        created() {
             this._getBanCiData();
             this._setTableHeight();
             this._getAllMenu();
@@ -893,11 +893,11 @@
             this._getOrgComboList();
         },
         methods: {
-            filterNode (value, data) {
+            filterNode(value, data) {
                 if (!value) return true;
                 return data.name.indexOf(value) !== -1;
             },
-            returnDepsIds (arr) {
+            returnDepsIds(arr) {
                 let newArr = [];
                 let needArr = arr.filter((item) => {
                     return item.dep.length > 0;
@@ -907,13 +907,13 @@
                 });
                 return newArr.join(',');
             },
-            _initAccessData () {
+            _initAccessData() {
                 this.specAccessData.userId = '';
                 this.specAccessData.filterPeopleData = [];
                 this.specAccessData.filterPeopleOpt = [];
                 this.specAccessData.deps = [];
             },
-            _specAccessConfirm () {
+            _specAccessConfirm() {
                 let depsArr = this.specAccessData.deps;
                 let userIds = this.specAccessData.filterPeopleData;
                 let sendData = {};
@@ -927,19 +927,19 @@
                     }
                 });
             },
-            _specAccessOpen (data) {
+            _specAccessOpen(data) {
                 this._initAccessData();
                 this.specAccessData.userId = data.id;
                 this._getSpecAccessPro();
                 this.specAccessFlag = true;
             },
-            _removeDep (index) {
+            _removeDep(index) {
                 this.specAccessData.deps.splice(index, 1);
             },
-            _removeArrangeDep (index) {
+            _removeArrangeDep(index) {
                 this.specAccessData.arrangeDeps.splice(index, 1);
             },
-            _filterPeopleRemote (val) {
+            _filterPeopleRemote(val) {
                 let data = {};
                 data.name = val;
                 this.specAccessData.filterPeopleLoading = true;
@@ -951,17 +951,17 @@
                     this.specAccessData.filterPeopleLoading = false;
                 });
             },
-            _addNewDep () {
+            _addNewDep() {
                 let obj = {};
                 obj.dep = [];
                 this.specAccessData.deps.push(obj);
             },
-            _addNewArrangeDep () {
+            _addNewArrangeDep() {
                 let obj = {};
                 obj.dep = [];
                 this.specAccessData.arrangeDeps.push(obj);
             },
-            _returnAccessDeps (deps) {
+            _returnAccessDeps(deps) {
                 if (!deps) return [];
                 let arr = deps.split(',');
                 let storeArr = [];
@@ -972,7 +972,7 @@
                 }
                 return storeArr;
             },
-            _getSpecAccessPro () {
+            _getSpecAccessPro() {
                 let data = {};
                 data.id = this.specAccessData.userId;
                 this.$http.get('/user/getMySuperPro', {params: data}).then((res) => {
@@ -984,10 +984,10 @@
                     }
                 });
             },
-            _inJobDateChange (val) {
+            _inJobDateChange(val) {
                 this.userSettingForm.inJobTime = val;
             },
-            _coinConfirmHandler () {
+            _coinConfirmHandler() {
                 this.$refs.coinForm.validate((valid) => {
                     if (valid) {
                         this.coinAddLoading = true;
@@ -1008,7 +1008,7 @@
                     }
                 });
             },
-            _openCoinSettingHandler () {
+            _openCoinSettingHandler() {
                 this.coinSettingFlag = true;
                 if (this.chooseDataArr.length === 0) {
                     this.coinSettingForm.target = '公司全体员工';
@@ -1018,13 +1018,13 @@
                     this.coinSettingForm.target = '选中的员工';
                 }
             },
-            _storeFilter (root, path, id) {
+            _storeFilter(root, path, id) {
                 root.forEach((item) => {
                     if (item.id === id) this.storePath = [...path, id];
                     if (item.children) this._storeFilter(item.children, [...path, item.id], id);
                 });
             },
-            _returnOrgIds (id) {
+            _returnOrgIds(id) {
                 if (!this.orgTreeData[0]) return [];
                 let depsStore = this.orgTreeData;
                 let path = [];
@@ -1032,7 +1032,7 @@
                 this._storeFilter(depsStore, path, id);
                 return this.storePath;
             },
-            _initUserInfo () {
+            _initUserInfo() {
                 this.userSettingForm.states = true;
                 this.userSettingForm.account = '';
                 this.userSettingForm.name = '';
@@ -1049,14 +1049,14 @@
                 this.userSettingForm.role = '';
                 this.$refs.roleSelect.clearSingleSelect();
             },
-            _addUserOpen () {
+            _addUserOpen() {
                 this._initUserInfo();
                 this.$refs.userSettingDom.resetFields();
                 this.userFormType = 'add';
                 this.userSettingForm.isManger = 3;
                 this.settingModalFlag = true;
             },
-            _resetPassWord () {
+            _resetPassWord() {
                 let data = {};
                 data.id = this.editUserId;
                 this.$http.post('/user/resetPassword', data).then((res) => {
@@ -1065,17 +1065,17 @@
                     }
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             },
-            _getUserData () {
+            _getUserData() {
                 this.$refs.userTable.getListData();
             },
-            _treeNodeClickHandler (data) {
+            _treeNodeClickHandler(data) {
                 this.searchData.nodeId.value = data.id;
             },
-            _depChange (data) {
+            _depChange(data) {
                 let vm = this;
                 console.log(data);
                 console.log(data.slice(-1)[0]);
@@ -1088,7 +1088,7 @@
                     }
                 });
             },
-            _updateUserInfo () {
+            _updateUserInfo() {
                 let data = {};
                 data.id = this.editUserId;
                 data.isUpdate = true;
@@ -1115,7 +1115,7 @@
                     }
                 });
             },
-            _addUser () {
+            _addUser() {
                 this.$refs.userSettingDom.validate((valid) => {
                     if (valid) {
                         let data = {};
@@ -1143,7 +1143,7 @@
                     }
                 });
             },
-            _editorSetting (data) {
+            _editorSetting(data) {
                 this._initUserInfo();
                 this.userSettingForm.states = !!data.states;
                 this.userSettingForm.account = data.username;
@@ -1164,7 +1164,7 @@
                 this.settingModalFlag = true;
                 this.editUserId = data.id;
             },
-            _returnNeedPostList (ids, names) {
+            _returnNeedPostList(ids, names) {
                 if (!ids || !names) return [];
                 let idsArr = ids.split(',').filter(x => !!x);
                 let namesArr = names.split(',').filter(x => !!x);
@@ -1178,7 +1178,7 @@
                 });
                 return storeArr;
             },
-            _getPostList (id) {
+            _getPostList(id) {
                 let data = {};
                 data.lv = id;
                 return new Promise((resolve) => {
@@ -1190,7 +1190,7 @@
                     });
                 });
             },
-            _getRoleList (id) {
+            _getRoleList(id) {
                 let data = {};
                 data.lv = id;
                 return new Promise((resolve) => {
@@ -1210,18 +1210,18 @@
 //                    }
 //                });
 //            },
-            _getGuiderList () {
+            _getGuiderList() {
                 this.$http.get('/post/getPdftree?userId=0').then((res) => {
                     if (res.success) {
                         this.guiderList = res.data;
                     }
                 });
             },
-            _getAllMenu () {
+            _getAllMenu() {
                 this.$http.get('/jurisdiction/getAllSystemMenu').then((res) => {
                 });
             },
-            _getRoleData () {
+            _getRoleData() {
                 this.$http.get('/role/getRoleCombo').then((res) => {
                     if (res.success) {
                         this.roleData = res.data;
@@ -1229,7 +1229,7 @@
                     }
                 });
             },
-            _getOrgTree () {
+            _getOrgTree() {
                 // 同一个接口调用两次是因为左侧的树和下拉输入框是同一个接口，存在不合理的地方
                 // 为未来分割独立保留一个方法
                 return new Promise((resolve) => {
@@ -1242,14 +1242,14 @@
                     });
                 });
             },
-            _getOrgComboList () {
+            _getOrgComboList() {
                 this.$http.get('/organize/organizeTreeCertainVmC?fatherId=-1').then((res) => {
                     if (res.success) {
                         this.orgComboList = res.data;
                     }
                 });
             },
-            _getBanCiData () {
+            _getBanCiData() {
                 this.tableBanciLoading = true;
                 this.$http.get('/user/getBanCi').then((res) => {
                     if (res.success) {
@@ -1259,7 +1259,7 @@
                     this.tableBanciLoading = false;
                 });
             },
-            _addBanci () {
+            _addBanci() {
                 this.$refs.banciForm.validate((valid) => {
                     if (valid) {
                         this.banciBtnLoading = true;
@@ -1281,7 +1281,7 @@
                     }
                 });
             },
-            _renturnAccessNeedArr (data) {
+            _renturnAccessNeedArr(data) {
                 let arr = [];
                 data.forEach((cateItem) => {
                     let cate = {};
@@ -1303,7 +1303,7 @@
                 });
                 return arr;
             },
-            _getAccessMenu () {
+            _getAccessMenu() {
                 this.$http.get('/jurisdiction/getAllMenu').then((res) => {
                     if (res.success) {
                         // this.accseeList = this._renturnAccessNeedArr(res.data);
@@ -1311,7 +1311,7 @@
                     }
                 });
             },
-            _confirmAccess () {
+            _confirmAccess() {
                 let pageArr = [];
                 let btnArr = [];
                 this.social.forEach((item) => {
@@ -1334,14 +1334,14 @@
                     }
                 });
             },
-            _userAccessOpen (data) {
+            _userAccessOpen(data) {
                 let pageArr = data.role ? data.role.split(',').map(x => 'page' + x) : [];
                 let btnArr = data.btnid ? data.btnid.split(',').map(x => 'btn' + x) : [];
                 this.social = pageArr.concat(btnArr);
                 this.editUserId = data.id;
                 this.userAccessModalFlag = true;
             },
-            _initLeaveSetting () {
+            _initLeaveSetting() {
                 let leaveSetting = this.leaveSettingForm;
                 leaveSetting.reasonLeaving = '个人原因';
                 leaveSetting.gradeLeaving = 'A';
@@ -1350,13 +1350,13 @@
                 leaveSetting.id = 0;
                 this.leavePeople = '';
             },
-            _openLeaveSettingModal () {
+            _openLeaveSettingModal() {
                 this._initLeaveSetting();
                 this.leaveSettingForm.id = this.chooseDataArr[0].id;
                 this.leavePeople = this.chooseDataArr[0].realname;
                 this.leaveSettingFlag = true;
             },
-            _coinLeaveHandler () {
+            _coinLeaveHandler() {
                 this.$http.post('/user/state', this.leaveSettingForm).then((res) => {
                     if (res.success) {
                         this.$Message.success('操作成功!');

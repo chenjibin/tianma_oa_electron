@@ -9,7 +9,7 @@
                 <Icon :type="iconType" :size="iconSize"></Icon>
             </div>
             <div class="content-wrapper">
-                <p class="content" :style="{color: color}">{{btnText}}</p>
+                <p class="content" :style="{color: color}" style="font-size: 16px">{{btnText}}</p>
             </div>
         </div>
     </Card>
@@ -34,14 +34,13 @@ export default {
         },
         iconSize: {
             type: Number,
-            default: 28
+            default: 18
         }
     },
     methods: {
-        clickHandler () {
+        clickHandler() {
             this.$emit('card-click');
         }
     }
 };
 </script>
-

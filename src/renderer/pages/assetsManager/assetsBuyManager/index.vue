@@ -31,7 +31,7 @@
     export default {
         name: 'assetsBuyManager',
         components: {assetsTree, fsTablePage},
-        data () {
+        data() {
             return {
                 filterOpt: {
                     categoryName: {
@@ -158,7 +158,7 @@
                                         shape: 'circle'
                                     },
                                     on: {
-                                        click: function () {
+                                        click: function() {
                                             let d = {};
                                             d.id = row.id;
                                             d.remarks = row.remarks;
@@ -178,9 +178,9 @@
                                                         }
                                                     });
                                                 },
-                                                onOk () {
+                                                onOk() {
                                                     if (d.remarks && d.id) {
-                                                        vm.$http.post('assetsApplication/editRemarks', d).then((res) => {
+                                                        vm.$http.post('assetsApplication/editRemarks', d).then((res) =>{
                                                             if (res.success) {
                                                                 vm.$refs.fsTable._filterResultHandler();
                                                                 vm.$Message.success('修改成功');
@@ -202,7 +202,7 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._setTableHeight();
             this.getPositionList();
             this.loadData(null, null, 1);
@@ -212,21 +212,21 @@
             }
         },
         methods: {
-            getPositionList () {
+            getPositionList() {
                 this.$http.post('assetsApplication/getPostionlist').then((res) => {
                     if (res.success) {
                         this.positionList = res.data;
                     }
                 });
             },
-            changeCataName (value, selectedData) {
+            changeCataName(value, selectedData) {
                 if (selectedData.length === 0) {
                     this.filterOpt.categoryName.value = undefined;
                     return;
                 }
                 this.filterOpt.categoryName.value = selectedData[2].label;
             },
-            loadData (item, callback, type) {
+            loadData(item, callback, type) {
                 if (item) {
                     item.loading = true;
                 }

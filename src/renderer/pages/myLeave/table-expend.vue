@@ -50,7 +50,7 @@
         props: {
             row: Object
         },
-        data () {
+        data() {
             return {
                 progressData: this.row.operatelog.split(',')
             };

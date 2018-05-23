@@ -254,19 +254,19 @@
             // }
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
         },
         methods: {
-            _checkChooseStatus (arr) {
+            _checkChooseStatus(arr) {
                 let flag = true;
                 arr.forEach(item => {
                     if (item.status !== 0) flag = false;
                 });
                 return flag;
             },
-            _allHandler (status) {
+            _allHandler(status) {
                 let vm = this;
                 let flag = vm._checkChooseStatus(this.chooseDataArr);
                 if (!flag) {
@@ -291,10 +291,10 @@
                     }
                 });
             },
-            _tableSelectChange (data) {
+            _tableSelectChange(data) {
                 this.chooseDataArr = data;
             },
-            _confirmExchangeGoods (data) {
+            _confirmExchangeGoods(data) {
                 let vm = this;
                 this.$Modal.confirm({
                     content: '确认' + data.user_name + ' 兑换【' + data.goods_name + '】么?',
@@ -313,7 +313,7 @@
                     }
                 });
             },
-            _confirmCancelGoods (data) {
+            _confirmCancelGoods(data) {
                 let vm = this;
                 this.$Modal.confirm({
                     content: '确认取消 ' + data.user_name + ' 兑换【' + data.goods_name + '】么?',
@@ -335,26 +335,26 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _editorSetting (data) {
+            _editorSetting(data) {
                 this.editorSettingFlag = true;
             },
-            _getPostData () {
+            _getPostData() {
                 this.chooseDataArr = [];
                 let data = {};
                 data.name = this.filterOpt.name;

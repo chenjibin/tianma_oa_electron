@@ -122,7 +122,7 @@
             fsTablePage,
             assetsAllocation
         },
-        data () {
+        data() {
             return {
                 minHeight: '',
                 zichanType: 'chooseType',
@@ -219,7 +219,7 @@
                                     type: 'success'
                                 },
                                 on: {
-                                    click () {
+                                    click() {
                                         var d = {};
                                         d.id = params.row.id;
                                         vm.$http.post('assetsManage/getReceive', d).then((r) => {
@@ -332,7 +332,7 @@
                                         disabled: disable
                                     },
                                     on: {
-                                        click: function () {
+                                        click: function() {
                                             vm.newApply.appType = row.apptype;
                                             vm.newApply.id = row.id;
                                             vm.newApply.categoryName = row.categoryname;
@@ -354,7 +354,7 @@
                                         marginLeft: '10px'
                                     },
                                     on: {
-                                        click: function () {
+                                        click: function() {
                                             vm.delInfo(row);
                                         }
                                     }
@@ -399,7 +399,7 @@
                                         title: '点击查看审批流程'
                                     },
                                     nativeOn: {
-                                        click: function () {
+                                        click: function() {
                                             vm.$http.get('assetsManage/reviewProcess?id=' + params.row.id).then((res) => {
                                                 if (res.success) {
                                                     let data = res.data;
@@ -441,7 +441,7 @@
                                         display: disable2 === true ? 'inline-block' : 'none'
                                     },
                                     nativeOn: {
-                                        click: function () {
+                                        click: function() {
                                             vm.reciveAppid = params.row.id;
                                             vm.getReciveList(params.row.id).then(() => {
                                                 vm.reciveModal = true;
@@ -483,7 +483,7 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             let dm = document.body.clientHeight - 180;
             this.minHeight = dm + 'px';
             this._setTableHeight();
@@ -491,7 +491,7 @@
             this.loadData(null, null, 1);
         },
         methods: {
-            ItemChecked () {
+            ItemChecked() {
                 if (!this.customerForm.modifyInfo.leaf) {
                     this.$Message.warning('请选择子节点哦');
                     return;
@@ -506,11 +506,11 @@
                 this.itemsModel = false;
                 this.itemsType = 0;
             },
-            showItmes (type) {
+            showItmes(type) {
                 this.itemsType = type;
                 this.itemsModel = true;
             },
-            loadData (item, callback, type) {
+            loadData(item, callback, type) {
                 if (item) {
                     item.loading = true;
                 }
@@ -544,7 +544,7 @@
                     }
                 });
             },
-            getReciveList (id) {
+            getReciveList(id) {
                 var vm = this;
                 vm.reciveLoading = true;
                 return new Promise((resolve, reject) => {
@@ -558,7 +558,7 @@
                     });
                 });
             },
-            changeCataName (type, arg) {
+            changeCataName(type, arg) {
                 var [value, selectedData] = arg;
                 if (selectedData.length === 0) {
                     this.filterOpt.categoryName.value = undefined;
@@ -571,14 +571,14 @@
                     this.newApply.categoryName = selectedData[2].label;
                 }
             },
-            getPositionList () {
+            getPositionList() {
                 this.$http.post('assetsApplication/getPostionlist').then((res) => {
                     if (res.success) {
                         this.positionList = res.data;
                     }
                 });
             },
-            saveInfo () {
+            saveInfo() {
                 var vm = this;
                 var newApplyForm = this.$refs.newApplyForm;
                 newApplyForm.validate((vpass) => {
@@ -594,7 +594,7 @@
                     }
                 });
             },
-            addInfo (type) {
+            addInfo(type) {
                 this.selectArr = [];
                 this.newApply.id = undefined;
                 this.newApply.categoryName = '';
@@ -604,10 +604,10 @@
                 this.newApply.appType = type;
                 this.addInfoModal = true;
             },
-            getCustomerForm (customerForm) {
+            getCustomerForm(customerForm) {
                 this.customerForm = customerForm;
             },
-            delInfo (row) {
+            delInfo(row) {
                 var vm = this;
                 var refT = this.$refs.fsTable;
                 var d = {};

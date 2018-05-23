@@ -356,37 +356,37 @@
                 subjectList: []
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
             this._getSubjectList();
         },
         watch: {
-            subjectList (val) {
+            subjectList(val) {
                 if (val.length) {
                     this.editorSettingData.subject = val[0].id;
                 }
             }
         },
         methods: {
-            _updateQuestionList () {
+            _updateQuestionList() {
                 this.$refs.questionList._updateList();
                 this._updatePaperList();
             },
-            _getPaperDetail () {
+            _getPaperDetail() {
                 this.$refs.paperDetail._getPaperDetail();
                 this._updatePaperList();
             },
-            _addQuestion (data) {
+            _addQuestion(data) {
                 this.paperId = data.id;
                 this.paperSettingFlag = true;
             },
-            _changePaperName (data) {
+            _changePaperName(data) {
                 this.paperNameForm.name = data.name;
                 this.paperNameForm.subjectPaper = data.subject;
                 this.paperNameForm.id = data.id;
                 this.paperNameflag = true;
             },
-            _confirmSubmitPaperName () {
+            _confirmSubmitPaperName() {
                 let data = {};
                 data.name = this.paperNameForm.name;
                 data.subjectPaper = this.paperNameForm.subjectPaper;
@@ -399,7 +399,7 @@
                     }
                 });
             },
-            _publishPaper (data) {
+            _publishPaper(data) {
                 this.$Modal.confirm({
                     content: `确认发布【${data.name}】试卷么？`,
                     okText: '确认发布',
@@ -417,11 +417,11 @@
                     }
                 });
             },
-            _checkPaper (data) {
+            _checkPaper(data) {
                 this.paperIdCheck = data.id;
                 this.paperCheckFlag = true;
             },
-            _closePaper (data) {
+            _closePaper(data) {
                 this.$Modal.confirm({
                     content: `确认关闭【${data.name}】试卷么？`,
                     okText: '确认关闭',
@@ -439,7 +439,7 @@
                     }
                 });
             },
-            _copyPaper (data) {
+            _copyPaper(data) {
                 this.$Modal.confirm({
                     content: `确认复制【${data.name}】试卷么？复制试卷进入待发布状态！！！`,
                     okText: '确认复制',
@@ -457,7 +457,7 @@
                     }
                 });
             },
-            _republishPaper (data) {
+            _republishPaper(data) {
                 this.$Modal.confirm({
                     content: `确认重新发布【${data.name}】试卷么？`,
                     okText: '确认发布',
@@ -475,10 +475,10 @@
                     }
                 });
             },
-            _updatePaperList () {
+            _updatePaperList() {
                 this.$refs.paperList.getListData();
             },
-            _initEditorSettingData () {
+            _initEditorSettingData() {
                 this.$refs.paperForm.resetFields();
                 let editorSetting = this.editorSettingData;
                 editorSetting.name = '';
@@ -491,11 +491,11 @@
                 editorSetting.fillTypeNum = 0;
                 editorSetting.questionTypeNum = 0;
             },
-            _addPaperOpen () {
+            _addPaperOpen() {
                 this._initEditorSettingData();
                 this.editorSettingFlag = true;
             },
-            _submitPaper () {
+            _submitPaper() {
                 this.$refs.paperForm.validate((valid) => {
                     if (valid) {
                         let editorSetting = this.editorSettingData;
@@ -532,11 +532,11 @@
                     }
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             },
-            _getSubjectList () {
+            _getSubjectList() {
                 this.$http.get('/examquestion/getSubjectList').then((res) => {
                     if (res.success) {
                         this.subjectList = res.data;

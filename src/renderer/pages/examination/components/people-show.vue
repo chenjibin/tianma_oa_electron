@@ -79,7 +79,7 @@
             }
         },
         watch: {
-            id () {
+            id() {
                 this._getPeopleList();
             }
         },
@@ -90,7 +90,7 @@
             };
         },
         methods: {
-            _delPeople (data) {
+            _delPeople(data) {
                 let sendData = {};
                 sendData.id = this.id;
                 sendData.stuIds = data.id;
@@ -101,7 +101,7 @@
                     }
                 });
             },
-            _returnNeedList (data) {
+            _returnNeedList(data) {
                 let allOId = [...(new Set(data.map(x => x.lv)))];
                 let storeArray = [];
                 allOId.forEach((item) => {
@@ -114,7 +114,7 @@
                 });
                 return storeArray;
             },
-            _getPeopleList () {
+            _getPeopleList() {
                 if (!this.id) return;
                 this.loading = true;
                 let sendData = {};

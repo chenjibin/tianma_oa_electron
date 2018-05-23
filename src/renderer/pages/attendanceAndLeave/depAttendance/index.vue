@@ -72,10 +72,10 @@
         name: 'depAttendance',
         mixins: [pageMixin],
         watch: {
-            filterText (val) {
+            filterText(val) {
                 this.$refs.treeDom.filter(val);
             },
-            'searchData.depId' () {
+            'searchData.depId'() {
                 this._filterResultHandler();
             }
         },
@@ -230,27 +230,27 @@
                 attendanceDetail: []
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
         },
         methods: {
-            _nodeChangeHandler (node) {
+            _nodeChangeHandler(node) {
                 this.searchData.depId = node.id;
                 this.searchData.organizeName = node.text;
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getAttendanceData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getAttendanceData();
             },
-            _getAttendanceData () {
+            _getAttendanceData() {
                 let data = {};
                 data.userName = this.searchData.userName;
                 data.organizeId = this.searchData.depId;
@@ -260,18 +260,18 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getAttendanceData();
             },
-            _returnInnerRowClass (row) {
+            _returnInnerRowClass(row) {
                 let className = 'my-attendance-inner';
                 if (row.absent_off_day) {
                     className += ' error';
                 }
                 return className;
             },
-            _checkDetail (obj) {
+            _checkDetail(obj) {
                 this.loading2 = true;
                 let month = moment(obj.record_month).format('YYYY-MM');
                 this.monthData = month;
@@ -288,7 +288,7 @@
                 });
                 this.modelFlag = true;
             },
-            _returnRowClass () {
+            _returnRowClass() {
                 return 'fs-row';
             }
         },

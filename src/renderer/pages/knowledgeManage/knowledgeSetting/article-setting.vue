@@ -161,7 +161,7 @@
             nodeId: Number
         },
         watch: {
-            nodeId (val) {
+            nodeId(val) {
                 this.filterOpt.knowledgeId.value = val;
             }
         },
@@ -317,47 +317,47 @@
             };
         },
         computed: {
-            treeData () {
+            treeData() {
                 return this.$store.state.knowledge.noImportantTreeData;
             }
         },
-        created () {
+        created() {
             this.$store.commit('getNoImportantTreeData');
             this._setTableHeight();
         },
         methods: {
-            _storeFilter (root, path, id) {
+            _storeFilter(root, path, id) {
                 root.forEach((item) => {
                     if (item.id === id) this.storePath = [...path, id];
                     if (item.children) this._storeFilter(item.children, [...path, item.id], id);
                 });
             },
-            _returnOrgIds (id) {
+            _returnOrgIds(id) {
                 let depsStore = this.treeData;
                 let path = [];
                 this._storeFilter(depsStore, path, id);
                 return this.storePath;
             },
-            _imgUpSuccessHandler (res, file, fileList) {
+            _imgUpSuccessHandler(res, file, fileList) {
                 file.url = fileList[0].response.data[0].filename;
                 this.depSettingForm.showpic = fileList[0].response.data[0].filename;
             },
-            _imgRemoveSuccessHandler (file, fileList) {
+            _imgRemoveSuccessHandler(file, fileList) {
                 this.depSettingForm.showpic = '';
             },
-            _fileUpSuccessHandler (res, file, fileList) {
+            _fileUpSuccessHandler(res, file, fileList) {
                 this.depSettingForm.fileNames = fileList.map(item => {
                     console.log(item);
                     return item.response.data[0].filename;
                 }).join(',');
                 console.log(this.depSettingForm.fileNames);
             },
-            _fileRemoveSuccessHandler (file, fileList) {
+            _fileRemoveSuccessHandler(file, fileList) {
                 this.depSettingForm.fileNames = fileList.map(item => {
                     return item.url;
                 }).join(',');
             },
-            _initSendForm () {
+            _initSendForm() {
                 this.articleId = null;
                 this.imgDefault = [];
                 this.fileDefault = [];
@@ -369,7 +369,7 @@
                 this.depSettingForm.isCarousel = 0;
                 this.depSettingForm.isHomePage = 0;
             },
-            _createArticle () {
+            _createArticle() {
                 let data = {};
                 data.shareItem = this.depSettingForm.shareItem;
                 data.shareDetail = this.shareDetail;
@@ -386,7 +386,7 @@
                     }
                 });
             },
-            _updateArticle () {
+            _updateArticle() {
                 let data = {};
                 data.id = this.articleId;
                 data.shareItem = this.depSettingForm.shareItem;
@@ -404,17 +404,17 @@
                     }
                 });
             },
-            _addArticleOpen () {
+            _addArticleOpen() {
                 this._initSendForm();
                 this.formType = 'create';
                 this.depSettingFlag = true;
             },
-            _checkArticleCommon (data) {
+            _checkArticleCommon(data) {
                 this.checkArticleId = data.id;
                 this.getCommentList();
                 this.commentFlag = true;
             },
-            _articleEditor (data) {
+            _articleEditor(data) {
                 this._initSendForm();
                 this.articleId = data.id;
                 this.formType = 'update';
@@ -445,12 +445,12 @@
                 this.depSettingForm.fileNames = data.sharefiles.map(x => x.file_path).join(',');
                 this.depSettingFlag = true;
             },
-            getCommentList () {
+            getCommentList() {
                 let params = {};
                 params.shareId = this.checkArticleId;
                 this.getList('/share/getShareCommentList', params);
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             }

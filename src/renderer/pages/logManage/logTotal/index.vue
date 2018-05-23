@@ -89,43 +89,43 @@
                 ]
             };
         },
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
         },
         methods: {
-            _tableSortChange (data) {
+            _tableSortChange(data) {
                 this.filterOpt.sort.key = data.key;
                 this.filterOpt.sort.order = data.order;
                 this._filterResultHandler();
             },
-            _monthDateChange (date) {
+            _monthDateChange(date) {
                 this.filterOpt.monthDate = date;
                 this._getPostData();
             },
-            initPage () {
+            initPage() {
                 this.pageData.page = 1;
             },
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _getPostData () {
+            _getPostData() {
                 let data = {};
                 data.name = this.filterOpt.userName;
                 data.startDate = this.filterOpt.monthDate;

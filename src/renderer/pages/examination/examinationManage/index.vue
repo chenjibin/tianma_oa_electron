@@ -318,7 +318,7 @@
                 tableHeight: 500
             };
         },
-        created () {
+        created() {
             this._setTableHeight();
             this._getSubjectList();
             this._getAllPaperList();
@@ -327,7 +327,7 @@
             handleReset (name) {
                 this.$refs[name].resetFields();
             },
-            _initEditorSettingData () {
+            _initEditorSettingData() {
                 this.handleReset('examForm');
                 this.editorSettingData.name = '';
                 this.editorSettingData.subjectExam = this.subjectList[0].id;
@@ -335,17 +335,17 @@
                 this.editorSettingData.totalTime = 30;
                 this.editorSettingData.id = 0;
             },
-            _addQuestion (data) {
+            _addQuestion(data) {
                 this.examId = data.id;
                 this.examName = data.name;
                 this.examSettingFlag = true;
             },
-            _bindPaper (data) {
+            _bindPaper(data) {
                 this.bindForm.examId = data.id;
                 this.bindForm.paperName = data.paperid || '';
                 this.bindPaperFlag = true;
             },
-            _bindExamConfirm () {
+            _bindExamConfirm() {
                 if (!this.bindForm.paperName) {
                     this.$Message.error('绑定试卷不能为空！');
                     return;
@@ -360,7 +360,7 @@
                     }
                 });
             },
-            _changePaperName (data) {
+            _changePaperName(data) {
                 this._initEditorSettingData();
                 this.editorSettingData.name = data.name;
                 this.editorSettingData.subjectExam = data.subject;
@@ -369,7 +369,7 @@
                 this.editorSettingData.id = data.id;
                 this.editorSettingFlag = true;
             },
-            _publishPaper (data) {
+            _publishPaper(data) {
                 this.$Modal.confirm({
                     content: `确认发布【${data.name}】考试么？`,
                     okText: '确认发布',
@@ -387,7 +387,7 @@
                     }
                 });
             },
-            _closePaper (data) {
+            _closePaper(data) {
                 this.$Modal.confirm({
                     content: `确认结束【${data.name}】考试么？`,
                     okText: '确认结束',
@@ -405,16 +405,16 @@
                     }
                 });
             },
-            _checkTestPeople (data) {
+            _checkTestPeople(data) {
                 this.examCheckId = data.id;
                 this.examCheckName = data.name;
                 this.checkPeopleFlag = true;
             },
-            _addExamOpen () {
+            _addExamOpen() {
                 this._initEditorSettingData();
                 this.editorSettingFlag = true;
             },
-            _addExam () {
+            _addExam() {
                 this.$refs.examForm.validate((valid) => {
                     if (valid) {
                         let data = {};
@@ -434,7 +434,7 @@
                     }
                 });
             },
-            _getAllPaperList () {
+            _getAllPaperList() {
                 this.$http.get('/exampaper/getSubjectPaperList').then((res) => {
                     console.log(res);
                     if (res.success) {
@@ -442,16 +442,16 @@
                     }
                 });
             },
-            _updatePeopleList () {
+            _updatePeopleList() {
                 this.$refs.peopleShow._getPeopleList();
             },
-            _updateUserList () {
+            _updateUserList() {
                 this.$refs.peopleChoose._updateList();
             },
-            _updateExamList () {
+            _updateExamList() {
                 this.$refs.examList.getListData();
             },
-            _getSubjectList () {
+            _getSubjectList() {
                 this.$http.get('/examquestion/getSubjectList').then((res) => {
                     if (res.success) {
                         this.subjectList = res.data;
@@ -459,7 +459,7 @@
                     }
                 });
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 280;
             }

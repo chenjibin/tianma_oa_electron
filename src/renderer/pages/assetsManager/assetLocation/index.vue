@@ -9,7 +9,7 @@
                             :clearable="true"
                             v-model="filterOpt.name"
                             placeholder="位置名称">
-                        <Option v-for="(item, index) in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <Button type="ghost" @click="addInfo">
@@ -65,7 +65,7 @@
     import debounce from 'lodash/debounce';
     export default {
         name: 'assetslocation',
-        data () {
+        data() {
             return {
                 tableHeight: 500,
                 filterOpt: {
@@ -141,17 +141,17 @@
             this.getPositionList();
         },
         methods: {
-            changeInfo (data) {
+            changeInfo(data) {
                 this.baseInfo = data;
             },
-            getPositionList () {
+            getPositionList() {
                 this.$http.post('assetsApplication/getPostionlist').then((res) => {
                     if (res.success) {
                         this.positionList = res.data;
                     }
                 });
             },
-            saveInfo () {
+            saveInfo() {
                 var vm = this;
                 vm.$http.post('/assets/add', vm.baseInfo).then((res) => {
                     if (res.success) {
@@ -161,11 +161,11 @@
                     }
                 });
             },
-            addInfo () {
+            addInfo() {
                 this.baseInfo = {};
                 this.changeInfoModal = true;
             },
-            delInfo (data) {
+            delInfo(data) {
                 var vm = this;
                 this.baseInfo = data;
                 this.$Modal.confirm({

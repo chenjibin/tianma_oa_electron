@@ -20,8 +20,13 @@
             :product-info="productInfo"
             :show-editor="true"
             v-if="showTheater"
+            @update-list="_getPhotoList"
+            @editor-open="_photoEditorHandler"
             @close-theater="showTheater = false"></fs-photo-theater>
-        <create-photo @close="showCreate = false" v-if="showCreate" @add-success="_photoAddSuccess"></create-photo>
+        <create-photo @close="showCreate = false"
+                      :editable="true"
+                      :productInfo="productInfo"
+                      v-if="showCreate" @add-success="_photoAddSuccess"></create-photo>
     </div>
 </template>
 <style lang="less" scoped>
@@ -82,7 +87,7 @@
             position: relative;
             margin: 0 40px;
             .post-wrap {
-                min-width: 800px;
+                min-width: 1200px;
                 max-width: 1880px;
                 padding: 16px 0 25px;
                 margin: 0 auto;
@@ -104,7 +109,7 @@
     import createPhoto from '../components/create-photo';
     export default {
         name: 'myPhoto',
-        data () {
+        data() {
             return {
                 showTheater: false,
                 showCreate: false,
@@ -119,14 +124,19 @@
                 }
             };
         },
-        activated () {
+        activated() {
             this._getPhotoList();
         },
         methods: {
-            _photoAddSuccess () {
+            _photoAddSuccess() {
                 this.showCreate = false;
+                this._getPhotoList();
             },
-            _waterItemClickHandler (data) {
+            _photoEditorHandler() {
+                this.showTheater = false;
+                this.showCreate = true;
+            },
+            _waterItemClickHandler(data) {
                 this.imgList = data.files;
                 this.productInfo = {
                     headimagepath: data.headimagepath,
@@ -135,18 +145,21 @@
                     insert_username: data.insert_username,
                     share_comment_times: data.share_comment_times,
                     thumb_up_times: data.thumb_up_times,
-                    thumbupId: data.thumbupid || null
+                    thumbupId: data.thumbupid || null,
+                    files: data.files,
+                    item: data.item,
+                    detail: data.detail
                 };
                 this.showTheater = true;
             },
-            _scrollerHandler (e) {
+            _scrollerHandler(e) {
                 let canLoadFlag = e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 50;
                 if (canLoadFlag && this.canLoad) {
                     this.canLoad = false;
                     this._loadMoreList();
                 }
             },
-            _loadMoreList () {
+            _loadMoreList() {
                 this.pageData.page += 1;
                 if (this.pageData.page > this.pageData.totalPage) return;
                 let sendData = {};
@@ -162,7 +175,7 @@
                     this.canLoad = true;
                 });
             },
-            _getPhotoList () {
+            _getPhotoList() {
                 this.pageData.page = 1;
                 this.canLoad = true;
                 let sendData = {};

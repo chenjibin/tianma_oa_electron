@@ -181,7 +181,7 @@
                 thumbUpId: null
             };
         },
-        created () {
+        created() {
             let data = {};
             data.shareId = this.$route.params.id;
             this.$http.get('/share/getShareDetail', {params: data}).then((res) => {
@@ -199,7 +199,7 @@
             this.$store.commit('setToHeight', '880px');
         },
         methods: {
-            _thumbArticle () {
+            _thumbArticle() {
                 if (!this.isZan) {
                     let data = {};
                     data.shareId = this.$route.params.id;
@@ -223,7 +223,7 @@
                     });
                 }
             },
-            replyHandler () {
+            replyHandler() {
                 let data = {};
                 data.shareId = this.$route.params.id;
                 data.content = this.editorContent;
@@ -235,7 +235,7 @@
                     }
                 });
             },
-            getCommentList () {
+            getCommentList() {
                 let params = {};
                 params.shareId = this.$route.params.id;
                 this.getList('/share/getShareCommentList', params);

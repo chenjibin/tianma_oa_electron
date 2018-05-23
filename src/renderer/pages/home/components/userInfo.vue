@@ -160,14 +160,14 @@
                 }
             };
         },
-        created () {
+        created() {
         },
         methods: {
-            _cancelResetPwd () {
+            _cancelResetPwd() {
                 this.$refs.psdForm.resetFields();
                 this.pwsFlag = false;
             },
-            _submitChangePwd () {
+            _submitChangePwd() {
                 let vm = this;
                 this.$refs.psdForm.validate((valid) => {
                     if (valid) {
@@ -194,19 +194,19 @@
             avatorPath () {
                 return this.$store.state.user.userInfo.headimagepath;
             },
-            userName () {
+            userName() {
                 return this.$store.state.user.userInfo.realname;
             },
-            organizeName () {
+            organizeName() {
                 return this.$store.state.user.userInfo.organizename;
             },
-            companyName () {
+            companyName() {
                 return this.$store.state.user.userInfo.companyname;
             },
-            postName () {
+            postName() {
                 return this.$store.state.user.userInfo.postname;
             },
-            tmCoin () {
+            tmCoin() {
                 return this.$store.state.user.userInfo.tm_coin;
             }
         },

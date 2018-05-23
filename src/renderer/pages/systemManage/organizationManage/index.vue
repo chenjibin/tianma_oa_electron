@@ -213,24 +213,24 @@
             };
         },
         watch: {
-            'filterTextName' (val) {
+            'filterTextName'(val) {
                 this.$refs.tree1.filter(val);
             }
         },
-        created () {
+        created() {
             this._getOrgData();
             this._setTreeHeight();
         },
         methods: {
-            _validEmpty () {
+            _validEmpty() {
                 let nowForm = this.depSettingForm;
-                let flag = nowForm.chargerPostId && nowForm.chargerUserId && nowForm.leaderPostId && nowForm.leaderUserId;
+                let flag = nowForm.chargerPostId && nowForm.chargerUserId && nowForm.leaderPostId &&nowForm.leaderUserId;
                 if (!flag) {
                     this.$Message.error('星号项不能为空!');
                 }
                 return flag;
             },
-            _initFormData () {
+            _initFormData() {
                 this.depId = '';
                 this.depSettingForm.name = '';
                 this.depSettingForm.fatherId = [];
@@ -247,7 +247,7 @@
                 this.backShow.chargerNameOpt = [];
                 this.backShow.chargerNameLabel = '';
             },
-            _updateDep () {
+            _updateDep() {
                 this.$refs.coinForm.validate((valid) => {
                     valid = this._validEmpty();
                     if (valid) {
@@ -269,7 +269,7 @@
                     }
                 });
             },
-            _createDep () {
+            _createDep() {
                 this.$refs.coinForm.validate((valid) => {
                     valid = this._validEmpty() && valid;
                     if (valid) {
@@ -291,34 +291,34 @@
                     }
                 });
             },
-            _storeFilter (root, path, id) {
+            _storeFilter(root, path, id) {
                 root.forEach((item) => {
                     if (item.id === id) this.storePath = [...path, id];
                     if (item.children) this._storeFilter(item.children, [...path, item.id], id);
                 });
             },
-            _returnOrgIds (id) {
+            _returnOrgIds(id) {
                 let depsStore = this.orgData;
                 let path = [];
                 this._storeFilter(depsStore, path, id);
                 return this.storePath;
             },
-            _setTreeHeight () {
+            _setTreeHeight() {
                 let dm = document.body.clientHeight;
                 this.initHeight = dm - 220;
             },
-            filterNode (value, data) {
+            filterNode(value, data) {
                 if (!value) return true;
                 return data.name.indexOf(value) !== -1;
             },
-            _getOrgData () {
+            _getOrgData() {
                 this.$http.get('/organize/organizeList?fatherId=-1').then((res) => {
                     if (res.success) {
                         this.orgData = res.data;
                     }
                 });
             },
-            _returnNeedPostList (ids, names) {
+            _returnNeedPostList(ids, names) {
                 let idsArr = ids.split(',').filter(x => !!x);
                 let namesArr = names.split(',').filter(x => !!x);
                 let storeArr = [];
@@ -331,14 +331,14 @@
                 });
                 return storeArr;
             },
-            append (store, data) {
+            append(store, data) {
                 this._initFormData();
                 this.formType = 'create';
                 this.depSettingForm.name = '';
                 this.depSettingForm.fatherId = this._returnOrgIds(data.id);
                 this.depSettingFlag = true;
             },
-            editInfo (store, data) {
+            editInfo(store, data) {
                 this._initFormData();
                 this.depId = data.id;
                 this.formType = 'update';
@@ -382,7 +382,7 @@
                 this.depSettingForm.chargerUserId = data.chargerUserId;
                 this.depSettingFlag = true;
             },
-            remove (store, data) {
+            remove(store, data) {
                 if (data.children && data.children.length !== 0) {
                     this.$Message.error('下级有部门,不可以删除！');
                     return;
@@ -396,15 +396,15 @@
                     }
                 });
             },
-            renderContent (h, { node, data, store }) {
+            renderContent(h, { node, data, store }) {
                 return (
                     <div class="fs-node-wrapper">
                         <div class="title">
                             <span class="head">{data.name}</span>
                             <div class="tag-group">
-                                <i-button on-click={ () => this.append(store, data) } size="small" style="margin-left:6px;" type="success">新增</i-button>
-                                <i-button on-click={ () => this.editInfo(store, data) } size="small" style="margin-left: 6px;" type="primary">编辑</i-button>
-                                <i-button on-click={ () => this.remove(store, data) } size="small" style="margin-left: 6px;" type="error">删除</i-button>
+                                <i-button  on-click={ () => this.append(store, data) }  size="small" style="margin-left:6px;" type="success">新增</i-button>
+                                <i-button  on-click={ () => this.editInfo(store, data) } size="small" style="margin-left: 6px;" type="primary">编辑</i-button>
+                                <i-button  on-click={ () => this.remove(store, data) } size="small" style="margin-left: 6px;" type="error">删除</i-button>
                             </div>
                         </div>
                     <div class="detail">

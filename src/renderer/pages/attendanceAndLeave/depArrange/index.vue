@@ -232,7 +232,7 @@
         name: 'depArrange',
         mixins: [pageMixin],
         watch: {
-            'filterOpt.organizeId' () {
+            'filterOpt.organizeId'() {
                 this._filterResultHandler();
             }
         },
@@ -349,15 +349,15 @@
                 accessBtn: []
             };
         },
-        created () {
+        created() {
             this.accessBtn = this.$route.meta.btn.map(x => x.id);
             this._setTableHeight();
         },
         methods: {
-            _nodeChangeHandler (node) {
+            _nodeChangeHandler(node) {
                 this.filterOpt.organizeId = node.id === 1 ? '' : node.id;
             },
-            _confirmAddPerson () {
+            _confirmAddPerson() {
                 this.deleteLoading = true;
                 this.$http.post('/kq/addSingleArrangeByMonth', this.addPersonForm).then((res) => {
                     if (res.success) {
@@ -369,10 +369,10 @@
                     this.deleteLoading = false;
                 });
             },
-            _addPersonMonthChange (date) {
+            _addPersonMonthChange(date) {
                 this.addPersonForm.month = date;
             },
-            _confirmAddDep () {
+            _confirmAddDep() {
                 this.deleteLoading = true;
                 this.$http.post('/kq/addOrganizeArrangeByMonth', this.addDepForm).then((res) => {
                     if (res.success) {
@@ -384,10 +384,10 @@
                     this.deleteLoading = false;
                 });
             },
-            _addDepMonthChange (date) {
+            _addDepMonthChange(date) {
                 this.addDepForm.month = date;
             },
-            _delDepChoose () {
+            _delDepChoose() {
                 let storeArr = this.chooseDataArr.map(x => x.id);
                 let data = {};
                 data.ids = storeArr.join(',');
@@ -399,18 +399,18 @@
                     }
                 });
             },
-            _createMonthOpen () {
+            _createMonthOpen() {
                 this.allType = 'create';
                 this.deleteModalFlag = true;
             },
-            _delMonthOpen () {
+            _delMonthOpen() {
                 this.allType = 'del';
                 this.deleteModalFlag = true;
             },
-            _deleteMonthChange (date) {
+            _deleteMonthChange(date) {
                 this.deleteMonth = date;
             },
-            _confirmCreate () {
+            _confirmCreate() {
                 this.deleteLoading = true;
                 let data = {};
                 data.month = this.deleteMonth;
@@ -424,7 +424,7 @@
                     this.deleteLoading = false;
                 });
             },
-            _confirmDelete () {
+            _confirmDelete() {
                 this.deleteLoading = true;
                 let data = {};
                 data.month = this.deleteMonth;
@@ -438,10 +438,10 @@
                     this.deleteLoading = false;
                 });
             },
-            _tableSelectChange (data) {
+            _tableSelectChange(data) {
                 this.chooseDataArr = data;
             },
-            _importLastMonth () {
+            _importLastMonth() {
                 this.loading2 = true;
                 this.importLoading = true;
                 let data = {};
@@ -455,7 +455,7 @@
                     this.importLoading = false;
                 });
             },
-            _confirmStrangeSetting () {
+            _confirmStrangeSetting() {
                 this.btnConfirmDis = true;
                 this.$http.post('/kq/updateArrangeExceptionType', this.strangeSettingForm).then((res) => {
                     if (res.success) {
@@ -467,11 +467,11 @@
                     this.btnConfirmDis = false;
                 });
             },
-            _settingStrangeDay (params) {
+            _settingStrangeDay(params) {
                 this.strangeModalFlag = true;
                 this.strangeSettingForm.id = params.row[params.column.key].id;
             },
-            _completeThisMonth () {
+            _completeThisMonth() {
                 let data = {};
                 data.userIds = this.userIds.join(',');
                 data.month = this.sendMonth;
@@ -484,23 +484,23 @@
                     }
                 });
             },
-            _monthDateChange (val) {
+            _monthDateChange(val) {
                 this.filterOpt.monthDate = val;
                 this._filterResultHandler();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getAttendanceData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getAttendanceData();
             },
-            _getAttendanceData () {
+            _getAttendanceData() {
                 let data = {};
                 data.organizeId = this.filterOpt.organizeId;
                 data.monthDate = this.filterOpt.monthDate;
@@ -510,11 +510,11 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getAttendanceData();
             },
-            _returnRenderFun () {
+            _returnRenderFun() {
                 let vm = this;
                 return function (h, params) {
                     let content = '';
@@ -546,7 +546,7 @@
                     }, content);
                 };
             },
-            _getDetailData () {
+            _getDetailData() {
                 this.loading2 = true;
                 this.$http.get('/kq/organizeArrangeStatistic', {params: this.getDetailData}).then((res) => {
                     if (res.success) {
@@ -588,7 +588,7 @@
                     this.loading2 = false;
                 });
             },
-            _checkDetail (obj) {
+            _checkDetail(obj) {
                 let month = obj.monthdate;
                 this.opSataus = obj.status;
                 this.monthData = month;

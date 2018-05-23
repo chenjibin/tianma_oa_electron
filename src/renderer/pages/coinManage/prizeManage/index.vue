@@ -221,18 +221,18 @@
             };
         },
         imgFile: {
-            handler (val) {
+            handler(val) {
                 this.editorSettingData.goodPic = val.length ? val[0].name : '';
             },
             deep: true
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
         },
         methods: {
-            _confirmAddGoods () {
+            _confirmAddGoods() {
                 let vm = this;
                 vm.$refs.formFo.validate((valid) => {
                     if (valid) {
@@ -259,7 +259,7 @@
                     }
                 });
             },
-            _updateEditor (data) {
+            _updateEditor(data) {
                 this.editorType = 'update';
                 this._initEditorSettingData();
                 let settingData = this.editorSettingData;
@@ -272,12 +272,12 @@
                 this.imgFile = [{url: '/oa/upload/' + data.image_path, name: data.image_path, status: 'finished'}];
                 this.editorSettingFlag = true;
             },
-            _createGoods () {
+            _createGoods() {
                 this._initEditorSettingData();
                 this.editorType = 'create';
                 this.editorSettingFlag = true;
             },
-            _initEditorSettingData () {
+            _initEditorSettingData() {
                 let settingData = this.editorSettingData;
                 settingData.goodsName = '';
                 settingData.type = '卡券类';
@@ -293,27 +293,27 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _editorSetting (data) {
+            _editorSetting(data) {
                 this._initEditorSettingData();
                 this.editorSettingFlag = true;
             },
-            _getPostData () {
+            _getPostData() {
                 let data = {};
                 data.name = this.filterOpt.goodsName;
                 // data.status = this.filterOpt.status;

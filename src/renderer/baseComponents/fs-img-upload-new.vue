@@ -6,14 +6,14 @@
                 :show-upload-list="false"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png']"
-                :max-size="2048"
+                :max-size="maxSize"
                 :on-error="handleError"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
                 :before-upload="handleBeforeUpload"
                 :multiple="multiple"
                 type="drag"
-                :action="action"
+                :action="$mainHost + action"
                 v-show="multiple === true || upload.length === 0"
                 style="display: inline-block;width:58px;">
             <div style="width: 58px;height:58px;line-height: 58px;">
@@ -23,7 +23,7 @@
         <ul style="display: inline-block">
             <li class="demo-upload-list" v-for="item in upload">
                 <template v-if="item.status === 'finished'">
-                    <img :src="item.url">
+                    <img :src="$mainHost + item.url">
                     <div class="demo-upload-list-cover">
                         <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
                         <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -41,7 +41,7 @@
                class-name="fs-img-pre"
                v-model="visible">
             <div style="max-height: 500px;overflow-y: auto;">
-                <img :src="imgName" v-if="visible" style="max-width: 100%">
+                <img :src="$mainHost + imgName" v-if="visible" style="max-width: 100%">
             </div>
             <div slot="footer">
                 <Button type="ghost" @click="visible = false">关闭</Button>
@@ -53,6 +53,10 @@
     export default {
         name: 'fsImgUpload',
         props: {
+            maxSize: {
+                type: Number,
+                default: 2048
+            },
             path: {
                 type: String,
                 default: ''
@@ -68,7 +72,7 @@
             },
             upload: {
                 type: Array,
-                default () {
+                default() {
                     return [];
                 }
             }
@@ -80,7 +84,7 @@
             };
         },
         methods: {
-            updateUploadList () {
+            updateUploadList() {
                 let fileList = this.$refs.uploadDom.fileList;
                 this.$emit('update:upload', fileList);
                 this.$emit('update', fileList);
@@ -89,7 +93,7 @@
                 this.imgName = url;
                 this.visible = true;
             },
-            handleError () {
+            handleError() {
                 this.$Message.error('系统错误，请重新上传!');
             },
             handleRemove (file) {
@@ -97,7 +101,7 @@
                 this.$refs.uploadDom.fileList.splice(fileList.indexOf(file), 1);
                 this.updateUploadList();
             },
-            removeAllPicFlie () {
+            removeAllPicFlie() {
                 this.$refs.uploadDom.fileList = [];
             },
             handleSuccess (res, file) {
@@ -109,7 +113,8 @@
                 this.$Message.error('图片格式只能为.jpg 或者 .png!');
             },
             handleMaxSize () {
-                this.$Message.error('图片大小不能超过2M!');
+                let maxSize = (this.maxSize / 1024);
+                this.$Message.error(`图片大小不能超过${maxSize}M!`);
             },
             handleBeforeUpload () {
                 const check = this.upload.length < 5;

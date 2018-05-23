@@ -53,12 +53,20 @@
                         title: '状态',
                         align: 'center',
                         render: (h, params) => {
+                            let status = '';
+                            if(params.row.status === 1){
+                                status = '已审核';
+                            }else if(params.row.status === 2){
+                                status = '待审核';
+                            } else {
+                                status = '未设置';
+                            }
                             return h('Tag', {
                                 props: {
                                     type: 'border',
                                     color: +params.row.status === 1 ? 'green' : 'red'
                                 }
-                            }, +params.row.status === 1 ? '已设置' : '未设置');
+                            }, status);
                         }
                     },
                     {
@@ -87,7 +95,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._checkTest(params.row);
                                             }
                                         }
@@ -100,17 +108,18 @@
                 planId: 0
             };
         },
-        created () {
+        created() {
             this._getMyPlan();
         },
         methods: {
-            _updatePlanList () {
+            _updatePlanList() {
                 this.$refs.planList.getListData();
             },
-            _submitPlan () {
+            _submitPlan() {
                 this.$refs.formPlan.validForm(() => {
                     let sendData = JSON.parse(JSON.stringify(this.trainData));
                     sendData.id = this.planId;
+                    sendData.planstatus = 2;
                     this.$http.post('/train/ever_plan_para_add', sendData).then((res) => {
                         if (res.success) {
                             this.modelFlag = false;
@@ -120,7 +129,7 @@
                     });
                 });
             },
-            _checkTest (data) {
+            _checkTest(data) {
                 this.$refs.formPlan.resetForm();
                 let sendData = {};
                 sendData.id = data.id;
@@ -148,13 +157,14 @@
                             obj.required = true;
                             formList.push(obj);
                         });
+
                         this.itemList = formList;
                         this.trainData = trainData;
                     }
                 });
                 this.modelFlag = true;
             },
-            _getMyPlan () {
+            _getMyPlan() {
                 let data = {};
                 data.page = 1;
                 data.pageSize = 50;

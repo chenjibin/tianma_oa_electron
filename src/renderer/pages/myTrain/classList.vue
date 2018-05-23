@@ -97,20 +97,20 @@
                 }
             };
         },
-        created () {
+        created() {
             this._getClassListData();
             this._getTrainTypeOpt();
         },
         filters: {
-            returnDate (val) {
+            returnDate(val) {
                 return moment(val).format('YYYY-MM-DD');
             }
         },
         methods: {
-            returnDate (val) {
+            returnDate(val) {
                 return moment(val).format('YYYY-MM-DD');
             },
-            _traineeAdd (data) {
+            _traineeAdd(data) {
                 this.$Modal.confirm({
                     content: '确认报名' + data.title + '课程么?',
                     okText: '确认报名',
@@ -128,27 +128,27 @@
                     }
                 });
             },
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.pageData.page = 1;
                 this._getClassListData();
             },
-            _getTrainTypeOpt () {
+            _getTrainTypeOpt() {
                 this.$http.get('/train/class_type_comboxData').then((res) => {
                     if (res.success) {
                         this.trainTypeOpt = res.data;
                     }
                 });
             },
-            pageChangeHandler (page) {
+            pageChangeHandler(page) {
                 this.pageData.page = page;
                 this._getClassListData();
             },
-            pageSizeChangeHandler (size) {
+            pageSizeChangeHandler(size) {
                 this.pageData.pageSize = size;
                 this.pageData.page = 1;
                 this._getClassListData();
             },
-            _getClassListData () {
+            _getClassListData() {
                 this.spinShow = true;
                 let data = {};
                 data.page = this.pageData.page;

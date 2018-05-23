@@ -7,7 +7,7 @@
                             @on-change="_filterResultHandler"
                             v-model="filterOpt.companyId"
                             placeholder="筛选公司" clearable>
-                        <Option v-for="(item,index) in companyList"
+                        <Option v-for="item in companyList"
                                 :label="item.name"
                                 :key="'com-' + item.id"
                                 :value="item.id">{{item.name}}</Option>
@@ -24,7 +24,7 @@
                             @on-change="_filterResultHandler"
                             v-model="filterOpt.postname"
                             placeholder="输入筛选岗位" clearable>
-                        <Option v-for="(item,index) in dataComboList"
+                        <Option v-for="item in dataComboList"
                                 :key="'post-' + item.id"
                                 :label="isManger > 1 ?item.name:item.name+' '+item.companyname" :value="item.name">
                             <span>{{item.name}}</span>
@@ -262,6 +262,13 @@
                                 <Option :value="1">有</Option>
                             </Select>
                         </FormItem>
+                        <FormItem label="亲属在本司" style="width:460px">
+                            <Select type="text" v-model="talentBean.family_in" :editable="false">
+                                <Option :value="0">无</Option>
+                                <Option :value="1">有</Option>
+                            </Select>
+                        </FormItem>
+                        <div></div>
                         <FormItem label="详细住址" style="width:460px">
                             <Input type="textarea" :maxlength="30" :rows="3" v-model="talentBean.address"></Input>
                         </FormItem>
@@ -684,6 +691,7 @@
                     resumesource: '',
                     appointment: '',
                     name: '',
+                    family_in: 0,
                     age: 18,
                     yearswork: 0,
                     sex: '',
@@ -979,23 +987,23 @@
             this.getPositionCombo();
         },
         computed: {
-            isManger () {
+            isManger() {
                 return this.$store.state.user.userInfo.ismanger;
             }
         },
-        mounted () {
+        mounted() {
             if (this.isManger > 1) {
                 this.tableHeight = this.tableHeight + 57;
             }
         },
         methods: {
-            getPositionData () {
+            getPositionData() {
                 var vm = this;
                 this.$http.post('/talentPosition/findTalentPositionList').then((res) => {
                     vm.positionData = res.data;
                 });
             },
-            downloadFile () {
+            downloadFile() {
                 let downloadDom = document.createElement('a');
                 downloadDom.href = '/oa/talentLibrary/expTalent?id=' + this.talentBean.id;
                 downloadDom.download = name;
@@ -1003,23 +1011,23 @@
                 downloadDom.click();
                 downloadDom.remove();
             },
-            editUser (row) {
+            editUser(row) {
                 this._findUser(row.id).then((res) => {
                     this.settingModalFlag = true;
                 });
             },
-            handleSuccess (res, file) {
+            handleSuccess(res, file) {
                 if (res.success) {
                     this.getTicketList(res.message);
                     this.$Message.success('上传成功');
                 }
             },
-            handleView (filePath) {
+            handleView(filePath) {
                 this.imgsrc = filePath;
                 this.visible = true;
             },
             // 删除附件
-            handleRemove (item) {
+            handleRemove(item) {
                 var vm = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
@@ -1039,7 +1047,7 @@
                 });
             },
             // 下载图片
-            download (path) {
+            download(path) {
                 var p = 'http://' + window.location.host + path;
                 let downloadDom = document.createElement('a');
                 downloadDom.id = 'ddom';
@@ -1049,12 +1057,12 @@
                 downloadDom.click();
                 downloadDom.remove();
             },
-            showAttach (user) {
+            showAttach(user) {
                 this.ticketNo = user.id + 666587;
                 this.getTicketList(this.ticketNo);
                 this.showAttachModel = true;
             },
-            getTicketList (id) {
+            getTicketList(id) {
                 var that = this;
                 this.$http.post('/ticket/ticketFileslist', { 'ticketno': id }).then((res) => {
                     if (res.success) {
@@ -1069,7 +1077,7 @@
                     }
                 });
             },
-            delForm (index, formName) {
+            delForm(index, formName) {
                 let row = this[formName][index];
                 let vm = this;
                 if (row.id) {
@@ -1079,7 +1087,7 @@
                         okText: '删除',
                         cancelText: '取消',
                         loading: true,
-                        onOk () {
+                        onOk() {
                             this.$http.post('/talentLibrary/delRelation', {id: row.id}).then((res) => {
                                 if (res.success) {
                                     vm.$Modal.remove();
@@ -1099,7 +1107,7 @@
                 this.filterOpt.status = status;
                 this._filterResultHandler();
             },
-            saveForm (type) {
+            saveForm(type) {
                 if (type === 1) {
                     this.saveBtn1Loading = true;
                 } else {
@@ -1110,27 +1118,28 @@
                     if (isPass) {
                         var d = {};
                         d.bean = JSON.stringify(vm.talentBean);
-                        let workingForm = vm.workingForm.filter(function (item) {
+                        let workingForm = vm.workingForm.filter(function(item) {
                             return (item.companyname || item.post || item.monthlysalary || item.starttime || item.endtime);
                         });
                         d.workingForm = JSON.stringify(workingForm);
-                        let educationForm = vm.educationForm.filter(function (item) {
+                        let educationForm = vm.educationForm.filter(function(item) {
                             return (item.education || item.graduatedschool || item.profession || item.starttime || item.endtime);
                         });
                         d.educationForm = JSON.stringify(educationForm);
                         d.socailShipForm = JSON.stringify(vm.socailShipForm);
                         vm.$http.post('/talentLibrary/save', d).then((res) => {
-                        vm.saveBtn1Loading = false;
-                        vm.saveBtn2Loading = false;
-                        if (res.success) {
-                            vm.$Message.success('保存成功');
-                            vm._filterResultHandler();
-                            vm._findUser(res.message);
-                            if (type === 2) {
-                                vm.settingModalFlag = false;
+                            vm.saveBtn1Loading = false;
+                            vm.saveBtn2Loading = false;
+                            if (res.success) {
+                                vm.$Message.success('保存成功');
+                                vm._filterResultHandler();
+                                vm._findUser(res.message);
+                                if (type === 2) {
+                                    vm.settingModalFlag = false;
+                                    return;
+                                }
                             }
-                        }
-                    });
+                        });
                     } else {
                         vm.saveBtn1Loading = false;
                         vm.saveBtn2Loading = false;
@@ -1223,7 +1232,7 @@
                     }
                 }
             },
-            deleteMe () {
+            deleteMe() {
                 var id = this.talentBean.id;
                 var that = this;
                 this.$Modal.confirm({
@@ -1233,7 +1242,7 @@
                     cancelText: '取消',
                     loading: true,
                     onOk () {
-                        this.$http.get('/talentLibrary/del?id=' + id).then((res) => {
+                        this.$http.get('/talentLibrary/del?id='+id).then((res) => {
                             that.$Modal.remove();
                             if (res.success) {
                                 that.settingModalFlag = false;
@@ -1248,7 +1257,7 @@
                 var text = ['未预约', '已预约', '已到达', '未到达', '面试合格', '待定', '面试不合格', '合格到达', '合格未到达', '试岗通过', '试岗未通过'];
                 return text[num + 1];
             },
-            saveStatus () {
+            saveStatus() {
                 var vm = this;
                 this.$refs['statusForm'].validate((valid) => {
                     if (!valid) {
@@ -1296,7 +1305,7 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1600),
-            _filterPeopleRemote (val) {
+            _filterPeopleRemote(val) {
                 let data = {};
                 data.name = val;
                 this.filterPeopleLoading = true;
@@ -1362,7 +1371,7 @@
             initPage () {
                 this.pageData.page = 1;
             },
-            _findUser (id) {
+            _findUser(id) {
                 var vm = this;
                 vm.educationForm = [];
                 vm.workingForm = [];
@@ -1381,7 +1390,7 @@
                     });
                 });
             },
-            getPositionCombo () {
+            getPositionCombo() {
                 var vm = this;
                 vm.$http.post('/talentPosition/dataComboList').then((res) => {
                     if (res.success) {
@@ -1389,7 +1398,7 @@
                     }
                 });
             },
-            getCompanyList () {
+            getCompanyList() {
                 this.$http.post('/company/lists').then((res) => {
                     this.companyList = res.data;
                 });

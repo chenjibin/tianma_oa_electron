@@ -16,7 +16,7 @@
                 :key="'comment-list-' + item.id">
                 <div class="comment-content">
                     <a class="site-icon">
-                        <img :src="item.headimagepath"/>
+                        <img :src="$mainHost + item.headimagepath"/>
                     </a>
                     <p style="color: #fff;" class="name">{{item.username}}</p>
                     <p>{{item.content}}</p>
@@ -157,7 +157,7 @@
                 type: Number
             }
         },
-        data () {
+        data() {
             return {
                 canComment: true,
                 commentContent: '',
@@ -179,7 +179,7 @@
             }
         },
         watch: {
-            'commentContent' (val) {
+            'commentContent'(val) {
                 if (this.parentId) {
                     if (val.length < this.preContent.length) {
                         this.commentContent = '';
@@ -190,11 +190,11 @@
                 }
             }
         },
-        created () {
+        created() {
             this._getCommentList();
         },
         methods: {
-            _removeCommentHandler (id) {
+            _removeCommentHandler(id) {
                 let sendData = {};
                 sendData.id = id;
                 this.$http.post('/staffPresence/deleteArticleComment', sendData).then((res) => {
@@ -203,11 +203,11 @@
                     }
                 });
             },
-            _initToUserInfo () {
+            _initToUserInfo() {
                 this.toUserName = '';
                 this.toUserId = null;
             },
-            _getCommentList () {
+            _getCommentList() {
                 let sendData = {};
                 sendData.articleId = this.id;
                 sendData.page = this.pageData.page;
@@ -218,7 +218,7 @@
                     }
                 });
             },
-            _innerReply (data) {
+            _innerReply(data) {
                 this._initToUserInfo();
                 this.preContent = `回复 ${data.username}:`;
                 this.parentId = data.parent_id;
@@ -227,14 +227,14 @@
                 this.toUserId = data.userid;
                 this.$refs.replyTextarea.focus();
             },
-            _replyComment (data) {
+            _replyComment(data) {
                 this._initToUserInfo();
                 this.preContent = `回复 ${data.username}:`;
                 this.parentId = data.id;
                 this.commentContent = this.preContent;
                 this.$refs.replyTextarea.focus();
             },
-            _submitComment () {
+            _submitComment() {
                 let sendData = {};
                 sendData.articleId = this.id;
                 sendData.parentId = this.parentId;
@@ -261,7 +261,7 @@
                     this.canComment = true;
                 });
             },
-            _thumbComment (data) {
+            _thumbComment(data) {
                 if (data.thumbupid) {
                     let sendData = {};
                     sendData.id = data.thumbupid;
@@ -281,7 +281,6 @@
                         }
                     });
                 }
-                console.log(data);
             }
         },
         components: {}

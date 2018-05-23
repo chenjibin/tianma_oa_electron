@@ -210,12 +210,12 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
         },
         methods: {
-            _initPostForm () {
+            _initPostForm() {
                 this.postSettingForm.states = true;
                 this.postSettingForm.code = '';
                 this.postSettingForm.minMoney = '';
@@ -227,30 +227,30 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _delPost () {
+            _delPost() {
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _addPostOpen () {
+            _addPostOpen() {
                 this.postFormType = 'add';
                 this._initPostForm();
                 this.settingModalFlag = true;
             },
-            _editorSetting (data) {
+            _editorSetting(data) {
                 this.postFormType = 'update';
                 this.postSettingForm.states = !!data.states;
                 this.postSettingForm.code = data.code;
@@ -261,7 +261,7 @@
                 this.postSettingForm.levelType = data.type + '';
                 this.settingModalFlag = true;
             },
-            _getPostData () {
+            _getPostData() {
                 let data = {};
                 data.code = this.filterOpt.code;
                 data.levelType = this.filterOpt.levelType;
