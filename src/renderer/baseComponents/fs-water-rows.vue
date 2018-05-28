@@ -6,7 +6,7 @@
                  :key="'photo-' + photo.id"
                  v-for="photo in item.photos">
                 <div class="gallery-item" :style="{'height': item.height + 'px', 'width': _calcWidth(item.height, photo)}">
-                    <div class="gallery-background" v-lazy:background-image="$mainHost + photo.files[0].file_path" v-if="photo.files[0]"></div>
+                    <div class="gallery-background" v-lazy:background-image="_returnSmallImg(photo)" v-if="photo.files[0]"></div>
                     <!--<img class="gallery-image" v-lazy="$mainHost + photo.files[0].file_path" v-if="photo.files[0]"/>-->
                     <div class="mask" @click.stop="galleryItemClickHandler(photo)">
                         <div class="user-info">
@@ -218,6 +218,12 @@
             off(window, 'resize');
         },
         methods: {
+            _returnSmallImg(photo) {
+                let filePath = photo.files[0].file_path;
+                let fileName = photo.files[0].file_name;
+                filePath = this.$mainHost + filePath.replace(fileName, 'small_' + fileName);
+                return filePath;
+            },
             _calcWidth(height, photo) {
                 let afterWidth = parseInt((height / photo.files[0].image_height) * photo.files[0].image_width, 10);
                 return afterWidth + 'px';
@@ -229,24 +235,29 @@
                 let aspectRatio = 0;
                 let rows = [];
                 let _photos = [];
+                let wrapperWidth = this.$el.clientWidth;
+                let padding = this.padding;
+                let minHeight = this.minHeight;
                 for (let i = 0, plength = photos.length; i < plength; i++) {
-                    if (aspectRatio + photos[i].files[0].image_width / photos[i].files[0].image_height >= (this.$el.clientWidth / this.minHeight)) {
-                        let totalWidth = this.$el.clientWidth - (_photos.length - 1) * this.padding - 17;
-                        photos[i].afterWidth = (totalWidth / aspectRatio) / photos[i].files[0].image_height * photos[i].files[0].image_width;
+                    let imgRadio = photos[i].files[0].image_width / photos[i].files[0].image_height;
+                    if (aspectRatio + imgRadio >= (wrapperWidth / minHeight)) {
+                        let totalWidth = wrapperWidth - (_photos.length - 1) * padding;
+                        let layoutHeight = parseInt(totalWidth / aspectRatio);
+                        photos[i].afterWidth = layoutHeight / photos[i].files[0].image_height * photos[i].files[0].image_width;
                         rows.push({
                             photos: _photos,
-                            height: parseInt(totalWidth / aspectRatio)
+                            height: layoutHeight
                         });
-                        _photos = [];
-                        aspectRatio = 0;
+                        _photos = [photos[i]];
+                        aspectRatio = imgRadio;
                     } else {
                         _photos.push(photos[i]);
-                        aspectRatio += photos[i].files[0].image_width / photos[i].files[0].image_height;
+                        aspectRatio += imgRadio;
                     }
                     if (i === (photos.length - 1) && _photos.length) {
                         rows.push({
                             photos: _photos,
-                            height: this.minHeight - 20
+                            height: minHeight
                         });
                     }
                 }
